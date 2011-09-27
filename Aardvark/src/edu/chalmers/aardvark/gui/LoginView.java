@@ -1,5 +1,7 @@
-package edu.chalmers.aardvark;
+package edu.chalmers.aardvark.gui;
 
+import edu.chalmers.aardvark.R;
+import edu.chalmers.aardvark.R.layout;
 import android.app.Activity;
 import android.os.Bundle;
 
