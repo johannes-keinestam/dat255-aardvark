@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+    <RelativeLayout android:id="@+id/RelativeLayout1" android:layout_height="wrap_content" android:layout_width="fill_parent">
+        <Button android:layout_height="wrap_content" android:text="Button" android:layout_width="wrap_content" android:id="@+id/button1" android:layout_alignParentTop="true" android:layout_alignParentRight="true"></Button>
+    </RelativeLayout>
+    <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:id="@+id/textView2" android:layout_width="fill_parent" android:text="Online contacts" android:background="#cccccc" android:textColor="#00ff00"></TextView>
+    <ListView android:id="@+id/listView1" android:layout_width="fill_parent" android:layout_height="174dp"></ListView>
+    <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:id="@+id/textView1" android:layout_width="fill_parent" android:text="Offline contacts" android:background="#cccccc" android:textColor="#ff0000"></TextView>
+    <ListView android:id="@+id/listView2" android:layout_height="215dp" android:layout_width="fill_parent"></ListView>
+    
+</LinearLayout>
