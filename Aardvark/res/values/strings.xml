@@ -2,4 +2,6 @@
 <resources>
     <string name="hello">Hello World, LoginView!</string>
     <string name="app_name">Aardvark</string>
+    <string name="server_address">83.227.140.36</string>
+    <item type="integer" name="server_port" format="integer">5222</item>
 </resources>
