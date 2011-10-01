@@ -40,6 +40,9 @@ public final class R {
         public static final int userNameField=0x7f050008;
         public static final int userNameLable=0x7f050002;
     }
+    public static final class integer {
+        public static final int server_port=0x7f050000;
+    }
     public static final class layout {
         public static final int bubbleleftpanel=0x7f030000;
         public static final int bubblerightpanel=0x7f030001;
@@ -52,5 +55,6 @@ public final class R {
     public static final class string {
         public static final int app_name=0x7f040001;
         public static final int hello=0x7f040000;
+        public static final int server_address=0x7f040002;
     }
 }
