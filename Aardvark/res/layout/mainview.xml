@@ -7,14 +7,16 @@
     <ScrollView android:id="@+id/scrollView1" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="fill_parent">
         <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:orientation="vertical">
             <RelativeLayout android:id="@+id/relativeLayout1" android:layout_height="wrap_content" android:layout_width="fill_parent">
-                <Button android:layout_height="wrap_content" android:text="Button" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentRight="true" android:id="@+id/searchuserviewbutton"></Button>
+                <Button android:layout_height="wrap_content" android:text="Button" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentRight="true" android:id="@+id/startChatButton"></Button>
+                <EditText android:inputType="textPersonName" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentLeft="true" android:layout_toLeftOf="@+id/startChatButton" android:id="@+id/userNameField">
+                    <requestFocus></requestFocus>
+                </EditText>
             </RelativeLayout>
-            <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="vertical" android:id="@+id/searchLayout"></LinearLayout>
-            <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:id="@+id/textView1" android:layout_width="fill_parent" android:text="Online contacts" android:textColor="#00ff00"></TextView>
-            <LinearLayout android:id="@+id/linearLayout2" android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="vertical">
+            <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="Online contacts" android:textColor="#00ff00" android:id="@+id/onlineLable"></TextView>
+            <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="vertical" android:id="@+id/online">
             </LinearLayout>
-            <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/textView2" android:text="Offline contacts" android:textColor="#ff0000"></TextView>
-            <LinearLayout android:id="@+id/linearLayout3" android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="vertical"></LinearLayout>
+            <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="Offline contacts" android:textColor="#ff0000" android:id="@+id/offlineLable"></TextView>
+            <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="vertical" android:id="@+id/offline"></LinearLayout>
         </LinearLayout>
     </ScrollView>
     

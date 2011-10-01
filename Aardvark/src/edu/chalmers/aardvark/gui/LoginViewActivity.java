@@ -1,11 +1,12 @@
 package edu.chalmers.aardvark.gui;
 
-import edu.chalmers.aardvark.HomeViewActivity;
 import edu.chalmers.aardvark.R;
-import edu.chalmers.aardvark.R.layout;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class LoginViewActivity extends Activity {
     /** Called when the activity is first created. */
@@ -14,7 +15,15 @@ public class LoginViewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        Intent intent = new Intent(this, HomeViewActivity.class);
-        startActivity(intent);	
+        Button loginButton = (Button) this.findViewById(R.id.loginButton);
+        final Intent intent = new Intent(this, MainViewActivity.class);
+        
+        loginButton.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+			      startActivity(intent);	
+			}
+		});
+       	
     }
 }
