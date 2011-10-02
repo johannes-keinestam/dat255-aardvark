@@ -2,10 +2,14 @@ package edu.chalmers.aardvark.gui;
 
 import edu.chalmers.aardvark.R;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -22,6 +26,7 @@ public class MainViewActivity extends Activity {
 		Button sb = (Button) this.findViewById(R.id.startChatButton);
 		sb.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				showDialog(1);
 
 			}
 		});
@@ -74,5 +79,39 @@ public class MainViewActivity extends Activity {
 			ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
 		}
 
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.mainmenu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.newChat:
+		case R.id.settings:
+		case R.id.logout:
+
+		}
+		return true;
+	}
+
+	protected Dialog onCreateDialog(int id) {
+	    Dialog dialog;
+	    switch(id) {
+	    case 1:
+	    	dialog = new Dialog(this);
+
+			dialog.setContentView(R.layout.newchatdialog);
+			dialog.setTitle("Custom Dialog");
+			
+	        break;
+	    default:
+	        dialog = null;
+	    }
+	    return dialog;
 	}
 }
