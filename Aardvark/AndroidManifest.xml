@@ -17,6 +17,8 @@
 		 </activity>
 		  <activity android:name=".gui.ChatViewActivity" >
 		 </activity>
+		  <activity android:name=".gui.SettingsViewActivity" >
+		 </activity>
 
     </application>
 </manifest>

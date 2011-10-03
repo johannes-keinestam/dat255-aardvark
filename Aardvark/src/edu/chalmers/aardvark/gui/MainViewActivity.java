@@ -91,9 +91,16 @@ public class MainViewActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.newChat:
+		case R.id.newChat: 
+			showDialog(1);
+			break;
 		case R.id.settings:
+			Intent intent = new Intent(this, SettingsViewActivity.class);
+			startActivity(intent);
+			break;	
 		case R.id.logout:
+			//TODO
+			break;
 
 		}
 		return true;

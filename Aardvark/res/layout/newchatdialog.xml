@@ -4,10 +4,10 @@
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
-    <TextView android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentLeft="true" android:id="@+id/userNameDialog" android:text="User name:"></TextView>
+    <TextView android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentLeft="true" android:id="@+id/userNameDialog" android:text="@string/usernameNewChatDialog"></TextView>
     <EditText android:layout_width="wrap_content" android:inputType="textPersonName" android:layout_height="wrap_content" android:layout_below="@+id/userNameDialog" android:layout_alignParentLeft="true" android:layout_alignParentRight="true" android:id="@+id/findUserField">
         <requestFocus></requestFocus>
     </EditText>
-    <Button android:layout_width="wrap_content" android:id="@+id/findUserButton" android:text="Start" android:layout_height="wrap_content" android:layout_below="@+id/findUserField" android:layout_centerHorizontal="true"></Button>
+    <Button android:layout_width="wrap_content" android:id="@+id/findUserButton" android:layout_height="wrap_content" android:layout_below="@+id/findUserField" android:layout_centerHorizontal="true" android:text="@string/startButtonNewChatDialog"></Button>
     
 </RelativeLayout>

@@ -10,10 +10,10 @@
                 <Button android:layout_height="wrap_content" android:text="Button" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentRight="true" android:id="@+id/startChatButton"></Button>
                 <TextView android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_height="wrap_content" android:layout_alignBaseline="@+id/startChatButton" android:layout_alignBottom="@+id/startChatButton" android:layout_alignParentLeft="true" android:id="@+id/myUserNameLable" android:text="Rolf"></TextView>
             </RelativeLayout>
-            <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="Online contacts" android:textColor="#00ff00" android:id="@+id/onlineLable"></TextView>
+            <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:layout_width="fill_parent" android:textColor="#00ff00" android:id="@+id/onlineLable" android:text="@string/onlineLabelMain"></TextView>
             <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="vertical" android:id="@+id/online">
             </LinearLayout>
-            <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="Offline contacts" android:textColor="#ff0000" android:id="@+id/offlineLable"></TextView>
+            <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textColor="#ff0000" android:id="@+id/offlineLable" android:text="@string/offlineLableMain"></TextView>
             <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="vertical" android:id="@+id/offline"></LinearLayout>
         </LinearLayout>
     </ScrollView>
