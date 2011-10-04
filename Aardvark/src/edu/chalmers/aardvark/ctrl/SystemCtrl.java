@@ -36,6 +36,7 @@ public class SystemCtrl {
 	}
 
 	ChatCtrl.getInstance();
+	ServerHandlerCtrl.getInstance();
 	ContactCtrl contactCtrl = ContactCtrl.getInstance();
 	
 	// Loads contacts from file
