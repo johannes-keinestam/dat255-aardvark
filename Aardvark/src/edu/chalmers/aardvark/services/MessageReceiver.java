@@ -13,29 +13,20 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-public class MessageReceiver extends Service {
+public class MessageReceiver extends Service implements PacketListener {
 
 	@Override
 	public void onCreate() {
 		PacketFilter filter = new ToContainsFilter(LocalUser.getLocalUser().getAardvarkID());
-		PacketListener incomingMsgListener = new PacketListener() {
-			public void processPacket(Packet packet) {
-				if (packet instanceof MessagePacket) {
-					//MessageCtrl.receiveMessage(packet);
-				}
-			}
-		};
 		
-		ServerConnection.getConnection().addPacketListener(incomingMsgListener, filter);
-		
-		//TODO start thread
+		ServerConnection.getConnection().addPacketListener(this, filter);
 	}
 
 	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		//TODO send message in thread
-		//if OS kills service, it will start up again
-		return START_STICKY;
+	public void processPacket(Packet packet) {
+		if (packet instanceof MessagePacket) {
+			//MessageCtrl.receiveMessage(packet);
+		}
 	}
 	
 	@Override
@@ -43,6 +34,5 @@ public class MessageReceiver extends Service {
 		//Not used
 		return null;
 	}
-	
 
 }
