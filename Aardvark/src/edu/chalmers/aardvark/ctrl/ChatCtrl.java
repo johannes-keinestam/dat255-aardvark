@@ -16,15 +16,15 @@ public class ChatCtrl {
 	    instance = new ChatCtrl();
 	}
 	return instance;
-    } 
-    
-    public Chat getChat(String aardvarkID){
+    }
+
+    public Chat getChat(String aardvarkID) {
 	return chatContainer.findChatByID(aardvarkID);
     }
-    
-    public void newChat(User user){
+
+    public void newChat(User user) {
 	Chat chat = new Chat(user);
-	
+
 	chatContainer.addChat(chat);
     }
 }

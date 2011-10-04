@@ -9,12 +9,12 @@ public class AardvarkApp extends Application {
 
     @Override
     public void onCreate() {
-        super.onCreate();
-        context = getContext();
-        Log.i("AWESOME", "CONTEXT WAS GLOBALIZED");
+	super.onCreate();
+	context = getContext();
+	Log.i("AWESOME", "CONTEXT WAS GLOBALIZED");
     }
 
-    public static Context getContext(){
-        return context;
+    public static Context getContext() {
+	return context;
     }
 }

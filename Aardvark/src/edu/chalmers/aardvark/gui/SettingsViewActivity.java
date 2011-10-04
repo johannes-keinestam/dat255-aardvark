@@ -10,22 +10,24 @@ import android.widget.ListView;
 import android.view.*;
 
 public class SettingsViewActivity extends ListActivity {
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-	  super.onCreate(savedInstanceState);
-	  
-	  String[] settings = getResources().getStringArray(R.array.settings);
 
-	  setListAdapter(new ArrayAdapter<String>(this, R.layout.settingsitem, settings));
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
 
-	  ListView lv = getListView();
-	  lv.setTextFilterEnabled(true);
+	String[] settings = getResources().getStringArray(R.array.settings);
 
-	  lv.setOnItemClickListener(new OnItemClickListener() {
+	setListAdapter(new ArrayAdapter<String>(this, R.layout.settingsitem,
+		settings));
+
+	ListView lv = getListView();
+	lv.setTextFilterEnabled(true);
+
+	lv.setOnItemClickListener(new OnItemClickListener() {
+	    @Override
 	    public void onItemClick(AdapterView<?> parent, View view,
-	        int position, long id) {
+		    int position, long id) {
 	    }
-	  });
-	}
+	});
+    }
 }

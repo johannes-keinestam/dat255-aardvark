@@ -15,24 +15,25 @@ import android.os.IBinder;
 
 public class MessageReceiver extends Service implements PacketListener {
 
-	@Override
-	public void onCreate() {
-		PacketFilter filter = new ToContainsFilter(LocalUser.getLocalUser().getAardvarkID());
-		
-		ServerConnection.getConnection().addPacketListener(this, filter);
-	}
+    @Override
+    public void onCreate() {
+	PacketFilter filter = new ToContainsFilter(LocalUser.getLocalUser()
+		.getAardvarkID());
 
-	@Override
-	public void processPacket(Packet packet) {
-		if (packet instanceof MessagePacket) {
-			//MessageCtrl.receiveMessage(packet);
-		}
+	ServerConnection.getConnection().addPacketListener(this, filter);
+    }
+
+    @Override
+    public void processPacket(Packet packet) {
+	if (packet instanceof MessagePacket) {
+	    // MessageCtrl.receiveMessage(packet);
 	}
-	
-	@Override
-	public IBinder onBind(Intent arg0) {
-		//Not used
-		return null;
-	}
+    }
+
+    @Override
+    public IBinder onBind(Intent arg0) {
+	// Not used
+	return null;
+    }
 
 }

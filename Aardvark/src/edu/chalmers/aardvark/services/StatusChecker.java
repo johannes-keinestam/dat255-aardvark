@@ -14,31 +14,34 @@ import android.os.IBinder;
 
 public class StatusChecker extends Service implements RosterListener {
 
-	// TODO thread. timer. at alarm, check contact status and message gui.
+    // TODO thread. timer. at alarm, check contact status and message gui.
 
-	@Override
-	public void presenceChanged(Presence presence) {
-		StateChanges statusChange;
-		if (presence.isAvailable()) {
-			statusChange = StateChanges.USER_ONLINE;
-		} else {
-			statusChange = StateChanges.USER_OFFLINE;
-		}
-		ComBus.notifyListeners(statusChange.toString(), presence.getFrom());
+    @Override
+    public void presenceChanged(Presence presence) {
+	StateChanges statusChange;
+	if (presence.isAvailable()) {
+	    statusChange = StateChanges.USER_ONLINE;
+	} else {
+	    statusChange = StateChanges.USER_OFFLINE;
 	}
-	
-	@Override
-	public IBinder onBind(Intent intent) {
-		return null;
-	}
+	ComBus.notifyListeners(statusChange.toString(), presence.getFrom());
+    }
 
-	@Override
-	public void entriesAdded(Collection<String> arg0) {	}
+    @Override
+    public IBinder onBind(Intent intent) {
+	return null;
+    }
 
-	@Override
-	public void entriesDeleted(Collection<String> arg0) { }
+    @Override
+    public void entriesAdded(Collection<String> arg0) {
+    }
 
-	@Override
-	public void entriesUpdated(Collection<String> arg0) { }
+    @Override
+    public void entriesDeleted(Collection<String> arg0) {
+    }
+
+    @Override
+    public void entriesUpdated(Collection<String> arg0) {
+    }
 
 }

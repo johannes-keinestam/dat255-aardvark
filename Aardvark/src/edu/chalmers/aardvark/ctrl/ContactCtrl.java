@@ -1,6 +1,5 @@
 package edu.chalmers.aardvark.ctrl;
 
-
 public class ContactCtrl {
 
     private static ContactCtrl instance;
@@ -13,12 +12,12 @@ public class ContactCtrl {
 	    instance = new ContactCtrl();
 	}
 	return instance;
-    }    
-    
-    public void setAlias/*Nickname?*/(){}
-    
-    public void openChat(){}
-    
+    }
 
-    
+    public void setAlias/* Nickname? */() {
+    }
+
+    public void openChat() {
+    }
+
 }

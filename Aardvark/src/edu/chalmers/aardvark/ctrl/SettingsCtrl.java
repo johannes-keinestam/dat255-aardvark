@@ -5,13 +5,13 @@ import edu.chalmers.aardvark.AardvarkApp;
 
 public class SettingsCtrl {
     private static SettingsCtrl instance;
-	Context context = AardvarkApp.getContext();
-	
-	public void getContact() {
-		
-	}
+    Context context = AardvarkApp.getContext();
 
-	private SettingsCtrl() {
+    public void getContact() {
+
+    }
+
+    private SettingsCtrl() {
     }
 
     public static SettingsCtrl getInstance() {

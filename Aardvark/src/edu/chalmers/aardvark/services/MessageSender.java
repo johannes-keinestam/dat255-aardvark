@@ -7,25 +7,24 @@ import edu.chalmers.aardvark.model.LocalUser;
 import edu.chalmers.aardvark.util.MessagePacket;
 import edu.chalmers.aardvark.util.ServerConnection;
 import android.app.IntentService;
-import android.app.Service;
 import android.content.Intent;
-import android.os.IBinder;
 
 public class MessageSender extends IntentService {
-	
-	public MessageSender() {
-		super("MessageSender");
-	}
 
-	@Override
-	protected void onHandleIntent(Intent intent) {
-		String message = intent.getStringExtra("msg");
-		String recipient = intent.getStringExtra("to");
-		
-		Packet messagePacket = new MessagePacket(LocalUser.getLocalUser().getAardvarkID(), recipient, message);
-		
-		XMPPConnection connection = ServerConnection.getConnection();
-		connection.sendPacket(messagePacket);
-	}
-	
+    public MessageSender() {
+	super("MessageSender");
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+	String message = intent.getStringExtra("msg");
+	String recipient = intent.getStringExtra("to");
+
+	Packet messagePacket = new MessagePacket(LocalUser.getLocalUser()
+		.getAardvarkID(), recipient, message);
+
+	XMPPConnection connection = ServerConnection.getConnection();
+	connection.sendPacket(messagePacket);
+    }
+
 }
