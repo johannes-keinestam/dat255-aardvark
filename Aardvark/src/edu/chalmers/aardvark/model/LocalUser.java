@@ -4,9 +4,13 @@ public class LocalUser {
 	private static User localUser;
 	private static String password;
 	
-	public static void createUser(String alias, String aardvarkID, String pass) {
-		localUser = new User(alias, aardvarkID);
+	public static void createUser(String aardvarkID, String pass) {
+		localUser = new User(null, aardvarkID);
 		password = pass;
+	}
+	
+	public static void setAlias(String alias) {
+		localUser.setAlias(alias);
 	}
 	
 	public static User getLocalUser() {
