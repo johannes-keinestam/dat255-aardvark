@@ -42,7 +42,7 @@ public class SystemCtrl {
 		String password = savedLocalUser.getString("password", null);
 		LocalUser.createUser(aardvarkID, password);
 		
-		//Set up and create new connection to server
+		//Set up and create new connection to server.
 		XMPPConnection connection = ServerConnection.getConnection();
 	}
 	

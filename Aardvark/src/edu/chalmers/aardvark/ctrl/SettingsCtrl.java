@@ -1,5 +1,12 @@
 package edu.chalmers.aardvark.ctrl;
 
-public class SettingsCtrl {
+import android.content.Context;
+import edu.chalmers.aardvark.AardvarkApp;
 
+public class SettingsCtrl {
+	Context context = AardvarkApp.getContext();
+	
+	public void getContact() {
+		
+	}
 }

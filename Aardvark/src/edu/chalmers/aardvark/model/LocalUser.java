@@ -17,6 +17,10 @@ public class LocalUser {
 		return localUser;
 	}
 	
+	public static String getPassword() {
+		return password;
+	}
+	
 	public static void removeUser() {
 		localUser = null;
 	}
