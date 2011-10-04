@@ -5,6 +5,7 @@ import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.filter.ToContainsFilter;
 import org.jivesoftware.smack.packet.Packet;
 
+import edu.chalmers.aardvark.ctrl.MessageCtrl;
 import edu.chalmers.aardvark.model.LocalUser;
 import edu.chalmers.aardvark.util.MessagePacket;
 import edu.chalmers.aardvark.util.ServerConnection;
@@ -26,7 +27,7 @@ public class MessageReceiver extends Service implements PacketListener {
     @Override
     public void processPacket(Packet packet) {
 	if (packet instanceof MessagePacket) {
-	    // MessageCtrl.receiveMessage(packet);
+	    MessageCtrl.getInstance().receiveMessage(packet);
 	}
     }
 
