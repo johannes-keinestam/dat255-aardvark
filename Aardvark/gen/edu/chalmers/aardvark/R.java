@@ -84,6 +84,7 @@ public final class R {
         public static final int onlineLabelMain=0x7f040003;
         public static final int sendButtonChat=0x7f040005;
         public static final int server_address=0x7f040002;
+        public static final int server_search_address=0x7f04000e;
         public static final int settingsMainMenu=0x7f04000c;
         public static final int startButtonNewChatDialog=0x7f040008;
         public static final int usernameNewChatDialog=0x7f040007;
