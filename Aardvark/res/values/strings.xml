@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, LoginView!</string>
-    <string name="app_name">Aardvark</string>
-    <string name="server_address">83.227.140.36</string>
-    <item type="integer" name="server_port" format="integer">5222</item>
+	<string name="hello">Hello World, LoginView!</string>
+	<string name="app_name">Aardvark</string>
+	<string name="server_address">83.227.140.36</string>
+	<item type="integer" name="server_port" format="integer">5222</item>
+	<string-array name="settings">
+		<item>Regenerate encryption keys</item>
+		<item>Block list</item>
+		<item>Language</item>
+	</string-array>
+		<string name="onlineLabelMain">Online contacts</string>
+		<string name="offlineLableMain">Offline contacts</string>
+		<string name="sendButtonChat">Send</string>
+		<string name="loginButtonLogin">Login</string>
+		<string name="usernameNewChatDialog">User name:</string>
+		<string name="startButtonNewChatDialog">Start</string>
+		<string name="addToContactsChatMenu">Add to contacts</string>
+		<string name="blockChatMenu">Block</string>
+		<string name="newChatMainMenu">New chat</string>
+		<string name="settingsMainMenu">Settings</string>
+		<string name="logoutMainMenu">Logout</string>
 </resources>

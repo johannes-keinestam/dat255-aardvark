@@ -13,6 +13,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+         <activity android:name=".gui.MainViewActivity" >
+		 </activity>
+		  <activity android:name=".gui.ChatViewActivity" >
+		 </activity>
+		  <activity android:name=".gui.SettingsViewActivity" >
+		 </activity>
 
     </application>
 </manifest>

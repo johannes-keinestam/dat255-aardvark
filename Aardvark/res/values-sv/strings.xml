@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="hello">Hello World, LoginView!</string>
+	<string name="app_name">Aardvark</string>
+	<string name="server_address">83.227.140.36</string>
+	<item type="integer" name="server_port" format="integer">5222</item>
+	<string-array name="settings">
+		<item>Skapa ny nycklar</item>
+		<item>Blockerade användare</item>
+		<item>Språk</item>
+	</string-array>
+		<string name="onlineLabelMain">Tillgängliga kontakter</string>
+		<string name="offlineLableMain">Ej tillgängliga kontakter</string>
+		<string name="sendButtonChat">Skicka</string>
+		<string name="loginButtonLogin">Logga in</string>
+		<string name="usernameNewChatDialog">Användarnamn:</string>
+		<string name="startButtonNewChatDialog">Start</string>
+		<string name="addToContactsChatMenu">Lägg till i kontakter</string>
+		<string name="blockChatMenu">Blockera</string>
+		<string name="newChatMainMenu">Ny chat</string>
+		<string name="settingsMainMenu">Inställingar</string>
+		<string name="logoutMainMenu">Logga ut</string>
+</resources>
