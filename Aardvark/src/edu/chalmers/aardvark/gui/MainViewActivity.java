@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +24,8 @@ public class MainViewActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.mainview);
+	
+	Log.i("INFO", this.toString() + " STARTED");
 
 	Button sb = (Button) this.findViewById(R.id.startChatButton);
 	sb.setOnClickListener(new OnClickListener() {

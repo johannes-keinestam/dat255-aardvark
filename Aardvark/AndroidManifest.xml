@@ -20,6 +20,8 @@
 		 </activity>
 		  <activity android:name=".gui.SettingsViewActivity" >
 		 </activity>
+		  <service android:name=".services.MessageReceiver"></service>
+		  <service android:name=".services.MessageSender"></service>
 
     </application>
 </manifest>

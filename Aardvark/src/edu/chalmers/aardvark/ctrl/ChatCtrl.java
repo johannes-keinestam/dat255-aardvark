@@ -1,5 +1,6 @@
 package edu.chalmers.aardvark.ctrl;
 
+import android.util.Log;
 import edu.chalmers.aardvark.model.ActiveChatContainer;
 import edu.chalmers.aardvark.model.Chat;
 import edu.chalmers.aardvark.model.User;
@@ -10,6 +11,7 @@ public class ChatCtrl {
 
     private ChatCtrl() {
 	chatContainer = new ActiveChatContainer();
+	Log.i("INFO", this.toString() + " STARTED");
     }
 
     public static ChatCtrl getInstance() {

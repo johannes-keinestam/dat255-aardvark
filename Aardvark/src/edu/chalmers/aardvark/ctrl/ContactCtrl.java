@@ -1,5 +1,6 @@
 package edu.chalmers.aardvark.ctrl;
 
+import android.util.Log;
 import edu.chalmers.aardvark.model.ActiveChatContainer;
 import edu.chalmers.aardvark.model.Contact;
 import edu.chalmers.aardvark.model.ContactsContainer;
@@ -10,6 +11,7 @@ public class ContactCtrl {
 
     private ContactCtrl() {
 	contactList = new ContactsContainer();
+	Log.i("INFO", this.toString() + " STARTED");
     }
 
     public static ContactCtrl getInstance() {

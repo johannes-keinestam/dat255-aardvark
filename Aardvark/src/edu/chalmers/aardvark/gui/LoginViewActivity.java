@@ -4,6 +4,7 @@ import edu.chalmers.aardvark.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -14,6 +15,8 @@ public class LoginViewActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.main);
+	
+	Log.i("INFO", this.toString() + " STARTED");
 
 	Button loginButton = (Button) this.findViewById(R.id.loginButton);
 	final Intent intent = new Intent(this, MainViewActivity.class);

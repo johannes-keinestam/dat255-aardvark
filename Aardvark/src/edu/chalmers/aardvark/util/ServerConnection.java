@@ -4,10 +4,16 @@ import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.filter.PacketFilter;
+import org.jivesoftware.smack.filter.ToContainsFilter;
+
+import android.content.Intent;
 import android.content.res.Resources;
+import android.util.Log;
 import android.widget.Toast;
 
 import edu.chalmers.aardvark.AardvarkApp;
+import edu.chalmers.aardvark.model.LocalUser;
 import edu.chalmers.aardvark.services.MessageReceiver;
 import edu.chalmers.aardvark.services.MessageSender;
 import edu.chalmers.aardvark.services.StatusChecker;
@@ -17,6 +23,7 @@ public class ServerConnection {
     private static MessageSender sender;
 
     private ServerConnection() {
+	Log.i("INFO", this.toString() + " STARTED");
     }
 
     public static XMPPConnection getConnection() {
@@ -45,8 +52,8 @@ public class ServerConnection {
 
 	    // listen for received packages, and set up package sender service
 	    // class
-	    sender = new MessageSender();
-	    new MessageReceiver();
+	    AardvarkApp.getContext().startService(new Intent(AardvarkApp.getContext(), MessageSender.class));
+	    AardvarkApp.getContext().startService(new Intent(AardvarkApp.getContext(), MessageReceiver.class));
 	}
 	return connection;
     }
@@ -54,6 +61,7 @@ public class ServerConnection {
     public static void login(String aardvarkID, String password) {
 	try {
 	    connection.login(aardvarkID, password);
+
 	    // accept all incoming requests for my presence information
 	    Roster roster = connection.getRoster();
 	    roster.setSubscriptionMode(Roster.SubscriptionMode.accept_all);

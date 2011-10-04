@@ -2,8 +2,11 @@ package edu.chalmers.aardvark.ctrl;
 
 import org.jivesoftware.smack.packet.Packet;
 
+import android.content.Context;
 import android.content.Intent;
 import android.text.format.Time;
+import android.util.Log;
+import edu.chalmers.aardvark.AardvarkApp;
 import edu.chalmers.aardvark.model.Chat;
 import edu.chalmers.aardvark.model.ChatMessage;
 import edu.chalmers.aardvark.model.LocalUser;
@@ -11,9 +14,9 @@ import edu.chalmers.aardvark.services.MessageSender;
 
 public class MessageCtrl {
     private static MessageCtrl instance;
-    private MessageSender messageSender = new MessageSender();
 
     private MessageCtrl() {
+	Log.i("INFO", this.toString() + " STARTED");
     }
 
     public static MessageCtrl getInstance() {
@@ -24,7 +27,8 @@ public class MessageCtrl {
     }
 
     public void sendMessage(Chat chat, String message) {
-	Intent intent = new Intent();
+	Context context = AardvarkApp.getContext();
+	Intent intent = new Intent(context, MessageSender.class);
 	intent.putExtra("msg", message);
 	intent.putExtra("to", chat.getRecipient().getAardvarkID());
 
@@ -37,7 +41,7 @@ public class MessageCtrl {
 
 	chat.addMessage(chatMessage);
 
-	messageSender.startActivity(intent);
+	context.startService(intent);
     }
 
     public void receiveMessage(Packet packet) {

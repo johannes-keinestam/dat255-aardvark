@@ -12,6 +12,7 @@ public class AardvarkApp extends Application {
     public void onCreate() {
 	super.onCreate();
 	context = getApplicationContext();
+	Log.i("INFO", this.toString() + " STARTED");
 	
 	SystemCtrl.getCtrl().performStartUpDuty();
     }

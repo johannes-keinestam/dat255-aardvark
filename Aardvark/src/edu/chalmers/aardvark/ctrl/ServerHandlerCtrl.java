@@ -8,6 +8,8 @@ import org.jivesoftware.smack.packet.Registration;
 import org.jivesoftware.smackx.Form;
 import org.jivesoftware.smackx.ReportedData;
 import org.jivesoftware.smackx.search.UserSearchManager;
+
+import android.util.Log;
 import android.widget.Toast;
 
 import edu.chalmers.aardvark.AardvarkApp;
@@ -20,6 +22,7 @@ public class ServerHandlerCtrl {
     private static ServerHandlerCtrl instance;
 
     private ServerHandlerCtrl() {
+	Log.i("INFO", this.toString() + " STARTED");
     }
 
     public static ServerHandlerCtrl getInstance() {

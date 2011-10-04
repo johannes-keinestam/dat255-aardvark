@@ -8,11 +8,13 @@ import edu.chalmers.aardvark.util.MessagePacket;
 import edu.chalmers.aardvark.util.ServerConnection;
 import android.app.IntentService;
 import android.content.Intent;
+import android.util.Log;
 
 public class MessageSender extends IntentService {
 
     public MessageSender() {
 	super("MessageSender");
+	Log.i("INFO", this.toString() + " STARTED");
     }
 
     @Override
@@ -20,11 +22,14 @@ public class MessageSender extends IntentService {
 	String message = intent.getStringExtra("msg");
 	String recipient = intent.getStringExtra("to");
 
-	Packet messagePacket = new MessagePacket(LocalUser.getLocalUser()
-		.getAardvarkID(), recipient, message);
+	if (message != null && recipient != null) {
+	    Packet messagePacket = new MessagePacket(LocalUser.getLocalUser()
+		    .getAardvarkID(), recipient, message);
 
-	XMPPConnection connection = ServerConnection.getConnection();
-	connection.sendPacket(messagePacket);
+	    XMPPConnection connection = ServerConnection.getConnection();
+	    connection.sendPacket(messagePacket);
+	}
+
     }
 
 }

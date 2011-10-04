@@ -1,5 +1,7 @@
 package edu.chalmers.aardvark.model;
 
+import android.util.Log;
+
 public class User {
     private String alias;
     private String aardvarkID;
@@ -7,6 +9,7 @@ public class User {
     public User(String alias, String aardvarkID) {
 	this.alias = alias;
 	this.aardvarkID = aardvarkID;
+	Log.i("INFO", this.toString() + " STARTED");
     }
 
     public String getAardvarkID() {

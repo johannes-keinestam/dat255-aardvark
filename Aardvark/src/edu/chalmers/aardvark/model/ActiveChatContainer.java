@@ -3,6 +3,8 @@ package edu.chalmers.aardvark.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
+
 import edu.chalmers.aardvark.util.ComBus;
 import edu.chalmers.aardvark.util.StateChanges;
 
@@ -12,6 +14,7 @@ public class ActiveChatContainer {
 
     public ActiveChatContainer() {
 	activeChats = new ArrayList<Chat>();
+	Log.i("INFO", this.toString() + " STARTED");
     }
 
     public void addChat(Chat chat) {

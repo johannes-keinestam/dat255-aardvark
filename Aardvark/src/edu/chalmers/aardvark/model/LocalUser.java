@@ -1,5 +1,7 @@
 package edu.chalmers.aardvark.model;
 
+import android.util.Log;
+
 public class LocalUser {
     private static User localUser;
     private static String password;
@@ -7,6 +9,7 @@ public class LocalUser {
     public static void createUser(String aardvarkID, String pass) {
 	localUser = new User(null, aardvarkID);
 	password = pass;
+	Log.i("INFO", "LOCALUSER STARTED!!!");
     }
 
     public static void setAlias(String alias) {

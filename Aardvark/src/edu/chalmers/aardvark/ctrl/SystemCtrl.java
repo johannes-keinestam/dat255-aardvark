@@ -19,6 +19,10 @@ import edu.chalmers.aardvark.util.ServerConnection;
 public class SystemCtrl {
     private static SystemCtrl instance;
 
+    private SystemCtrl() {
+	Log.i("INFO", this.toString() + " STARTED");
+    }
+    
     public static SystemCtrl getCtrl() {
 	if (instance == null) {
 	    instance = new SystemCtrl();

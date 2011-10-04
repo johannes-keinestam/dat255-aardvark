@@ -13,6 +13,7 @@ import edu.chalmers.aardvark.util.ServerConnection;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 
 public class MessageReceiver extends Service implements PacketListener {
 
@@ -22,6 +23,7 @@ public class MessageReceiver extends Service implements PacketListener {
 		.getAardvarkID());
 
 	ServerConnection.getConnection().addPacketListener(this, filter);
+	Log.i("INFO", this.toString() + " STARTED");
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.util.Log;
 import android.view.*;
 
 public class SettingsViewActivity extends ListActivity {
@@ -15,6 +16,8 @@ public class SettingsViewActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 
+	Log.i("INFO", this.toString() + " STARTED");
+	
 	String[] settings = getResources().getStringArray(R.array.settings);
 
 	setListAdapter(new ArrayAdapter<String>(this, R.layout.settingsitem,

@@ -1,6 +1,7 @@
 package edu.chalmers.aardvark.model;
 
 import android.text.format.Time;
+import android.util.Log;
 
 public class ChatMessage {
     private String message;
@@ -13,6 +14,7 @@ public class ChatMessage {
 	this.user = user;
 	isRemote = remote;
 	timeStamp = time;
+	Log.i("INFO", this.toString() + " STARTED");
     }
 
     public String getMessage() {

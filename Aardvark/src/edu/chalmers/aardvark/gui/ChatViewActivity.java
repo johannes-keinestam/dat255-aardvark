@@ -4,6 +4,7 @@ import edu.chalmers.aardvark.R;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,8 @@ public class ChatViewActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.chatview);
+	
+	Log.i("INFO", this.toString() + " STARTED");
 
 	LayoutInflater inflater = (LayoutInflater) this
 		.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
