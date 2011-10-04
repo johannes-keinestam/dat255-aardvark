@@ -1,19 +1,25 @@
 package edu.chalmers.aardvark.util;
 
+import java.util.Collection;
+
 import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.Roster;
+import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Presence;
 
 import android.content.res.Resources;
 import android.widget.Toast;
 
 import edu.chalmers.aardvark.AardvarkApp;
+import edu.chalmers.aardvark.services.StatusChecker;
 
 public class ServerConnection {
 	private static XMPPConnection connection;
 	
 	public ServerConnection() {
-		//Gets application context
+		//Gets application resources
 		Resources res = AardvarkApp.getContext().getResources();
 		
 		//getting server info
@@ -28,11 +34,15 @@ public class ServerConnection {
 		} catch (XMPPException e) {
 			Toast.makeText(AardvarkApp.getContext(), e.getXMPPError().toString(), Toast.LENGTH_LONG);
 		}
+		
+		Roster roster = connection.getRoster();
+		roster.setSubscriptionMode(Roster.SubscriptionMode.accept_all);
+		roster.addRosterListener(new StatusChecker());
 	}
 	
 	public void login() {
-		// TODO hur?
 		try {
+			// TODO how to store?
 			connection.login("", "");
 		} catch (XMPPException e) {
 			Toast.makeText(AardvarkApp.getContext(), e.getXMPPError().toString(), Toast.LENGTH_LONG);
