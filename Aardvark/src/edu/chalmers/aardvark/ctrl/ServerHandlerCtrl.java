@@ -20,10 +20,16 @@ import edu.chalmers.aardvark.util.ServerConnection;
 
 public class ServerHandlerCtrl {
 	private XMPPConnection connection = ServerConnection.getConnection();
+    private static ServerHandlerCtrl instance;
 	
-	private ServerHandlerCtrl() {
-		
-	}
+	private ServerHandlerCtrl() {}
+	
+    public static ServerHandlerCtrl getInstance() {
+    	if (instance == null) {
+    	    instance = new ServerHandlerCtrl();
+    	}
+    	return instance;
+    }
 
 	public void subscribeToUserPresence(String aardvarkID) {
 		Roster roster = connection.getRoster();
