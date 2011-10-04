@@ -7,10 +7,6 @@ public class SettingsCtrl {
     private static SettingsCtrl instance;
     Context context = AardvarkApp.getContext();
 
-    public void getContact() {
-
-    }
-
     private SettingsCtrl() {
     }
 

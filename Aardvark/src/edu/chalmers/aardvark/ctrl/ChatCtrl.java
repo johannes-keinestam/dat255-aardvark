@@ -9,6 +9,7 @@ public class ChatCtrl {
     private ActiveChatContainer chatContainer;
 
     private ChatCtrl() {
+	chatContainer = new ActiveChatContainer();
     }
 
     public static ChatCtrl getInstance() {
