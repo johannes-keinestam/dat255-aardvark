@@ -30,11 +30,14 @@ public class SystemCtrl {
 	    performSetup();
 	}
 
+	ChatCtrl.getInstance();
+	ContactCtrl contactCtrl = ContactCtrl.getInstance();
+	
 	// Loads contacts from file
 	SharedPreferences savedContacts = AardvarkApp.getContext()
 		.getSharedPreferences("contacts", 0);
 	for (Map.Entry<String, ?> entry : savedContacts.getAll().entrySet()) {
-	    // TODO Create contacts. Add to container. Add to roster.
+	    contactCtrl.addContact((String)entry.getValue(), entry.getKey());
 	}
 
 	// Loads local user unique identifiers/server details from file
@@ -92,6 +95,7 @@ public class SystemCtrl {
 
 	editor.putString("ID", aardvarkID);
 	editor.putString("password", genPassword);
+	editor.commit();
 
 	// TODO generate encryption keys, save
 
@@ -101,6 +105,7 @@ public class SystemCtrl {
 	SharedPreferences.Editor settingsEditor = settings.edit();
 
 	settingsEditor.putBoolean("firstRun", false);
+	settingsEditor.commit();
 
     }
 
