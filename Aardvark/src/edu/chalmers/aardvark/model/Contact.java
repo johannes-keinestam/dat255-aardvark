@@ -1,5 +1,8 @@
 package edu.chalmers.aardvark.model;
 
+import edu.chalmers.aardvark.util.ComBus;
+import edu.chalmers.aardvark.util.StateChanges;
+
 public class Contact extends User {
     private String nickname;
 
@@ -14,6 +17,7 @@ public class Contact extends User {
 
     public void rename(String newNickname) {
 	nickname = newNickname;
+	ComBus.notifyListeners(StateChanges.CONTACT_RENAMED.toString(), this);
     }
 
 }

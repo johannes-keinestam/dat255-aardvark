@@ -46,6 +46,10 @@ public class MessageCtrl {
 
 	Chat chat = ChatCtrl.getInstance().getChat(packet.getFrom());
 
+	if (chat == null) {
+	    // TODO add new chat, set chat variable
+	}
+	
 	ChatMessage chatMessage;
 	chatMessage = new ChatMessage(packet.getProperty("message").toString(),
 		chat.getRecipient(), true, time);

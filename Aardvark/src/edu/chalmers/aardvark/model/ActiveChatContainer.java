@@ -3,6 +3,9 @@ package edu.chalmers.aardvark.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.chalmers.aardvark.util.ComBus;
+import edu.chalmers.aardvark.util.StateChanges;
+
 public class ActiveChatContainer {
 
     private List<Chat> activeChats;
@@ -13,10 +16,12 @@ public class ActiveChatContainer {
 
     public void addChat(Chat chat) {
 	activeChats.add(chat);
+	ComBus.notifyListeners(StateChanges.CHAT_OPENED.toString(), chat);
     }
 
     public void removeChat(Chat chat) {
 	activeChats.remove(chat);
+	ComBus.notifyListeners(StateChanges.CHAT_CLOSED.toString(), chat);
     }
 
     public Chat findChatByID(String aardvarkID) {
