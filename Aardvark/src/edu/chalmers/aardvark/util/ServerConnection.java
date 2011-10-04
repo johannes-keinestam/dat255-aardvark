@@ -47,11 +47,6 @@ public class ServerConnection {
 	    // class
 	    sender = new MessageSender();
 	    new MessageReceiver();
-
-	    // accept all incoming requests for my presence information
-	    Roster roster = connection.getRoster();
-	    roster.setSubscriptionMode(Roster.SubscriptionMode.accept_all);
-	    roster.addRosterListener(new StatusChecker());
 	}
 	return connection;
     }
@@ -59,6 +54,10 @@ public class ServerConnection {
     public static void login(String aardvarkID, String password) {
 	try {
 	    connection.login(aardvarkID, password);
+	    // accept all incoming requests for my presence information
+	    Roster roster = connection.getRoster();
+	    roster.setSubscriptionMode(Roster.SubscriptionMode.accept_all);
+	    roster.addRosterListener(new StatusChecker());
 	} catch (XMPPException e) {
 	    Toast.makeText(AardvarkApp.getContext(), e.getXMPPError()
 		    .toString(), Toast.LENGTH_LONG);

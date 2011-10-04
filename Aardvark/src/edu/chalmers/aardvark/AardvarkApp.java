@@ -1,5 +1,6 @@
 package edu.chalmers.aardvark;
 
+import edu.chalmers.aardvark.ctrl.SystemCtrl;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
@@ -10,8 +11,9 @@ public class AardvarkApp extends Application {
     @Override
     public void onCreate() {
 	super.onCreate();
-	context = getContext();
-	Log.i("AWESOME", "CONTEXT WAS GLOBALIZED");
+	context = getApplicationContext();
+	
+	SystemCtrl.getCtrl().performStartUpDuty();
     }
 
     public static Context getContext() {

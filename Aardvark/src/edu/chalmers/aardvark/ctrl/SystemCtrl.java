@@ -11,6 +11,7 @@ import org.jivesoftware.smack.XMPPException;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import edu.chalmers.aardvark.AardvarkApp;
 import edu.chalmers.aardvark.model.LocalUser;
 import edu.chalmers.aardvark.util.ServerConnection;
@@ -110,8 +111,10 @@ public class SystemCtrl {
     }
 
     private boolean isFirstRun() {
+	Log.e("FFEEEEL", "REQUESTING SHARED PREFERENCES");
 	SharedPreferences settings = AardvarkApp.getContext()
 		.getSharedPreferences("settings", 0);
+	Log.e("FFEEEEL", "DONE!!!!!!!!!!!!!!!!!");
 
 	return settings.getBoolean("firstRun", true);
     }
