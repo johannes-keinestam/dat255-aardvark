@@ -2,19 +2,35 @@ package edu.chalmers.aardvark.services;
 
 import java.util.Collection;
 
+import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterListener;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.filter.PacketFilter;
+import org.jivesoftware.smack.filter.ToContainsFilter;
 import org.jivesoftware.smack.packet.Presence;
 
+import edu.chalmers.aardvark.model.LocalUser;
 import edu.chalmers.aardvark.util.ComBus;
+import edu.chalmers.aardvark.util.ServerConnection;
 import edu.chalmers.aardvark.util.StateChanges;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 
 public class StatusChecker extends Service implements RosterListener {
 
-    // TODO thread. timer. at alarm, check contact status and message gui.
+    @Override
+    public void onCreate() {
+	XMPPConnection connection = ServerConnection.getConnection();
+	
+	Roster roster = connection.getRoster();
+	roster.setSubscriptionMode(Roster.SubscriptionMode.accept_all);
+	roster.addRosterListener(this);
+	
+	Log.i("INFO", this.toString() + " STARTED");
+    }
 
     @Override
     public void presenceChanged(Presence presence) {

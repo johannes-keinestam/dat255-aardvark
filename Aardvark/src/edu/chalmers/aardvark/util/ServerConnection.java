@@ -63,9 +63,8 @@ public class ServerConnection {
 	    connection.login(aardvarkID, password);
 
 	    // accept all incoming requests for my presence information
-	    Roster roster = connection.getRoster();
-	    roster.setSubscriptionMode(Roster.SubscriptionMode.accept_all);
-	    roster.addRosterListener(new StatusChecker());
+	    // and start listening for presence changes in new service
+	    AardvarkApp.getContext().startService(new Intent(AardvarkApp.getContext(), StatusChecker.class));
 	} catch (XMPPException e) {
 	    Toast.makeText(AardvarkApp.getContext(), e.getXMPPError()
 		    .toString(), Toast.LENGTH_LONG);
