@@ -28,12 +28,13 @@ public class ContactCtrl {
 	ServerHandlerCtrl.getInstance().subscribeToUserPresence(aardvarkID);
     }
     
+    public void removeContact(String aardvarkID) {
+	contactList.removeContact(contactList.findContactByID(aardvarkID));
+    }
+    
     public void setNickname(String aardvarkID, String newNickname) {
 	Contact contact = contactList.findContactByID(aardvarkID);
 	contact.rename(newNickname);
-    }
-
-    public void openChat() {
     }
     
     public List<Contact> getContacts() {
