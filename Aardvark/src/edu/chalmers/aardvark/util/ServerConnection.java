@@ -1,7 +1,9 @@
 package edu.chalmers.aardvark.util;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
 import org.jivesoftware.smack.Roster;
+import org.jivesoftware.smack.SASLAuthentication;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.filter.PacketFilter;
@@ -37,14 +39,31 @@ public class ServerConnection {
 	    int server_port = res
 		    .getInteger(edu.chalmers.aardvark.R.integer.server_port);
 
+	    
 	    // connect to server
 	    ConnectionConfiguration config = new ConnectionConfiguration(
 		    server_addr, server_port);
+	    config.setSASLAuthenticationEnabled(false);	
+	    config.setSelfSignedCertificateEnabled(false);
+	    config.setSecurityMode(SecurityMode.disabled);
+	    
+	   
+
 	    connection = new XMPPConnection(config);
 	    try {
 		connection.connect();
 		Toast.makeText(AardvarkApp.getContext(),
 			"Connected to server!", Toast.LENGTH_LONG);
+		Log.i("info", "connected");
+		Log.i("info", config.isSASLAuthenticationEnabled()+"");
+		
+		 try {
+				connection.getAccountManager().createAccount("testuser123", "password");
+			} catch (XMPPException e1) {
+				// TODO Auto-generated catch block
+				Log.i("Info", "inget reggas"+e1.toString());
+			}
+		//SASLAuthentication.supportSASLMechanism("CRAM", 0);
 	    } catch (XMPPException e) {
 		Toast.makeText(AardvarkApp.getContext(), e.getXMPPError()
 			.toString(), Toast.LENGTH_LONG);
@@ -60,14 +79,17 @@ public class ServerConnection {
 
     public static void login(String aardvarkID, String password) {
 	try {
-	    connection.login(aardvarkID, password);
+	    connection.login("Hidas", "123");
 
 	    // accept all incoming requests for my presence information
 	    // and start listening for presence changes in new service
 	    AardvarkApp.getContext().startService(new Intent(AardvarkApp.getContext(), StatusChecker.class));
 	} catch (XMPPException e) {
-	    Toast.makeText(AardvarkApp.getContext(), e.getXMPPError()
-		    .toString(), Toast.LENGTH_LONG);
+//	    Toast.makeText(AardvarkApp.getContext(), e.getXMPPError()
+//		    .toString(), Toast.LENGTH_LONG);
+		//Log.e(e.getXMPPError().toString()+" info",e.getXMPPError().toString());
+		Log.i("INFO", e.toString());
+		Log.i("INFO", "fan här");
 	}
     }
 

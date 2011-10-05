@@ -102,6 +102,8 @@ public class SystemCtrl {
 	editor.putString("ID", aardvarkID);
 	editor.putString("password", genPassword);
 	editor.commit();
+	
+	Log.i("Id PASS", aardvarkID+"::"+genPassword);
 
 	// TODO generate encryption keys, save
 

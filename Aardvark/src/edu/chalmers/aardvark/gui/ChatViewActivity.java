@@ -1,6 +1,8 @@
 package edu.chalmers.aardvark.gui;
 
 import edu.chalmers.aardvark.R;
+import edu.chalmers.aardvark.util.ComBus;
+import edu.chalmers.aardvark.util.StateChanges;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -14,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class ChatViewActivity extends Activity {
+public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.util.EventListener{
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,8 @@ public class ChatViewActivity extends Activity {
 	setContentView(R.layout.chatview);
 	
 	Log.i("INFO", this.toString() + " STARTED");
+	
+	ComBus.subscribe(this);
 
 	LayoutInflater inflater = (LayoutInflater) this
 		.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -80,4 +84,25 @@ public class ChatViewActivity extends Activity {
 	}
 	return true;
     }
+
+	@Override
+	public void notifyEvent(String stateChange, Object object) {
+		if(stateChange.equals(StateChanges.NEW_MESSAGE_IN_CHAT.toString())){
+			update();
+		}
+		else if(stateChange.equals(StateChanges.CONTACT_ADDED.toString())){
+			contactAdded();
+		}
+		
+	}
+
+	private void contactAdded() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void update() {
+		// TODO Auto-generated method stub
+		
+	}
 }

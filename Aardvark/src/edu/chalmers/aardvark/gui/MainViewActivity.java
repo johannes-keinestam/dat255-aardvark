@@ -18,7 +18,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainViewActivity extends Activity {
+public class MainViewActivity extends Activity implements edu.chalmers.aardvark.util.EventListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,6 @@ public class MainViewActivity extends Activity {
 	    final int j = i;
 	    tx.setOnClickListener(new OnClickListener() {
 
-		@Override
 		public void onClick(View v) {
 		    tx.setText("pressed" + j);
 		    startActivity(intent);
@@ -77,7 +76,6 @@ public class MainViewActivity extends Activity {
 	    final int j = i;
 	    tx.setOnClickListener(new OnClickListener() {
 
-		@Override
 		public void onClick(View v) {
 		    tx.setText("pressed" + j);
 
@@ -129,4 +127,10 @@ public class MainViewActivity extends Activity {
 	}
 	return dialog;
     }
+
+	@Override
+	public void notifyEvent(String stateChange, Object object) {
+		// TODO Auto-generated method stub
+		
+	}
 }
