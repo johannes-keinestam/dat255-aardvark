@@ -28,8 +28,9 @@ public class ContactCtrl {
 	ServerHandlerCtrl.getInstance().subscribeToUserPresence(aardvarkID);
     }
     
-    public void setNickname(String aardvarkID) {
-	
+    public void setNickname(String aardvarkID, String newNickname) {
+	Contact contact = contactList.findContactByID(aardvarkID);
+	contact.rename(newNickname);
     }
 
     public void openChat() {
