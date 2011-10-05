@@ -112,6 +112,13 @@ public class SystemCtrl {
 
 	settingsEditor.putBoolean("firstRun", false);
 	settingsEditor.commit();
+	
+	//register on server
+	try {
+	    ServerConnection.getConnection().getAccountManager().createAccount(aardvarkID, genPassword);
+	} catch (XMPPException e) {
+	    e.printStackTrace();
+	}
 
     }
 

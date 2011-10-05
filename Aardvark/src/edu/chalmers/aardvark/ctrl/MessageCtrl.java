@@ -10,6 +10,7 @@ import edu.chalmers.aardvark.AardvarkApp;
 import edu.chalmers.aardvark.model.Chat;
 import edu.chalmers.aardvark.model.ChatMessage;
 import edu.chalmers.aardvark.model.LocalUser;
+import edu.chalmers.aardvark.model.User;
 import edu.chalmers.aardvark.services.MessageSender;
 
 public class MessageCtrl {
@@ -51,9 +52,11 @@ public class MessageCtrl {
 	Chat chat = ChatCtrl.getInstance().getChat(packet.getFrom());
 
 	if (chat == null) {
-	    // TODO add new chat, set chat variable
+	    String alias = ServerHandlerCtrl.getInstance().getAlias(packet.getFrom());
+	    ChatCtrl.getInstance().newChat(new User(alias, packet.getFrom()));
+	    chat = ChatCtrl.getInstance().getChat(packet.getFrom());
 	}
-	
+		
 	ChatMessage chatMessage;
 	chatMessage = new ChatMessage(packet.getProperty("message").toString(),
 		chat.getRecipient(), true, time);
