@@ -1,5 +1,7 @@
 package edu.chalmers.aardvark.ctrl;
 
+import java.util.List;
+
 import android.util.Log;
 import edu.chalmers.aardvark.model.ActiveChatContainer;
 import edu.chalmers.aardvark.model.Contact;
@@ -25,10 +27,16 @@ public class ContactCtrl {
 	contactList.addContact(new Contact(nickname, aardvarkID));
 	ServerHandlerCtrl.getInstance().subscribeToUserPresence(aardvarkID);
     }
-    public void setAlias/* Nickname? */() {
+    
+    public void setNickname(String aardvarkID) {
+	
     }
 
     public void openChat() {
+    }
+    
+    public List<Contact> getContacts() {
+	return contactList.getList();
     }
 
 }

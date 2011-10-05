@@ -43,5 +43,9 @@ public class ContactsContainer {
 	}
 	return null;
     }
+    
+    public List<Contact> getList() {
+	return contactList;
+    }
 
 }
