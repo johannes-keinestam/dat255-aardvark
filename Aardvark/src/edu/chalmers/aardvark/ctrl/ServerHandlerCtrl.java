@@ -54,32 +54,11 @@ public class ServerHandlerCtrl {
     }
 
     public boolean isAliasAvailable(String alias) {
-	UserSearchManager search = new UserSearchManager(connection);
-	ReportedData aliasData = null;
-	try {
-	    Form searchForm = search
-		    .getSearchForm(AardvarkApp
-			    .getContext()
-			    .getString(
-				    edu.chalmers.aardvark.R.string.server_search_address));
-	    Form answerForm = searchForm.createAnswerForm();
-	    answerForm.setAnswer("alias", alias);
-	    aliasData = search
-		    .getSearchResults(
-			    answerForm,
-			    AardvarkApp
-				    .getContext()
-				    .getString(
-					    edu.chalmers.aardvark.R.string.server_search_address));
-	} catch (XMPPException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
-	if (aliasData == null) {
-	    return false;
+	String aliasMatch = getAardvarkID(alias);
+	if (aliasMatch == null) {
+	    return true;
 	} else {
-	    boolean hasSearchHits = aliasData.getRows().hasNext();
-	    return !(hasSearchHits);
+	    return false;
 	}
     }
 
@@ -101,5 +80,65 @@ public class ServerHandlerCtrl {
 	connection.sendPacket(aliasPacket);
 
 	ServerConnection.kill();
+    }
+    
+    public String getAardvarkID(String alias) {
+	UserSearchManager search = new UserSearchManager(connection);
+	ReportedData aliasData = null;
+	try {
+	    Form searchForm = search
+		    .getSearchForm(AardvarkApp
+			    .getContext()
+			    .getString(
+				    edu.chalmers.aardvark.R.string.server_search_address));
+	    Form answerForm = searchForm.createAnswerForm();
+	    answerForm.setAnswer("alias", alias);
+	    aliasData = search
+		    .getSearchResults(
+			    answerForm,
+			    AardvarkApp
+				    .getContext()
+				    .getString(
+					    edu.chalmers.aardvark.R.string.server_search_address));
+	} catch (XMPPException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	if (aliasData == null || !aliasData.getRows().hasNext()) {
+	    return null;
+	} 
+	
+	String aardvarkID = aliasData.getRows().next().getValues("username").toString();
+	return aardvarkID;
+    }
+    
+    public String getAlias(String aardvarkID) {
+	UserSearchManager search = new UserSearchManager(connection);
+	ReportedData idData = null;
+	try {
+	    Form searchForm = search
+		    .getSearchForm(AardvarkApp
+			    .getContext()
+			    .getString(
+				    edu.chalmers.aardvark.R.string.server_search_address));
+	    Form answerForm = searchForm.createAnswerForm();
+	    answerForm.setAnswer("username", aardvarkID);
+	    idData = search
+		    .getSearchResults(
+			    answerForm,
+			    AardvarkApp
+				    .getContext()
+				    .getString(
+					    edu.chalmers.aardvark.R.string.server_search_address));
+	} catch (XMPPException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	if (idData == null || !idData.getRows().hasNext()) {
+	    return null;
+	} 
+	
+	String alias = idData.getRows().next().getValues("alias").toString();
+	return alias;	
     }
 }
