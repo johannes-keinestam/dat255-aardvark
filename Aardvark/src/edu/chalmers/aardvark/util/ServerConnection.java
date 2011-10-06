@@ -77,20 +77,12 @@ public class ServerConnection {
 	return connection;
     }
 
-    public static void login(String aardvarkID, String password) {
-	try {
-	    connection.login("Hidas", "123");
+    public static void login(String aardvarkID, String password) throws XMPPException {
+	    connection.login(aardvarkID, password);
 
 	    // accept all incoming requests for my presence information
 	    // and start listening for presence changes in new service
 	    AardvarkApp.getContext().startService(new Intent(AardvarkApp.getContext(), StatusChecker.class));
-	} catch (XMPPException e) {
-//	    Toast.makeText(AardvarkApp.getContext(), e.getXMPPError()
-//		    .toString(), Toast.LENGTH_LONG);
-		//Log.e(e.getXMPPError().toString()+" info",e.getXMPPError().toString());
-		Log.i("INFO", e.toString());
-		Log.i("INFO", "fan här");
-	}
     }
 
     public static void kill() {

@@ -15,7 +15,9 @@ import android.widget.Toast;
 import edu.chalmers.aardvark.AardvarkApp;
 import edu.chalmers.aardvark.model.LocalUser;
 import edu.chalmers.aardvark.model.User;
+import edu.chalmers.aardvark.util.ComBus;
 import edu.chalmers.aardvark.util.ServerConnection;
+import edu.chalmers.aardvark.util.StateChanges;
 
 public class ServerHandlerCtrl {
     private XMPPConnection connection = ServerConnection.getConnection();
@@ -64,13 +66,18 @@ public class ServerHandlerCtrl {
 
     public void logInWithAlias(String alias) {
 	LocalUser.setAlias(alias);
-	ServerConnection.login(LocalUser.getLocalUser().getAardvarkID(),
-		LocalUser.getPassword());
+	
+	try {
+	    ServerConnection.login(LocalUser.getLocalUser().getAardvarkID(),
+	    	LocalUser.getPassword());
+	    Registration aliasPacket = new Registration();
+	    aliasPacket.setProperty("alias", LocalUser.getLocalUser().getAlias());
 
-	Registration aliasPacket = new Registration();
-	aliasPacket.setProperty("alias", LocalUser.getLocalUser().getAlias());
-
-	connection.sendPacket(aliasPacket);
+	    connection.sendPacket(aliasPacket);
+	    ComBus.notifyListeners(StateChanges.LOGGED_IN.toString(), null);
+	} catch (XMPPException e) {
+	    ComBus.notifyListeners(StateChanges.LOGIN_FAILED.toString(), null);
+	}
     }
 
     public void logOut() {
