@@ -67,6 +67,6 @@ public class LoginViewActivity extends Activity implements EventListener {
 	}
 	
 	private void loginFailed() {
-	    Toast.makeText(AardvarkApp.getContext(), "Log in failed! Check your network connection and try again.", Toast.LENGTH_LONG);
+	    Toast.makeText(AardvarkApp.getContext(), "Log in failed! Check your network connection and try again.", Toast.LENGTH_LONG).show();
 	}
 }

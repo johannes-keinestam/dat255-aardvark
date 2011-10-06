@@ -1,9 +1,13 @@
 package edu.chalmers.aardvark.gui;
 
 import edu.chalmers.aardvark.R;
+import edu.chalmers.aardvark.ctrl.ServerHandlerCtrl;
+import edu.chalmers.aardvark.util.StateChanges;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,9 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainViewActivity extends Activity implements edu.chalmers.aardvark.util.EventListener {
 
@@ -52,6 +58,14 @@ public class MainViewActivity extends Activity implements edu.chalmers.aardvark.
 	    final TextView tx = (TextView) item.findViewById(R.id.contactName);
 	    tx.setText("Kalle" + i);
 	    final int j = i;
+	    
+	    tx.setOnLongClickListener(new OnLongClickListener() {
+
+	        public boolean onLongClick(View v) {
+	            showDialog(2);
+        	    	return true;
+	        }
+	    });
 	    tx.setOnClickListener(new OnClickListener() {
 
 		public void onClick(View v) {
@@ -104,9 +118,8 @@ public class MainViewActivity extends Activity implements edu.chalmers.aardvark.
 	    startActivity(intent);
 	    break;
 	case R.id.logout:
-	    // TODO
+	    ServerHandlerCtrl.getInstance().logOut();
 	    break;
-
 	}
 	return true;
     }
@@ -122,6 +135,17 @@ public class MainViewActivity extends Activity implements edu.chalmers.aardvark.
 	    dialog.setTitle("Custom Dialog");
 
 	    break;
+	case 2:
+	    final CharSequence[] items = {"Open chat", "Block", "Remove"};
+	    
+	    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	    builder.setTitle("Contact");
+	    builder.setItems(items, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int item) {
+	            Toast.makeText(getApplicationContext(), "Clicked " + items[item], Toast.LENGTH_SHORT).show();
+	        }
+	    });
+	    dialog = builder.create();
 	default:
 	    dialog = null;
 	}
@@ -130,7 +154,9 @@ public class MainViewActivity extends Activity implements edu.chalmers.aardvark.
 
 	@Override
 	public void notifyEvent(String stateChange, Object object) {
-		// TODO Auto-generated method stub
+	    if (stateChange.equals(StateChanges.LOGGED_OUT.toString())) {
+		this.finish();
+	    }
 		
 	}
 }

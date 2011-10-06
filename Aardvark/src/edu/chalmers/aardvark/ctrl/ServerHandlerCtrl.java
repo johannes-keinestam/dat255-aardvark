@@ -87,6 +87,7 @@ public class ServerHandlerCtrl {
 	connection.sendPacket(aliasPacket);
 
 	ServerConnection.kill();
+	ComBus.notifyListeners(StateChanges.LOGGED_OUT.toString(), null);
     }
     
     public String getAardvarkID(String alias) {
