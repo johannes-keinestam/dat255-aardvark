@@ -74,13 +74,25 @@ public class ServerHandlerCtrl {
 	    ServerConnection.login(LocalUser.getLocalUser().getAardvarkID(),
 	    	LocalUser.getPassword());
 	    
+	    //Log.i("INFO", "Getting attributes first time...");
+	    Registration r = new Registration();
+	    connection.sendPacket(r);
+	    //Log.i("INFO", "SENT PACKAGE");
+	    //Log.i("INFO", r.getAttributes().toString());
+	    
 		Map<String, String> aliasAttribute = new HashMap<String, String>();
-		aliasAttribute.put("alias", LocalUser.getLocalUser().getAlias());
+		aliasAttribute.put("name", LocalUser.getLocalUser().getAlias());
 		
 		Registration aliasPacket = new Registration();
 		aliasPacket.setAttributes(aliasAttribute);
 
+		//Log.i("INFO", "Sending attributes...");
 	    connection.sendPacket(aliasPacket);
+	    
+	    //Log.i("INFO", "Getting attributes second time...");
+	    Registration r2 = new Registration();
+	    Log.i("INFO", r2.getAttributes().toString());
+	    
 	    ComBus.notifyListeners(StateChanges.LOGGED_IN.toString(), null);
 	} catch (XMPPException e) {
 	    ComBus.notifyListeners(StateChanges.LOGIN_FAILED.toString(), null);
@@ -89,7 +101,7 @@ public class ServerHandlerCtrl {
 
     public void logOut() {
 	Map<String, String> aliasAttribute = new HashMap<String, String>();
-	aliasAttribute.put("alias", "");
+	aliasAttribute.put("name", "");
 	
 	Registration aliasPacket = new Registration();
 	aliasPacket.setAttributes(aliasAttribute);
@@ -110,7 +122,7 @@ public class ServerHandlerCtrl {
 			    .getString(
 				    edu.chalmers.aardvark.R.string.server_search_address));
 	    Form answerForm = searchForm.createAnswerForm();
-	    answerForm.setAnswer("alias", alias);
+	    answerForm.setAnswer("name", alias);
 	    aliasData = search
 		    .getSearchResults(
 			    answerForm,

@@ -52,18 +52,9 @@ public class ServerConnection {
 	    connection = new XMPPConnection(config);
 	    try {
 		connection.connect();
-		Toast.makeText(AardvarkApp.getContext(),
-			"Connected to server!", Toast.LENGTH_LONG);
-		Log.i("info", "connected");
-		Log.i("info", config.isSASLAuthenticationEnabled()+"");
 		
-		 try {
-				connection.getAccountManager().createAccount("testuser123", "password");
-			} catch (XMPPException e1) {
-				// TODO Auto-generated catch block
-				Log.i("Info", "inget reggas"+e1.toString());
-			}
-		//SASLAuthentication.supportSASLMechanism("CRAM", 0);
+		Log.i("INFO", "Connected to server!");
+
 	    } catch (XMPPException e) {
 		Toast.makeText(AardvarkApp.getContext(), e.getXMPPError()
 			.toString(), Toast.LENGTH_LONG);
@@ -78,15 +69,31 @@ public class ServerConnection {
     }
 
     public static void login(String aardvarkID, String password) throws XMPPException {
-	    connection.login(aardvarkID, password);
-
+	    try {
+	    	Log.i("INFO", "Logging in...");
+	    	connection.login(aardvarkID, password);
+	    	Log.i("INFO", "Logged in!");
+	    } catch (XMPPException e) {
+	    	Log.i("INFO", "Could not log in!");
+	    	register(aardvarkID, password);
+	    	Log.i("INFO", "Trying to log in again...");
+	    	connection.login(aardvarkID, password);
+	    	Log.i("INFO", "Logged in!");
+	    }
 	    // accept all incoming requests for my presence information
 	    // and start listening for presence changes in new service
 	    AardvarkApp.getContext().startService(new Intent(AardvarkApp.getContext(), StatusChecker.class));
+	    Log.i("INFO", "Added statuschecker.");
     }
 
     public static void kill() {
 	connection.disconnect();
+    }
+    
+    public static void register(String aardvarkID, String password) throws XMPPException {
+    	Log.i("INFO", "Registring...");
+    	ServerConnection.getConnection().getAccountManager().createAccount(aardvarkID, password);
+    	Log.i("INFO", "Registred");
     }
 
 }
