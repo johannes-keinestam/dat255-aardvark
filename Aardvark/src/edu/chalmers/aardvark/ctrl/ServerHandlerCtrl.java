@@ -1,5 +1,8 @@
 package edu.chalmers.aardvark.ctrl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -70,8 +73,12 @@ public class ServerHandlerCtrl {
 	try {
 	    ServerConnection.login(LocalUser.getLocalUser().getAardvarkID(),
 	    	LocalUser.getPassword());
-	    Registration aliasPacket = new Registration();
-	    aliasPacket.setProperty("alias", LocalUser.getLocalUser().getAlias());
+	    
+		Map<String, String> aliasAttribute = new HashMap<String, String>();
+		aliasAttribute.put("alias", LocalUser.getLocalUser().getAlias());
+		
+		Registration aliasPacket = new Registration();
+		aliasPacket.setAttributes(aliasAttribute);
 
 	    connection.sendPacket(aliasPacket);
 	    ComBus.notifyListeners(StateChanges.LOGGED_IN.toString(), null);
@@ -81,8 +88,11 @@ public class ServerHandlerCtrl {
     }
 
     public void logOut() {
+	Map<String, String> aliasAttribute = new HashMap<String, String>();
+	aliasAttribute.put("alias", "");
+	
 	Registration aliasPacket = new Registration();
-	aliasPacket.setProperty("alias", "");
+	aliasPacket.setAttributes(aliasAttribute);
 
 	connection.sendPacket(aliasPacket);
 
