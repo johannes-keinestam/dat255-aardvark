@@ -26,4 +26,8 @@ public class Chat {
     public User getRecipient() {
 	return recipient;
     }
+    
+    public List<ChatMessage> getMessages(){
+	return chatMessages;
+    }
 }
