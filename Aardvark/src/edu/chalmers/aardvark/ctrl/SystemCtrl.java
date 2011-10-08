@@ -125,10 +125,8 @@ public class SystemCtrl {
     }
 
     private boolean isFirstRun() {
-	Log.e("FFEEEEL", "REQUESTING SHARED PREFERENCES");
 	SharedPreferences settings = AardvarkApp.getContext()
 		.getSharedPreferences("settings", 0);
-	Log.e("FFEEEEL", "DONE!!!!!!!!!!!!!!!!!");
 
 	return settings.getBoolean("firstRun", true);
     }

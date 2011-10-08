@@ -3,6 +3,7 @@ package edu.chalmers.aardvark.ctrl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jivesoftware.smack.AccountManager;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -38,7 +39,7 @@ public class ServerHandlerCtrl {
     }
 
     public void subscribeToUserPresence(String aardvarkID) {
-	Roster roster = connection.getRoster();
+	Roster roster = ServerConnection.getConnection().getRoster();
 	try {
 	    roster.createEntry(aardvarkID, aardvarkID, null);
 	} catch (XMPPException e) {
@@ -48,7 +49,7 @@ public class ServerHandlerCtrl {
     }
 
     public boolean isOnline(User user) {
-	Roster roster = connection.getRoster();
+	Roster roster = ServerConnection.getConnection().getRoster();
 	Presence presence = roster.getPresence(user.getAardvarkID());
 
 	if (presence.isAvailable()) {
@@ -71,44 +72,46 @@ public class ServerHandlerCtrl {
 	LocalUser.setAlias(alias);
 	
 	try {
+	    String aardvarkID = LocalUser.getLocalUser().getAardvarkID();
+	    String password = LocalUser.getPassword();
+	    
+	    Log.i("INFO", "Logging in, trying to register...");
+	    ServerConnection.register(aardvarkID, password, alias);
+	    Log.i("INFO", "Logging in, registered and try trying to log in...");
 	    ServerConnection.login(LocalUser.getLocalUser().getAardvarkID(),
 	    	LocalUser.getPassword());
-	    
-	    //Log.i("INFO", "Getting attributes first time...");
-	    Registration r = new Registration();
-	    connection.sendPacket(r);
-	    //Log.i("INFO", "SENT PACKAGE");
-	    //Log.i("INFO", r.getAttributes().toString());
-	    
-		Map<String, String> aliasAttribute = new HashMap<String, String>();
-		aliasAttribute.put("name", LocalUser.getLocalUser().getAlias());
-		
-		Registration aliasPacket = new Registration();
-		aliasPacket.setAttributes(aliasAttribute);
-
-		//Log.i("INFO", "Sending attributes...");
-	    connection.sendPacket(aliasPacket);
-	    
-	    //Log.i("INFO", "Getting attributes second time...");
-	    Registration r2 = new Registration();
-	    Log.i("INFO", r2.getAttributes().toString());
+	    Log.i("INFO", "Done logging in!");
 	    
 	    ComBus.notifyListeners(StateChanges.LOGGED_IN.toString(), null);
 	} catch (XMPPException e) {
-	    ComBus.notifyListeners(StateChanges.LOGIN_FAILED.toString(), null);
+	    Log.i("INFO", e.getMessage());
+	    if (e.getMessage().contains("conflict")) {
+		try {
+		    Log.i("INFO", "Login error! "+e.getMessage());
+		    Log.i("INFO", "Logging into existing account..");
+		    ServerConnection.getConnection().login(LocalUser.getLocalUser().getAardvarkID(), LocalUser.getPassword());
+		    Log.i("INFO", "Deleting account...");
+		    ServerConnection.getConnection().getAccountManager().deleteAccount();
+		    logInWithAlias(alias);
+		} catch (XMPPException e1) {
+		    ComBus.notifyListeners(StateChanges.LOGIN_FAILED.toString(), null);
+		}
+	    } else {
+		ComBus.notifyListeners(StateChanges.LOGIN_FAILED.toString(), null);
+	    }
 	}
     }
 
     public void logOut() {
-	Map<String, String> aliasAttribute = new HashMap<String, String>();
-	aliasAttribute.put("name", "");
-	
-	Registration aliasPacket = new Registration();
-	aliasPacket.setAttributes(aliasAttribute);
-
-	connection.sendPacket(aliasPacket);
+	Log.i("INFO", "Logging out...");
+	try {
+	    ServerConnection.getConnection().getAccountManager().deleteAccount();
+	} catch (XMPPException e) {
+	    Log.i("INFO", "Could not delete account!");
+	}
 
 	ServerConnection.kill();
+	Log.i("INFO", "Logged out!");
 	ComBus.notifyListeners(StateChanges.LOGGED_OUT.toString(), null);
     }
     
