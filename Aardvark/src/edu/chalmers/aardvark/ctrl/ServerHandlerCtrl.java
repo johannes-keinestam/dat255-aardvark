@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.jivesoftware.smack.AccountManager;
 import org.jivesoftware.smack.Roster;
+import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
@@ -116,62 +118,30 @@ public class ServerHandlerCtrl {
     }
     
     public String getAardvarkID(String alias) {
-	UserSearchManager search = new UserSearchManager(connection);
-	ReportedData aliasData = null;
-	try {
-	    Form searchForm = search
-		    .getSearchForm(AardvarkApp
-			    .getContext()
-			    .getString(
-				    edu.chalmers.aardvark.R.string.server_search_address));
-	    Form answerForm = searchForm.createAnswerForm();
-	    answerForm.setAnswer("name", alias);
-	    aliasData = search
-		    .getSearchResults(
-			    answerForm,
-			    AardvarkApp
-				    .getContext()
-				    .getString(
-					    edu.chalmers.aardvark.R.string.server_search_address));
-	} catch (XMPPException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
-	if (aliasData == null || !aliasData.getRows().hasNext()) {
-	    return null;
-	} 
-	
-	String aardvarkID = aliasData.getRows().next().getValues("username").toString();
-	return aardvarkID;
+    	RosterGroup onlineUsers = ServerConnection.getConnection().getRoster().getGroup("Aardvark");
+    	for (RosterEntry user : onlineUsers.getEntries()) {
+    		if (user.getName().equals(alias)) {
+    			String username = user.getUser();
+    			return username.substring(0, username.lastIndexOf("@"));
+    		}
+    		Log.i("INFO", "User in group, user: "+user.getUser());
+    		Log.i("INFO", "User in group, namn: "+user.getName());
+    	}
+		return null;
     }
     
     public String getAlias(String aardvarkID) {
-	UserSearchManager search = new UserSearchManager(connection);
-	ReportedData idData = null;
-	try {
-	    Form searchForm = search
-		    .getSearchForm(AardvarkApp
-			    .getContext()
-			    .getString(
-				    edu.chalmers.aardvark.R.string.server_search_address));
-	    Form answerForm = searchForm.createAnswerForm();
-	    answerForm.setAnswer("username", aardvarkID);
-	    idData = search
-		    .getSearchResults(
-			    answerForm,
-			    AardvarkApp
-				    .getContext()
-				    .getString(
-					    edu.chalmers.aardvark.R.string.server_search_address));
-	} catch (XMPPException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
-	if (idData == null || !idData.getRows().hasNext()) {
-	    return null;
-	} 
-	
-	String alias = idData.getRows().next().getValues("alias").toString();
-	return alias;	
+    	RosterGroup onlineUsers = ServerConnection.getConnection().getRoster().getGroup("Aardvark");
+    	for (RosterEntry user : onlineUsers.getEntries()) {
+    		String username = user.getUser();
+    		String userAardvarkID = username.substring(0, username.lastIndexOf("@"));
+    		if (userAardvarkID.equals(aardvarkID)) {
+    			return user.getName();
+    		}
+    		Log.i("INFO", "User in group, user: "+user.getUser());
+    		Log.i("INFO", "User in group, namn: "+user.getName());
+    	}
+		return null;
+
     }
 }
