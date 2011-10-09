@@ -1,10 +1,11 @@
 package edu.chalmers.aardvark.services;
 
 import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.packet.IQ;
+import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 
 import edu.chalmers.aardvark.model.LocalUser;
-import edu.chalmers.aardvark.util.MessagePacket;
 import edu.chalmers.aardvark.util.ServerConnection;
 import android.app.IntentService;
 import android.content.Intent;
@@ -19,16 +20,23 @@ public class MessageSender extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-	String message = intent.getStringExtra("msg");
-	String recipient = intent.getStringExtra("to");
+    	Log.i("INFO", "Sending message...");
+		String message = intent.getStringExtra("msg");
+		String recipient = intent.getStringExtra("to");
+	
+		if (message != null && recipient != null) {
+			String userSuffix = "@"+ServerConnection.getConnection().getServiceName();
+			Log.i("INFO", "SENDING TO "+recipient+userSuffix);
+			Message messagePacket = new Message(recipient+userSuffix);
+			messagePacket.setFrom(LocalUser.getLocalUser().getAardvarkID()+userSuffix);
+			messagePacket.setType(Message.Type.chat);
+			messagePacket.setBody(message);
+	
+	    	Log.i("INFO", "Sending packet: "+messagePacket.toXML());
 
-	if (message != null && recipient != null) {
-	    Packet messagePacket = new MessagePacket(LocalUser.getLocalUser()
-		    .getAardvarkID(), recipient, message);
-
-	    XMPPConnection connection = ServerConnection.getConnection();
-	    connection.sendPacket(messagePacket);
-	}
+		    XMPPConnection connection = ServerConnection.getConnection();
+		    connection.sendPacket(messagePacket);
+		}
 
     }
 

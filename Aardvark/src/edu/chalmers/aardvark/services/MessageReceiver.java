@@ -3,12 +3,12 @@ package edu.chalmers.aardvark.services;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.filter.ToContainsFilter;
+import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 
 import edu.chalmers.aardvark.ctrl.ChatCtrl;
 import edu.chalmers.aardvark.ctrl.ServerHandlerCtrl;
 import edu.chalmers.aardvark.model.LocalUser;
-import edu.chalmers.aardvark.util.MessagePacket;
 import edu.chalmers.aardvark.util.ServerConnection;
 
 import android.app.Service;
@@ -29,9 +29,14 @@ public class MessageReceiver extends Service implements PacketListener {
 
     @Override
     public void processPacket(Packet packet) {
-	if (packet instanceof MessagePacket) {
-	    ChatCtrl.getInstance().receiveMessage(packet);
-	}
+    	Log.i("INFO", "Received packet, processing...");
+		if (packet instanceof Message) {
+			Log.i("INFO", "Message received from "+ packet.getFrom());
+		    ChatCtrl.getInstance().receiveMessage(packet);
+		} else {
+			Log.i("INFO", "Package received from "+ packet.getFrom());
+			Log.i("INFO", "PACKET: "+packet.toXML());
+		}
     }
 
     @Override
