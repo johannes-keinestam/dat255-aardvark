@@ -19,12 +19,14 @@ import android.util.Log;
 public class MessageReceiver extends Service implements PacketListener {
 
     @Override
-    public void onCreate() {
-	PacketFilter filter = new ToContainsFilter(LocalUser.getLocalUser()
-		.getAardvarkID());
-
-	ServerConnection.getConnection().addPacketListener(this, filter);
-	Log.i("INFO", this.toString() + " STARTED");
+    public int onStartCommand(Intent intent, int flags, int startId) {
+		PacketFilter filter = new ToContainsFilter(LocalUser.getLocalUser()
+			.getAardvarkID());
+	
+		ServerConnection.getConnection().addPacketListener(this, filter);
+		Log.i("INFO", this.toString() + " STARTED");
+		
+		return START_STICKY;
     }
 
     @Override
