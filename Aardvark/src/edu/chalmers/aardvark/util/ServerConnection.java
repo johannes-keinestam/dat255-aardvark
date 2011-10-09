@@ -79,7 +79,7 @@ public class ServerConnection {
 	    Log.i("INFO", "Added statuschecker.");
     }
 
-    public static void kill() {
+    public static void restart() {
 	connection.disconnect();
 	connection = null;
 	getConnection();

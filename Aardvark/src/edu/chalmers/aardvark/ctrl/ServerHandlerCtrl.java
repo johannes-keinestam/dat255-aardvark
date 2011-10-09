@@ -110,7 +110,7 @@ public class ServerHandlerCtrl {
 	    Log.i("INFO", "Could not delete account!");
 	}
 
-	ServerConnection.kill();
+	ServerConnection.restart();
 	Log.i("INFO", "Logged out!");
 	ComBus.notifyListeners(StateChanges.LOGGED_OUT.toString(), null);
     }

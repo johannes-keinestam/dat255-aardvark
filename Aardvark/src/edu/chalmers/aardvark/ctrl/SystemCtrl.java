@@ -70,7 +70,7 @@ public class SystemCtrl {
 	}
 
 	// Kill connection to server
-	ServerConnection.kill();
+	ServerConnection.restart();
     }
 
     private void performSetup() {
