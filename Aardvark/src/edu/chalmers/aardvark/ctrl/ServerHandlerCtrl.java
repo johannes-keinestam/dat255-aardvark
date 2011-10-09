@@ -71,39 +71,38 @@ public class ServerHandlerCtrl {
     }
 
     public void logInWithAlias(String alias) {
-	LocalUser.setAlias(alias);
-	
-	try {
+    try {
+		LocalUser.setAlias(alias);
+		
 	    String aardvarkID = LocalUser.getLocalUser().getAardvarkID();
 	    String password = LocalUser.getPassword();
-	    
 	    Log.i("INFO", "Logging in, trying to register...");
 	    ServerConnection.register(aardvarkID, password, alias);
 	    Log.i("INFO", "Logging in, registered and try trying to log in...");
-	    ServerConnection.login(LocalUser.getLocalUser().getAardvarkID(),
-	    	LocalUser.getPassword());
-	    Log.i("INFO", "Done logging in!");
+	    ServerConnection.login(aardvarkID, password);
 	    
 	    ComBus.notifyListeners(StateChanges.LOGGED_IN.toString(), null);
 	} catch (XMPPException e) {
 	    Log.i("INFO", e.getMessage());
-	    if (e.getMessage().contains("conflict")) {
 		try {
 		    Log.i("INFO", "Login error! "+e.getMessage());
 		    Log.i("INFO", "Logging into existing account..");
 		    ServerConnection.getConnection().login(LocalUser.getLocalUser().getAardvarkID(), LocalUser.getPassword());
 		    Log.i("INFO", "Deleting account...");
 		    ServerConnection.getConnection().getAccountManager().deleteAccount();
+		    ServerConnection.restart();
+		    
 		    logInWithAlias(alias);
 		} catch (XMPPException e1) {
 		    ComBus.notifyListeners(StateChanges.LOGIN_FAILED.toString(), null);
 		}
-	    } else {
-		ComBus.notifyListeners(StateChanges.LOGIN_FAILED.toString(), null);
-	    }
 	}
     }
-
+	
+	public void deleteAccount(String aardvarkID, String password) {
+		
+	}
+	
     public void logOut() {
 	Log.i("INFO", "Logging out...");
 	try {
