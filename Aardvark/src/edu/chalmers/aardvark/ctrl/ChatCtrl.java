@@ -2,6 +2,7 @@ package edu.chalmers.aardvark.ctrl;
 
 import java.util.List;
 
+import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 
 import android.content.Context;
@@ -33,8 +34,12 @@ public class ChatCtrl {
     }
 
     public Chat getChat(String aardvarkID) {
+    	Log.i("INFO", "chatctrl getchat"+aardvarkID);
 	return chatContainer.findChatByID(aardvarkID);
     }
+    public List<Chat> getChats() {
+    	return chatContainer.getChats();	
+	}
 
     public void newChat(User user) {
 	Chat chat = new Chat(user);
@@ -69,17 +74,22 @@ public class ChatCtrl {
 	time.setToNow();
 
 	Chat chat = ChatCtrl.getInstance().getChat(packet.getFrom());
+	Log.i("INFO", "chatctrl");
 
 	if (chat == null) {
+		Log.i("INFO", "chatctrl in if");
 	    String alias = ServerHandlerCtrl.getInstance().getAlias(packet.getFrom());
 	    ChatCtrl.getInstance().newChat(new User(alias, packet.getFrom()));
 	    chat = ChatCtrl.getInstance().getChat(packet.getFrom());
 	}
 		
 	ChatMessage chatMessage;
-	chatMessage = new ChatMessage(packet.getProperty("message").toString(),
+	
+	Message message = (Message) packet;
+	chatMessage = new ChatMessage(message.getBody(),
 		chat.getRecipient(), true, time);
 
 	chat.addMessage(chatMessage);
+	Log.i("INFO", chatMessage.getMessage());
     }
 }

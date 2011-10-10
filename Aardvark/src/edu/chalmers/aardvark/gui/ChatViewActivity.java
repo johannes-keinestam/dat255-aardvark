@@ -4,6 +4,9 @@ import java.util.List;
 
 import edu.chalmers.aardvark.R;
 import edu.chalmers.aardvark.ctrl.ChatCtrl;
+import edu.chalmers.aardvark.ctrl.ContactCtrl;
+import edu.chalmers.aardvark.ctrl.ServerHandlerCtrl;
+import edu.chalmers.aardvark.ctrl.SystemCtrl;
 import edu.chalmers.aardvark.model.Chat;
 import edu.chalmers.aardvark.model.ChatMessage;
 import edu.chalmers.aardvark.util.ComBus;
@@ -21,22 +24,29 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 
 public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.util.EventListener{
     /** Called when the activity is first created. */
+	private String aardvarkID;
+	private String alias;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.chatview);
+	
+	aardvarkID = getIntent().getExtras().getString("aardvarkID");
+	alias = ServerHandlerCtrl.getInstance().getAlias(aardvarkID);
 	
 	Log.i("INFO", this.toString() + " STARTED");
 	
 	ComBus.subscribe(this);
 	
 	TextView aliasLable = (TextView) findViewById(R.id.userNameLable);
-	aliasLable.setText(getIntent().getExtras().getString("aardwarkId"));
+	aliasLable.setText(alias);
+	
 	drawMessages();
 	Button sendButton = (Button) findViewById(R.id.sendButton);
 	sendButton.setOnClickListener(new OnClickListener() {
@@ -46,8 +56,9 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 			EditText messageField = (EditText) findViewById(R.id.intputText);
 			String message = messageField.getText().toString();
 			if(message.length()>0){
-				Chat chat = ChatCtrl.getInstance().getChat(getIntent().getExtras().getString("aardwarkId"));
+				Chat chat = ChatCtrl.getInstance().getChat(aardvarkID);
 				ChatCtrl.getInstance().sendMessage(chat, message);
+				messageField.setText("");
 			}
 		}
 	});
@@ -59,14 +70,28 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
     		LinearLayout ll = (LinearLayout) this.findViewById(R.id.messageLayout);
     		ll.removeAllViews();
     	
-//    	List<ChatMessage> messages = ChatCtrl.getInstance().getChatMessages((getIntent().getExtras().getString("aardwarkId")));
-//    	for (ChatMessage chatMessage : messages) {
-//			
-//			 View item = inflater.inflate(R.layout.bubbleleftpanel, null);
-//			 TextView tx = (TextView) item.findViewById(R.id.message);
-//			    tx.setText(chatMessage.getMessage());
-//			    ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
-//		}
+    	try {
+			List<ChatMessage> messages = ChatCtrl.getInstance().getChatMessages(aardvarkID);
+			Log.i("INFO", "chat");
+			for (ChatMessage chatMessage : messages) {
+				Log.i("INFO", "chatloop");
+				View item;
+				if(chatMessage.getUser().getAardvarkID().equals(aardvarkID)){
+					 item = inflater.inflate(R.layout.bubblerightpanel, null);
+				}
+				else{
+					 item = inflater.inflate(R.layout.bubbleleftpanel, null);
+				}
+				TextView tx = (TextView) item.findViewById(R.id.message);
+				    tx.setText(chatMessage.getMessage());
+				    ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
+			}
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			
+		}
+    	ScrollView sv = (ScrollView) this.findViewById(R.id.scrollViewChat);
+    	sv.smoothScrollTo(0, sv.getMaxScrollAmount());
     	
 	}
 
@@ -80,7 +105,7 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 	switch (item.getItemId()) {
-	case R.id.addToContacts:
+	case R.id.addToContacts: ContactCtrl.getInstance().addContact(alias, aardvarkID);
 	case R.id.block:
 
 	}

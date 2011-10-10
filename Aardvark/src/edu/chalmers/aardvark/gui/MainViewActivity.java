@@ -42,7 +42,7 @@ public class MainViewActivity extends Activity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mainview);
-		
+
 		ComBus.subscribe(this);
 
 		Log.i("INFO", this.toString() + " STARTED");
@@ -59,62 +59,73 @@ public class MainViewActivity extends Activity implements
 		drawContacts();
 	}
 
-	private void drawContacts() {
-		List<Contact> contacts = ContactCtrl.getInstance().getContacts();
-		
-		for (Contact contact : contacts) {
-			if((UserCtrl.getInstance().isOnline(contact))&&(ChatCtrl.getInstance().getChat(contact.getAardvarkID())!=null)){
-				drawActive(contact);
-			}
-			else if((UserCtrl.getInstance().isOnline(contact))&&(ChatCtrl.getInstance().getChat(contact.getAardvarkID())==null)){
-				drawOnline(contact);
-			}
-			else{
-				drawOffline(contact);
-			}
-			
-		}
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		drawContacts();
 	}
 
-	private void drawActive(final Contact contact) {
+	private void drawContacts() {
 		LinearLayout ll = (LinearLayout) this.findViewById(R.id.online);
+		ll.removeAllViews();
+		 ll = (LinearLayout) this.findViewById(R.id.offline);
+		ll.removeAllViews();
+		ll = (LinearLayout) this.findViewById(R.id.active);
+		ll.removeAllViews();
+		
+		List<Contact> contacts = ContactCtrl.getInstance().getContacts();
+
+		for (Contact contact : contacts) {
+			if (UserCtrl.getInstance().isOnline(contact))
+					{
+				drawOnline(contact);
+			} else if (!UserCtrl.getInstance().isOnline(contact)) {
+				drawOffline(contact);
+			}
+
+		}
+		drawActive();
+	}
+
+	private void drawActive() {
+		List<Chat> chats = ChatCtrl.getInstance().getChats();
+		LinearLayout ll = (LinearLayout) this.findViewById(R.id.active);
 		LayoutInflater inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
-		View item = inflater.inflate(R.layout.contactpanel, null);
-		
-		TextView tx = (TextView) item.findViewById(R.id.contactName);
-		tx.setText(""+contact.getNickname()+" ("+contact.getAlias()+")");
-		
-		tx.setOnLongClickListener(new OnLongClickListener() {
+		for (Chat chat : chats) {
+			final User contact = chat.getRecipient();
 
-			public boolean onLongClick(View v) {
-				showDialog(2);
-				return true;
-			}
-		});
-		tx.setOnClickListener(new OnClickListener() {
+			
 
-			public void onClick(View v) {
-				startChatContact = contact;
-				startChat();
-			}
-		});
-		
-		
-		ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
-		
+			View item = inflater.inflate(R.layout.contactpanel, null);
+
+			TextView tx = (TextView) item.findViewById(R.id.contactName);
+			tx.setText(contact.getAlias());
+
+			tx.setOnClickListener(new OnClickListener() {
+
+				public void onClick(View v) {
+					startChatContact = contact;
+					startChat();
+				}
+			});
+
+			ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+		}
+
 	}
 
 	private void drawOffline(Contact contact) {
 		LinearLayout ll = (LinearLayout) this.findViewById(R.id.offline);
 		LayoutInflater inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
+
 		View item = inflater.inflate(R.layout.contactpanel, null);
-		
+
 		TextView tx = (TextView) item.findViewById(R.id.contactName);
-		tx.setText(""+contact.getNickname()+" ("+contact.getAlias()+")");
+		tx.setText("" + contact.getNickname() + " (" + contact.getAlias() + ")");
 		ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
 	}
 
@@ -122,12 +133,12 @@ public class MainViewActivity extends Activity implements
 		LinearLayout ll = (LinearLayout) this.findViewById(R.id.online);
 		LayoutInflater inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
+
 		View item = inflater.inflate(R.layout.contactpanel, null);
-		
+
 		TextView tx = (TextView) item.findViewById(R.id.contactName);
-		tx.setText(""+contact.getNickname()+" ("+contact.getAlias()+")");
-		
+		tx.setText("" + contact.getNickname() + " (" + contact.getAlias() + ")");
+
 		tx.setOnLongClickListener(new OnLongClickListener() {
 
 			public boolean onLongClick(View v) {
@@ -138,14 +149,20 @@ public class MainViewActivity extends Activity implements
 		tx.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
+				if(ChatCtrl.getInstance().getChat(contact.getAardvarkID())==null){
 				ChatCtrl.getInstance().newChat(contact);
 				startChatContact = contact;
+				}
+				else{
+					startChatContact = contact;
+					startChat();
+				}
+				
 			}
 		});
-		
-		
+
 		ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
-		
+
 	}
 
 	@Override
@@ -181,28 +198,35 @@ public class MainViewActivity extends Activity implements
 
 			dialog.setContentView(R.layout.newchatdialog);
 			dialog.setTitle("");
-			Button startButton = (Button) dialog.findViewById(R.id.findUserButton);
-			final EditText aliasField = (EditText) dialog.findViewById(R.id.findUserField);
+			Button startButton = (Button) dialog
+					.findViewById(R.id.findUserButton);
+			final EditText aliasField = (EditText) dialog
+					.findViewById(R.id.findUserField);
 			startButton.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					String alias = aliasField.getText().toString();
-					if(alias.length()==0){
+					if (alias.length() == 0) {
 						dismissDialog(1);
+					} else {
+						String aardvarkID = ServerHandlerCtrl.getInstance()
+								.getAardvarkID(alias);
+						if (aardvarkID != null) {
+							User user = new User(alias, aardvarkID);
+							startChatContact = user;
+							if(ChatCtrl.getInstance().getChat(aardvarkID)==null){
+								ChatCtrl.getInstance().newChat(user);
+							}
+							else{
+							}
+						} else {
+							Log.i("INFO", "No user found");
+						}
 					}
-					else{
-						String aardvarkID = ServerHandlerCtrl.getInstance().getAardvarkID(alias);
-						Log.i("INFO", aardvarkID+"::id");
-						Log.i("INFO", alias+"::");
-						User user = new User(alias, aardvarkID);
-						ChatCtrl.getInstance().newChat(user);
-						Log.i("INFO", "dialog");
-						startChatContact = user;
-						startChat();	
-					}
-					
+
 				}
+
 			});
 
 			break;
@@ -229,28 +253,43 @@ public class MainViewActivity extends Activity implements
 	public void notifyEvent(String stateChange, Object object) {
 		if (stateChange.equals(StateChanges.LOGGED_OUT.toString())) {
 			this.finish();
-		}
-		else if (stateChange.equals(StateChanges.CHAT_OPENED.toString())) {
+		} else if (stateChange.equals(StateChanges.CHAT_OPENED.toString())) {
 			Chat chat = (Chat) object;
-			//Log.i("INFO", chat.getMessages().get(0).toString()+" ::Message");
+			Log.i("INFO", " --opened");
+			Log.i("INFO", chat.getRecipient().getAardvarkID() + " opened");
 			startChatContact = (User) chat.getRecipient();
-			
+
 			startChat();
+		} else if (stateChange.equals(StateChanges.NEW_MESSAGE_IN_CHAT
+				.toString())) {
+			Chat chat = (Chat) object;
+			// Log.i("INFO", chat.getMessages().get(0).toString()+" ::Message");
+			startChatContact = (User) chat.getRecipient();
+			Log.i("INFO", chat.getRecipient().getAardvarkID() + " new mess");
+			Log.i("INFO", " --new mess");
+
+			// startChat();
+		} else if (stateChange.equals(StateChanges.CONTACT_ADDED.toString())) {
+			drawContacts();
+
+		} else if (stateChange.equals(StateChanges.USER_ONLINE.toString())) {
+			drawContacts();
+
+		} else if (stateChange.equals(StateChanges.USER_OFFLINE.toString())) {
+			drawContacts();
+
 		}
-//		else if (stateChange.equals(StateChanges.NEW_MESSAGE_IN_CHAT.toString())) {
-//			Chat chat = (Chat) object;
-//			Log.i("INFO", chat.getMessages().get(0).toString()+" ::Message");
-//			startChatContact = (User) chat.getRecipient();
-//			
-//			startChat();
-//		}
 
 	}
 
 	private void startChat() {
 		Intent intent = new Intent(this, ChatViewActivity.class);
-		intent.putExtra("aardwarkId", startChatContact.getAardvarkID());
+		Log.i("INFO", startChatContact.getAardvarkID() + " start chat");
+		intent.putExtra("aardvarkID", startChatContact.getAardvarkID());
 		startActivity(intent);
+
+	}
+	private void openChat() {
 		
 	}
 }
