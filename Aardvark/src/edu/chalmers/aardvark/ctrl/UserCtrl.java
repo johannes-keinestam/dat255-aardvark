@@ -8,7 +8,7 @@ public class UserCtrl {
     private static UserCtrl instance;
 
     private UserCtrl() {
-	Log.i("INFO", this.toString() + " STARTED");
+	Log.i("CLASS", this.toString() + " STARTED");
     }
 
     public static UserCtrl getInstance() {

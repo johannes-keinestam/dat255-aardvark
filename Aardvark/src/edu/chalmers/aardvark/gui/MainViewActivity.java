@@ -47,7 +47,7 @@ public class MainViewActivity extends Activity implements
 
 		ComBus.subscribe(this);
 
-		Log.i("INFO", this.toString() + " STARTED");
+		Log.i("CLASS", this.toString() + " STARTED");
 		TextView aliasText = (TextView) this.findViewById(R.id.myUserNameLable);
 		aliasText.setText(LocalUser.getLocalUser().getAlias());
 

@@ -40,7 +40,7 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 	aardvarkID = getIntent().getExtras().getString("aardvarkID");
 	alias = ServerHandlerCtrl.getInstance().getAlias(aardvarkID);
 	
-	Log.i("INFO", this.toString() + " STARTED");
+	Log.i("CLASS", this.toString() + " STARTED");
 	
 	ComBus.subscribe(this);
 	

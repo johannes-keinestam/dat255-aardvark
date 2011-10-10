@@ -28,7 +28,7 @@ public class ServerConnection {
     private static MessageSender sender;
 
     private ServerConnection() {
-	Log.i("INFO", this.toString() + " STARTED");
+	Log.i("CLASS", this.toString() + " STARTED");
     }
 
     public static XMPPConnection getConnection() {

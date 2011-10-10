@@ -14,7 +14,7 @@ public class ChatMessage {
 	this.user = user;
 	isRemote = remote;
 	timeStamp = time;
-	Log.i("INFO", this.toString() + " STARTED");
+	Log.i("CLASS", this.toString() + " STARTED");
     }
 
     public String getMessage() {

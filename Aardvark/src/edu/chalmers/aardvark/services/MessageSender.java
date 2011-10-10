@@ -15,24 +15,23 @@ public class MessageSender extends IntentService {
 
     public MessageSender() {
 	super("MessageSender");
-	Log.i("INFO", this.toString() + " STARTED");
+	Log.i("CLASS", this.toString() + " STARTED");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-    	Log.i("INFO", "Sending message...");
+    	Log.i("MESSAGE", "Sending message...");
 		String message = intent.getStringExtra("msg");
 		String recipient = intent.getStringExtra("to");
 	
 		if (message != null && recipient != null) {
 			String userSuffix = "@"+ServerConnection.getConnection().getServiceName();
-			Log.i("INFO", "SENDING TO "+recipient+userSuffix);
 			Message messagePacket = new Message(recipient+userSuffix);
 			messagePacket.setFrom(LocalUser.getLocalUser().getAardvarkID()+userSuffix);
 			messagePacket.setType(Message.Type.chat);
 			messagePacket.setBody(message);
 	
-	    	Log.i("INFO", "Sending packet: "+messagePacket.toXML());
+	    	Log.i("MESSAGE", "Sending packet: "+messagePacket.toXML());
 
 		    XMPPConnection connection = ServerConnection.getConnection();
 		    connection.sendPacket(messagePacket);

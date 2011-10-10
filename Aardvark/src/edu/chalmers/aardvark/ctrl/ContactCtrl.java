@@ -13,7 +13,7 @@ public class ContactCtrl {
 
     private ContactCtrl() {
 	contactList = new ContactsContainer();
-	Log.i("INFO", this.toString() + " STARTED");
+	Log.i("CLASS", this.toString() + " STARTED");
     }
 
     public static ContactCtrl getInstance() {

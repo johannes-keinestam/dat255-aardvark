@@ -30,7 +30,7 @@ public class ServerHandlerCtrl {
     private static ServerHandlerCtrl instance;
 
     private ServerHandlerCtrl() {
-	Log.i("INFO", this.toString() + " STARTED");
+	Log.i("CLASS", this.toString() + " STARTED");
     }
 
     public static ServerHandlerCtrl getInstance() {

@@ -10,7 +10,7 @@ public class Contact extends User {
     public Contact(String nickname, String aardvarkID) {
 	super(null, aardvarkID);
 	this.nickname = nickname;
-	Log.i("INFO", this.toString() + " STARTED");
+	Log.i("CLASS", this.toString() + " STARTED");
     }
 
     public String getNickname() {

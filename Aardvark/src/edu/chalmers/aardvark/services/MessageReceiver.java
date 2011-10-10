@@ -24,25 +24,24 @@ public class MessageReceiver extends Service implements PacketListener {
 			.getAardvarkID());
 	
 		ServerConnection.getConnection().addPacketListener(this, filter);
-		Log.i("INFO", this.toString() + " STARTED");
+		Log.i("CLASS", this.toString() + " STARTED");
 		
 		return START_STICKY;
     }
 
     @Override
     public void processPacket(Packet packet) {
-    	Log.i("INFO", "Received packet, processing...");
+    	Log.i("MESSAGE", "Received packet, processing...");
 		if (packet instanceof Message) {
-			Log.i("INFO", "Message received from "+ packet.getFrom());
+			Log.i("MESSAGE", "Message received from "+ packet.getFrom());
 			Message m = (Message) packet;
-			Log.i("INFO", "Message::"+m.getBody());
+
 			String fromUser = packet.getFrom();
 			String fromAardvarkID = fromUser.substring(0, fromUser.lastIndexOf("@"));
 			packet.setFrom(fromAardvarkID);
 		    ChatCtrl.getInstance().receiveMessage(packet);
 		} else {
-			Log.i("INFO", "Package received from "+ packet.getFrom());
-			Log.i("INFO", "PACKET: "+packet.toXML());
+			Log.i("MESSAGE", "Unknown package received from "+ packet.getFrom());
 		}
     }
 

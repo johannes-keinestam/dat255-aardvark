@@ -32,7 +32,7 @@ public class LoginViewActivity extends Activity implements EventListener {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.main);
 	
-	Log.i("INFO", this.toString() + " STARTED");
+	Log.i("CLASS", this.toString() + " STARTED");
 	
 	ComBus.subscribe(this);
 	

@@ -16,7 +16,7 @@ public class SettingsViewActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 
-	Log.i("INFO", this.toString() + " STARTED");
+	Log.i("CLASS", this.toString() + " STARTED");
 	
 	String[] settings = getResources().getStringArray(R.array.settings);
 

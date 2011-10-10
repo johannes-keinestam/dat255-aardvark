@@ -23,7 +23,7 @@ public class ChatCtrl {
 
     private ChatCtrl() {
 	chatContainer = new ActiveChatContainer();
-	Log.i("INFO", this.toString() + " STARTED");
+	Log.i("CLASS", this.toString() + " STARTED");
     }
 
     public static ChatCtrl getInstance() {

@@ -15,7 +15,7 @@ public class Chat {
     public Chat(User user) {
 	chatMessages = new ArrayList<ChatMessage>();
 	recipient = user;
-	Log.i("INFO", this.toString() + " STARTED");
+	Log.i("CLASS", this.toString() + " STARTED");
     }
 
     public void addMessage(ChatMessage msg) {

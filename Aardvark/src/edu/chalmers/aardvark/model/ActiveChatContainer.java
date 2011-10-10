@@ -14,7 +14,7 @@ public class ActiveChatContainer {
 
     public ActiveChatContainer() {
 	activeChats = new ArrayList<Chat>();
-	Log.i("INFO", this.toString() + " STARTED");
+	Log.i("CLASS", this.toString() + " STARTED");
     }
 
     public void addChat(Chat chat) {

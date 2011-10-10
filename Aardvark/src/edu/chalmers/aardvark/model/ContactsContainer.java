@@ -13,7 +13,7 @@ public class ContactsContainer {
 
     public ContactsContainer() {
 	contactList = new ArrayList<Contact>();
-	Log.i("INFO", this.toString() + " STARTED");
+	Log.i("CLASS", this.toString() + " STARTED");
     }
 
     public void addContact(Contact contact) {

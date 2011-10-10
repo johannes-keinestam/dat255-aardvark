@@ -11,7 +11,7 @@ public class SettingsCtrl {
     Context context = AardvarkApp.getContext();
 
     private SettingsCtrl() {
-	Log.i("INFO", this.toString() + " STARTED");
+	Log.i("CLASS", this.toString() + " STARTED");
     }
 
     public static SettingsCtrl getInstance() {

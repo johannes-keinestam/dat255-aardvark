@@ -6,7 +6,7 @@ public class EncryptionCtrl {
     private static EncryptionCtrl instance;
 
     private EncryptionCtrl() {
-	Log.i("INFO", this.toString() + " STARTED");
+	Log.i("CLASS", this.toString() + " STARTED");
 
     }
 

@@ -20,7 +20,7 @@ public class SystemCtrl {
     private static SystemCtrl instance;
 
     private SystemCtrl() {
-	Log.i("INFO", this.toString() + " STARTED");
+	Log.i("CLASS", this.toString() + " STARTED");
     }
     
     public static SystemCtrl getCtrl() {
