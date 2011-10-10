@@ -91,6 +91,11 @@ public class MainViewActivity extends Activity implements
 		}
 		drawActive();
 	}
+	@Override
+	public void onBackPressed() {
+
+	   return;
+	}
 
 	private void drawActive() {
 		List<Chat> chats = ChatCtrl.getInstance().getChats();
@@ -266,15 +271,6 @@ public class MainViewActivity extends Activity implements
 			startChatContact = (User) chat.getRecipient();
 
 			startChat();
-		} else if (stateChange.equals(StateChanges.NEW_MESSAGE_IN_CHAT
-				.toString())) {
-			Chat chat = (Chat) object;
-			// Log.i("INFO", chat.getMessages().get(0).toString()+" ::Message");
-			startChatContact = (User) chat.getRecipient();
-			Log.i("INFO", chat.getRecipient().getAardvarkID() + " new mess");
-			Log.i("INFO", " --new mess");
-
-			// startChat();
 		} else if (stateChange.equals(StateChanges.CONTACT_ADDED.toString())) {
 			drawContacts();
 
