@@ -50,7 +50,7 @@ public class StatusChecker extends Service implements RosterListener {
 	for (String address : addresses) {
 	    Log.i("STATUS", "USER ADDED, SETTING ONLINE: "+address);
 	    String aardvarkID = address.substring(0, address.lastIndexOf("@"));
-	    ComBus.notifyListeners(StateChanges.LOGGED_IN.toString(), aardvarkID);
+	    ComBus.notifyListeners(StateChanges.USER_ONLINE.toString(), aardvarkID);
 	}
     }
 
@@ -59,7 +59,7 @@ public class StatusChecker extends Service implements RosterListener {
 	for (String address : addresses) {
 	    Log.i("STATUS", "USER DELETED, SETTING OFFLINE: "+address);
 	    String aardvarkID = address.substring(0, address.lastIndexOf("@"));
-	    ComBus.notifyListeners(StateChanges.LOGGED_IN.toString(), aardvarkID);
+	    ComBus.notifyListeners(StateChanges.USER_OFFLINE.toString(), aardvarkID);
 	}
     }
 
