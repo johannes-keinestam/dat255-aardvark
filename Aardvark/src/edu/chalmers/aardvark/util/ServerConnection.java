@@ -86,7 +86,10 @@ public class ServerConnection {
     }
     
     public static void register(String aardvarkID, String password, String alias) throws XMPPException {
-    	Log.i("INFO", "Registring account " + aardvarkID+"::"+password+" for alias: "+alias);
+    	if (!connection.isConnected()) {
+    	    getConnection();
+    	}
+	Log.i("INFO", "Registring account " + aardvarkID+"::"+password+" for alias: "+alias);
     	
 	Map<String, String> aliasAttribute = new HashMap<String, String>();
 	aliasAttribute.put("name", alias);
