@@ -20,6 +20,6 @@
 		<string name="newChatMainMenu">New chat</string>
 		<string name="settingsMainMenu">Settings</string>
 		<string name="logoutMainMenu">Logout</string>
-		<string name="server_search_address">search.95.80.11.191</string>
+		<string name="server_search_address">search.hidas-dator</string>
 		<string name="activeLableMain">Active chats</string>
 </resources>

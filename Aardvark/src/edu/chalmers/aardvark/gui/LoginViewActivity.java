@@ -1,5 +1,7 @@
 package edu.chalmers.aardvark.gui;
 
+import java.util.Timer;
+
 import edu.chalmers.aardvark.AardvarkApp;
 import edu.chalmers.aardvark.R;
 import edu.chalmers.aardvark.ctrl.ServerHandlerCtrl;
@@ -12,6 +14,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -35,6 +38,33 @@ public class LoginViewActivity extends Activity implements EventListener {
 	
 	final EditText aliasInput = (EditText) this.findViewById(R.id.aliasField);
 	final ImageView av = (ImageView) this.findViewById(R.id.availableView);
+	
+	
+	aliasInput.addTextChangedListener(new TextWatcher() {
+		
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			Log.i("INFO", "alias on"+s.toString());
+//			if(ServerHandlerCtrl.getInstance().isAliasAvailable("6")){
+//				Log.i("INFO", "alias is avabadadasda");
+//			}
+			
+		}
+		
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void afterTextChanged(Editable s) {
+			Log.i("INFO", "alias after"+s.toString());
+			
+		}
+	});
+		
 
 	Button loginButton = (Button) this.findViewById(R.id.loginButton);
 

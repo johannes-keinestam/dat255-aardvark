@@ -6,9 +6,11 @@ import edu.chalmers.aardvark.R;
 import edu.chalmers.aardvark.ctrl.ChatCtrl;
 import edu.chalmers.aardvark.ctrl.ContactCtrl;
 import edu.chalmers.aardvark.ctrl.ServerHandlerCtrl;
+import edu.chalmers.aardvark.ctrl.SystemCtrl;
 import edu.chalmers.aardvark.ctrl.UserCtrl;
 import edu.chalmers.aardvark.model.Chat;
 import edu.chalmers.aardvark.model.Contact;
+import edu.chalmers.aardvark.model.LocalUser;
 import edu.chalmers.aardvark.model.User;
 import edu.chalmers.aardvark.util.ComBus;
 import edu.chalmers.aardvark.util.StateChanges;
@@ -46,6 +48,8 @@ public class MainViewActivity extends Activity implements
 		ComBus.subscribe(this);
 
 		Log.i("INFO", this.toString() + " STARTED");
+		TextView aliasText = (TextView) this.findViewById(R.id.myUserNameLable);
+		aliasText.setText(LocalUser.getLocalUser().getAlias());
 
 		Button sb = (Button) this.findViewById(R.id.startChatButton);
 		sb.setOnClickListener(new OnClickListener() {
@@ -220,9 +224,11 @@ public class MainViewActivity extends Activity implements
 							}
 							else{
 							}
+							dismissDialog(1);
 						} else {
 							Log.i("INFO", "No user found");
 						}
+						
 					}
 
 				}
