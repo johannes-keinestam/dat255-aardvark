@@ -40,7 +40,9 @@ public class StatusChecker extends Service implements RosterListener {
 	    statusChange = StateChanges.USER_OFFLINE;
 	    Log.i("STATUS", "LOGGED OUT: "+presence.getFrom());
 	}
-	ComBus.notifyListeners(statusChange.toString(), presence.getFrom());
+	String from = presence.getFrom();
+	String aardvarkID = from.substring(0, from.lastIndexOf("@"));
+	ComBus.notifyListeners(statusChange.toString(), aardvarkID);
     }
 
     @Override
