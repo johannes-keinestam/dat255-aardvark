@@ -29,4 +29,22 @@ public class SettingsCtrl {
 	contactEditor.putString(contact.getAardvarkID(), contact.getNickname());
 	contactEditor.commit();
     }
+    
+    public void deleteContact(Contact contact) {
+	SharedPreferences savedContacts = AardvarkApp.getContext()
+        	.getSharedPreferences("contacts", 0);
+        SharedPreferences.Editor contactEditor = savedContacts.edit();
+        
+        contactEditor.remove(contact.getAardvarkID());
+        contactEditor.commit();
+    }
+    
+    public void renameContact(Contact contact, String newNickname) {
+	SharedPreferences savedContacts = AardvarkApp.getContext()
+        	.getSharedPreferences("contacts", 0);
+        SharedPreferences.Editor contactEditor = savedContacts.edit();
+        
+        contactEditor.putString(contact.getAardvarkID(), newNickname);
+        contactEditor.commit();	
+    }
 }

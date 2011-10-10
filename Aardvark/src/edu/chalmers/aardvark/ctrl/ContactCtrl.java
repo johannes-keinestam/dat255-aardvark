@@ -24,16 +24,23 @@ public class ContactCtrl {
     }
 
     public void addContact(String nickname, String aardvarkID) {
-	contactList.addContact(new Contact(nickname, aardvarkID));
-	ServerHandlerCtrl.getInstance().subscribeToUserPresence(aardvarkID);
+	Contact contact = new Contact(nickname, aardvarkID);
+	
+	SettingsCtrl.getInstance().saveContact(contact);
+	contactList.addContact(contact);
     }
     
     public void removeContact(String aardvarkID) {
+	Contact contact = contactList.findContactByID(aardvarkID);
+	
+	SettingsCtrl.getInstance().deleteContact(contact);
 	contactList.removeContact(contactList.findContactByID(aardvarkID));
     }
     
     public void setNickname(String aardvarkID, String newNickname) {
 	Contact contact = contactList.findContactByID(aardvarkID);
+	
+	SettingsCtrl.getInstance().renameContact(contact, newNickname);
 	contact.rename(newNickname);
     }
     

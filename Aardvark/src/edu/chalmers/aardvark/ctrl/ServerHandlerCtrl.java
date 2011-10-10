@@ -1,23 +1,14 @@
 package edu.chalmers.aardvark.ctrl;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.jivesoftware.smack.AccountManager;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
-import org.jivesoftware.smack.packet.Registration;
-import org.jivesoftware.smackx.Form;
-import org.jivesoftware.smackx.ReportedData;
-import org.jivesoftware.smackx.search.UserSearchManager;
 
 import android.util.Log;
 import android.widget.Toast;
-
 import edu.chalmers.aardvark.AardvarkApp;
 import edu.chalmers.aardvark.model.LocalUser;
 import edu.chalmers.aardvark.model.User;
@@ -38,16 +29,6 @@ public class ServerHandlerCtrl {
 	    instance = new ServerHandlerCtrl();
 	}
 	return instance;
-    }
-
-    public void subscribeToUserPresence(String aardvarkID) {
-	Roster roster = ServerConnection.getConnection().getRoster();
-	try {
-	    roster.createEntry(aardvarkID, aardvarkID, null);
-	} catch (XMPPException e) {
-	    Toast.makeText(AardvarkApp.getContext(), e.getMessage().toString(),
-		    Toast.LENGTH_LONG);
-	}
     }
 
     public boolean isOnline(User user) {
