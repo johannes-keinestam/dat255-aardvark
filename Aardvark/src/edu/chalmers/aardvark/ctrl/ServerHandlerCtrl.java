@@ -86,6 +86,7 @@ public class ServerHandlerCtrl {
 	
     public void logOut() {
 	Log.i("INFO", "Logging out...");
+	ChatCtrl.getInstance().closeChats();
 	try {
 	    ServerConnection.getConnection().getAccountManager().deleteAccount();
 	} catch (XMPPException e) {

@@ -37,6 +37,10 @@ public class ContactCtrl {
 	contactList.removeContact(contactList.findContactByID(aardvarkID));
     }
     
+    public void removeContacts() {
+	contactList.getList().clear();
+    }
+    
     public void setNickname(String aardvarkID, String newNickname) {
 	Contact contact = contactList.findContactByID(aardvarkID);
 	

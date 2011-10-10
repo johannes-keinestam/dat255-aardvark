@@ -92,4 +92,12 @@ public class ChatCtrl {
 	chat.addMessage(chatMessage);
 	Log.i("INFO", chatMessage.getMessage());
     }
+    
+    public void closeChat(Chat chat) {
+	// TODO 
+    }
+    
+    public void closeChats() {
+	chatContainer.getChats().clear();
+    }
 }
