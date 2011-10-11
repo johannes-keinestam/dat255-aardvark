@@ -99,6 +99,10 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
     public boolean onCreateOptionsMenu(Menu menu) {
 	MenuInflater inflater = getMenuInflater();
 	inflater.inflate(R.menu.chatmenu, menu);
+	if(ContactCtrl.getInstance().isContact(aardvarkID)){
+		MenuItem item = menu.getItem(0);
+		item.setVisible(false);
+	}
 	return true;
     }
 
