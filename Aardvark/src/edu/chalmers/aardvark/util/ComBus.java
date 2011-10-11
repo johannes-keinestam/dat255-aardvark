@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.util.Log;
 
 public class ComBus {
     private static List<EventListener> listeners = new ArrayList<EventListener>();
@@ -17,6 +18,7 @@ public class ComBus {
     }
 
     public static void notifyListeners(String stateChange, Object object) {
+	Log.i("EVENT", "Sending event "+stateChange);
 	for (EventListener l : listeners) {
 	    if (l instanceof Activity) {
 		Activity target = (Activity) l;

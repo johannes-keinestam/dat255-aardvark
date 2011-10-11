@@ -85,8 +85,10 @@ public class LoginViewActivity extends Activity implements EventListener {
 	public void notifyEvent(String stateChange, Object object) {
 		if (stateChange.equals(StateChanges.LOGGED_IN.toString())) {
 			login();
-		}  else if (stateChange.equals(StateChanges.LOGIN_FAILED.toString())) {
+		} else if (stateChange.equals(StateChanges.LOGIN_FAILED.toString())) {
 		    loginFailed();
+		} else if (stateChange.equals(StateChanges.ALIAS_UNAVAILABLE.toString())) {
+		    aliasUnavailable();
 		}
 		
 	}
@@ -98,5 +100,9 @@ public class LoginViewActivity extends Activity implements EventListener {
 	
 	private void loginFailed() {
 	    Toast.makeText(AardvarkApp.getContext(), "Log in failed! Check your network connection and try again.", Toast.LENGTH_LONG).show();
+	}
+	
+	private void aliasUnavailable() {
+	    Toast.makeText(AardvarkApp.getContext(), "Alias unavailable! Try another.", Toast.LENGTH_LONG).show();
 	}
 }
