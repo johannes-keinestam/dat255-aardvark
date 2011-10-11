@@ -40,6 +40,7 @@ public class MainViewActivity extends Activity implements
 	private User startChatContact;
 	private ArrayList<String> online;
 	private ArrayList<String> offline;
+	private String lastLongPressedAardvarID;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -162,6 +163,7 @@ public class MainViewActivity extends Activity implements
 				tx.setOnLongClickListener(new OnLongClickListener() {
 
 					public boolean onLongClick(View v) {
+						lastLongPressedAardvarID = aardvarkID;
 						showDialog(2);
 						return true;
 					}
@@ -254,18 +256,34 @@ public class MainViewActivity extends Activity implements
 
 			break;
 		case 2:
-			final CharSequence[] items = { "Open chat", "Block", "Remove" };
+			final CharSequence[] items = { "Block", "Remove" };
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("Contact");
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int item) {
-					Toast.makeText(getApplicationContext(),
-							"Clicked " + items[item], Toast.LENGTH_SHORT)
-							.show();
+					switch (item) {
+					case 0:
+						//TODO block contact
+						break;
+					case 1:
+						ContactCtrl.getInstance().removeContact(lastLongPressedAardvarID);
+						dismissDialog(2);
+						removeFromOnline(lastLongPressedAardvarID);
+						drawContacts();
+						//TODO ext string
+						Toast.makeText(getApplicationContext(),
+								"Removed contact", Toast.LENGTH_SHORT)
+								.show();
+						break;
+
+					default:
+						break;
+					}
 				}
 			});
 			dialog = builder.create();
+			break;
 		default:
 			dialog = null;
 		}
