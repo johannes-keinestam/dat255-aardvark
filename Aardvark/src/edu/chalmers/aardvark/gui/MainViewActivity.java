@@ -32,6 +32,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -132,13 +133,25 @@ public class MainViewActivity extends Activity implements
 		LayoutInflater inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-			for (String aardvarkID : offline) {
+			for (final String aardvarkID : offline) {
 					Log.i("INFO", "id::"+aardvarkID);
 					Contact contact = ContactCtrl.getInstance().getContact(aardvarkID);
 					View item = inflater.inflate(R.layout.contactpanel, null);
 					TextView tx = (TextView) item
 							.findViewById(R.id.contactName);
 					tx.setText(contact.getNickname());
+					if(UserCtrl.getInstance().isUserBlocked(aardvarkID)){
+						ImageView iv = (ImageView) item.findViewById(R.id.blockView);
+						iv.setVisibility(ImageView.VISIBLE);
+					}
+					tx.setOnLongClickListener(new OnLongClickListener() {
+
+						public boolean onLongClick(View v) {
+							lastLongPressedAardvarkID = aardvarkID;
+							showDialog(2);
+							return true;
+						}
+					});
 					ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
 				
 			
@@ -324,10 +337,10 @@ public class MainViewActivity extends Activity implements
 			drawContacts();
 		} else if (stateChange.equals(StateChanges.USER_BLOCKED.toString())) {
 			User blockedUser = (User) object;
-			// TODO paint user as blocked
+			drawContacts();
 		} else if (stateChange.equals(StateChanges.USER_UNBLOCKED.toString())) {
 			User blockedUser = (User) object;
-			// TODO paint user as unblocked
+			drawContacts();
 		}
 	}
 
