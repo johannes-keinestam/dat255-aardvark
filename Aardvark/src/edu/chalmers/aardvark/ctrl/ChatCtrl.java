@@ -37,9 +37,10 @@ public class ChatCtrl {
     	Log.i("INFO", "chatctrl getchat"+aardvarkID);
 	return chatContainer.findChatByID(aardvarkID);
     }
+    
     public List<Chat> getChats() {
     	return chatContainer.getChats();	
-	}
+    }
 
     public void newChat(User user) {
 	Chat chat = new Chat(user);
@@ -70,10 +71,12 @@ public class ChatCtrl {
     }
 
     public void receiveMessage(Packet packet) {
-	Time time = new Time(Time.getCurrentTimezone());
-	time.setToNow();
-
-	Chat chat = ChatCtrl.getInstance().getChat(packet.getFrom());
+	String aardvarkID = packet.getFrom();
+	if (UserCtrl.getInstance().isUserBlocked(aardvarkID)) {
+	    return;
+	}
+	
+	Chat chat = ChatCtrl.getInstance().getChat(aardvarkID);
 	Log.i("INFO", "chatctrl");
 
 	if (chat == null) {
@@ -84,6 +87,9 @@ public class ChatCtrl {
 	}
 		
 	ChatMessage chatMessage;
+	
+	Time time = new Time(Time.getCurrentTimezone());
+	time.setToNow();
 	
 	Message message = (Message) packet;
 	chatMessage = new ChatMessage(message.getBody(),

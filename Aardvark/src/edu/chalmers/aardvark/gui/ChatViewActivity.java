@@ -7,8 +7,10 @@ import edu.chalmers.aardvark.ctrl.ChatCtrl;
 import edu.chalmers.aardvark.ctrl.ContactCtrl;
 import edu.chalmers.aardvark.ctrl.ServerHandlerCtrl;
 import edu.chalmers.aardvark.ctrl.SystemCtrl;
+import edu.chalmers.aardvark.ctrl.UserCtrl;
 import edu.chalmers.aardvark.model.Chat;
 import edu.chalmers.aardvark.model.ChatMessage;
+import edu.chalmers.aardvark.model.User;
 import edu.chalmers.aardvark.util.ComBus;
 import edu.chalmers.aardvark.util.StateChanges;
 import android.app.Activity;
@@ -105,9 +107,8 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 	switch (item.getItemId()) {
-	case R.id.addToContacts: ContactCtrl.getInstance().addContact(alias, aardvarkID);
-	case R.id.block:
-
+        	case R.id.addToContacts: ContactCtrl.getInstance().addContact(alias, aardvarkID); break;
+        	case R.id.block: UserCtrl.getInstance().blockUser(aardvarkID); break;
 	}
 	return true;
     }
@@ -116,9 +117,18 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 	public void notifyEvent(String stateChange, Object object) {
 		if(stateChange.equals(StateChanges.NEW_MESSAGE_IN_CHAT.toString())){
 			drawMessages();
-		}
-		else if(stateChange.equals(StateChanges.CONTACT_ADDED.toString())){
+		} else if(stateChange.equals(StateChanges.CONTACT_ADDED.toString())){
 			contactAdded();
+		} else if (stateChange.equals(StateChanges.USER_BLOCKED.toString())) {
+			User blockedUser = (User) object;
+			if (blockedUser.getAardvarkID().equals(aardvarkID)) {
+			    setBlockedEnabled(false);
+			}
+		} else if (stateChange.equals(StateChanges.USER_UNBLOCKED.toString())) {
+			User blockedUser = (User) object;
+			if (blockedUser.getAardvarkID().equals(aardvarkID)) {
+			    setBlockedEnabled(false);
+			}
 		}
 		
 	}
@@ -131,5 +141,10 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 	private void update() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private void setBlockedEnabled(boolean enabled) {
+	    	Button sendButton = (Button) findViewById(R.id.sendButton);
+		sendButton.setEnabled(enabled);
 	}
 }

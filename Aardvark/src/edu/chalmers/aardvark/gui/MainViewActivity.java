@@ -7,6 +7,7 @@ import edu.chalmers.aardvark.R;
 import edu.chalmers.aardvark.ctrl.ChatCtrl;
 import edu.chalmers.aardvark.ctrl.ContactCtrl;
 import edu.chalmers.aardvark.ctrl.ServerHandlerCtrl;
+import edu.chalmers.aardvark.ctrl.UserCtrl;
 import edu.chalmers.aardvark.model.Chat;
 import edu.chalmers.aardvark.model.Contact;
 import edu.chalmers.aardvark.model.LocalUser;
@@ -40,7 +41,7 @@ public class MainViewActivity extends Activity implements
 	private User startChatContact;
 	private ArrayList<String> online;
 	private ArrayList<String> offline;
-	private String lastLongPressedAardvarID;
+	private String lastLongPressedAardvarkID;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -163,7 +164,7 @@ public class MainViewActivity extends Activity implements
 				tx.setOnLongClickListener(new OnLongClickListener() {
 
 					public boolean onLongClick(View v) {
-						lastLongPressedAardvarID = aardvarkID;
+						lastLongPressedAardvarkID = aardvarkID;
 						showDialog(2);
 						return true;
 					}
@@ -264,12 +265,12 @@ public class MainViewActivity extends Activity implements
 				public void onClick(DialogInterface dialog, int item) {
 					switch (item) {
 					case 0:
-						//TODO block contact
+						UserCtrl.getInstance().blockUser(lastLongPressedAardvarkID);
 						break;
 					case 1:
-						ContactCtrl.getInstance().removeContact(lastLongPressedAardvarID);
+						ContactCtrl.getInstance().removeContact(lastLongPressedAardvarkID);
 						dismissDialog(2);
-						removeFromOnline(lastLongPressedAardvarID);
+						removeFromOnline(lastLongPressedAardvarkID);
 						drawContacts();
 						//TODO ext string
 						Toast.makeText(getApplicationContext(),
@@ -321,8 +322,13 @@ public class MainViewActivity extends Activity implements
 				removeFromOnline(aardvarkID);
 			}
 			drawContacts();
+		} else if (stateChange.equals(StateChanges.USER_BLOCKED.toString())) {
+			User blockedUser = (User) object;
+			// TODO paint user as blocked
+		} else if (stateChange.equals(StateChanges.USER_UNBLOCKED.toString())) {
+			User blockedUser = (User) object;
+			// TODO paint user as unblocked
 		}
-
 	}
 
 	private void removeFromOnline(String aardvarkID) {
@@ -370,6 +376,7 @@ public class MainViewActivity extends Activity implements
 		Intent intent = new Intent(this, ChatViewActivity.class);
 		Log.i("INFO", startChatContact.getAardvarkID() + " start chat");
 		intent.putExtra("aardvarkID", startChatContact.getAardvarkID());
+		
 		startActivity(intent);
 
 	}

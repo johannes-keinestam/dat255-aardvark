@@ -14,6 +14,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import edu.chalmers.aardvark.AardvarkApp;
 import edu.chalmers.aardvark.model.LocalUser;
+import edu.chalmers.aardvark.model.User;
 import edu.chalmers.aardvark.util.ServerConnection;
 
 public class SystemCtrl {
@@ -38,6 +39,7 @@ public class SystemCtrl {
 	ChatCtrl.getInstance();
 	ServerHandlerCtrl.getInstance();
 	ContactCtrl contactCtrl = ContactCtrl.getInstance();
+	UserCtrl userCtrl = UserCtrl.getInstance();
 	
 	// Loads contacts from file
 	SharedPreferences savedContacts = AardvarkApp.getContext()
@@ -45,6 +47,13 @@ public class SystemCtrl {
 	for (Map.Entry<String, ?> entry : savedContacts.getAll().entrySet()) {
 	    contactCtrl.addContact((String)entry.getValue(), entry.getKey());
 	}
+	
+	// Loads list of blocked users from file
+	SharedPreferences blockedUsers = AardvarkApp.getContext()
+        	.getSharedPreferences("blocklist", 0);
+        for (Map.Entry<String, ?> entry : blockedUsers.getAll().entrySet()) {
+            userCtrl.blockUser((String)entry.getValue());
+        }
 
 	// Loads local user unique identifiers/server details from file
 	SharedPreferences savedLocalUser = AardvarkApp.getContext()
