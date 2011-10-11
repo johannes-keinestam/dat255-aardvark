@@ -51,5 +51,13 @@ public class ContactCtrl {
     public List<Contact> getContacts() {
 	return contactList.getList();
     }
+    public Contact getContact(String aardvarkID) {
+    	for (Contact contact : contactList.getList()) {
+			if(contact.getAardvarkID().equals(aardvarkID)){
+				return contact;
+			}
+		}
+    	return null;
+    }
 
 }

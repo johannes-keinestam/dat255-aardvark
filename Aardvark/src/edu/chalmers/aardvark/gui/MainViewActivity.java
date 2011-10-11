@@ -1,13 +1,12 @@
 package edu.chalmers.aardvark.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.chalmers.aardvark.R;
 import edu.chalmers.aardvark.ctrl.ChatCtrl;
 import edu.chalmers.aardvark.ctrl.ContactCtrl;
 import edu.chalmers.aardvark.ctrl.ServerHandlerCtrl;
-import edu.chalmers.aardvark.ctrl.SystemCtrl;
-import edu.chalmers.aardvark.ctrl.UserCtrl;
 import edu.chalmers.aardvark.model.Chat;
 import edu.chalmers.aardvark.model.Contact;
 import edu.chalmers.aardvark.model.LocalUser;
@@ -39,6 +38,8 @@ import android.widget.Toast;
 public class MainViewActivity extends Activity implements
 		edu.chalmers.aardvark.util.EventListener {
 	private User startChatContact;
+	private ArrayList<String> online;
+	private ArrayList<String> offline;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,12 @@ public class MainViewActivity extends Activity implements
 		setContentView(R.layout.mainview);
 
 		ComBus.subscribe(this);
+		online = new ArrayList<String>();
+		offline = new ArrayList<String>();
+		
+		for (Contact contact : ContactCtrl.getInstance().getContacts()) {
+			offline.add(contact.getAardvarkID());
+		}
 
 		Log.i("CLASS", this.toString() + " STARTED");
 		TextView aliasText = (TextView) this.findViewById(R.id.myUserNameLable);
@@ -73,28 +80,22 @@ public class MainViewActivity extends Activity implements
 	private void drawContacts() {
 		LinearLayout ll = (LinearLayout) this.findViewById(R.id.online);
 		ll.removeAllViews();
-		 ll = (LinearLayout) this.findViewById(R.id.offline);
+		ll = (LinearLayout) this.findViewById(R.id.offline);
 		ll.removeAllViews();
 		ll = (LinearLayout) this.findViewById(R.id.active);
 		ll.removeAllViews();
-		
-		List<Contact> contacts = ContactCtrl.getInstance().getContacts();
 
-		for (Contact contact : contacts) {
-			if (UserCtrl.getInstance().isOnline(contact))
-					{
-				drawOnline(contact);
-			} else if (!UserCtrl.getInstance().isOnline(contact)) {
-				drawOffline(contact);
-			}
-
-		}
+		drawOnline();
+		drawOffline();
 		drawActive();
+
+		Log.i("INFO", "draw");
 	}
+
 	@Override
 	public void onBackPressed() {
 
-	   return;
+		return;
 	}
 
 	private void drawActive() {
@@ -104,8 +105,6 @@ public class MainViewActivity extends Activity implements
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		for (Chat chat : chats) {
 			final User contact = chat.getRecipient();
-
-			
 
 			View item = inflater.inflate(R.layout.contactpanel, null);
 
@@ -126,51 +125,65 @@ public class MainViewActivity extends Activity implements
 
 	}
 
-	private void drawOffline(Contact contact) {
+	private void drawOffline() {
 		LinearLayout ll = (LinearLayout) this.findViewById(R.id.offline);
 		LayoutInflater inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		View item = inflater.inflate(R.layout.contactpanel, null);
-
-		TextView tx = (TextView) item.findViewById(R.id.contactName);
-		tx.setText("" + contact.getNickname() + " (" + contact.getAlias() + ")");
-		ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
+			for (String aardvarkID : offline) {
+					Log.i("INFO", "id::"+aardvarkID);
+					Contact contact = ContactCtrl.getInstance().getContact(aardvarkID);
+					View item = inflater.inflate(R.layout.contactpanel, null);
+					TextView tx = (TextView) item
+							.findViewById(R.id.contactName);
+					tx.setText(contact.getNickname());
+					ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
+				
+			
+		}
 	}
+	
 
-	private void drawOnline(final Contact contact) {
+	private void drawOnline() {
+		Log.i("INFO", "drawonline");
 		LinearLayout ll = (LinearLayout) this.findViewById(R.id.online);
 		LayoutInflater inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		View item = inflater.inflate(R.layout.contactpanel, null);
+		for (final String aardvarkID : online) {
+				final Contact contact = ContactCtrl.getInstance().getContact(aardvarkID);
+				Log.i("INFO", "drawonline loop");
+				View item = inflater.inflate(R.layout.contactpanel, null);
+				String alias = ServerHandlerCtrl.getInstance().getAlias(
+						aardvarkID);
+				TextView tx = (TextView) item.findViewById(R.id.contactName);
+				tx.setText(alias+" ("+contact.getNickname()+")");
 
-		TextView tx = (TextView) item.findViewById(R.id.contactName);
-		tx.setText("" + contact.getNickname() + " (" + contact.getAlias() + ")");
+				tx.setOnLongClickListener(new OnLongClickListener() {
 
-		tx.setOnLongClickListener(new OnLongClickListener() {
+					public boolean onLongClick(View v) {
+						showDialog(2);
+						return true;
+					}
+				});
+				tx.setOnClickListener(new OnClickListener() {
 
-			public boolean onLongClick(View v) {
-				showDialog(2);
-				return true;
-			}
-		});
-		tx.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						if (ChatCtrl.getInstance().getChat(aardvarkID) == null) {
+							ChatCtrl.getInstance().newChat(contact);
+							startChatContact = contact;
+						} else {
+							startChatContact = contact;
+							startChat();
+						}
 
-			public void onClick(View v) {
-				if(ChatCtrl.getInstance().getChat(contact.getAardvarkID())==null){
-				ChatCtrl.getInstance().newChat(contact);
-				startChatContact = contact;
-				}
-				else{
-					startChatContact = contact;
-					startChat();
-				}
-				
-			}
-		});
+					}
+				});
 
-		ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
+				ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+			
+		}
 
 	}
 
@@ -224,16 +237,15 @@ public class MainViewActivity extends Activity implements
 						if (aardvarkID != null) {
 							User user = new User(alias, aardvarkID);
 							startChatContact = user;
-							if(ChatCtrl.getInstance().getChat(aardvarkID)==null){
+							if (ChatCtrl.getInstance().getChat(aardvarkID) == null) {
 								ChatCtrl.getInstance().newChat(user);
-							}
-							else{
+							} else {
 							}
 							dismissDialog(1);
 						} else {
 							Log.i("INFO", "No user found");
 						}
-						
+
 					}
 
 				}
@@ -275,12 +287,64 @@ public class MainViewActivity extends Activity implements
 			drawContacts();
 
 		} else if (stateChange.equals(StateChanges.USER_ONLINE.toString())) {
+			String aardvarkID = (String) object;
+			Log.i("INFO", aardvarkID);
+			Log.i("INFO", "iscontact");
+			if((isContact(aardvarkID))&&(!isInList(aardvarkID, online))){
+				online.add(aardvarkID);
+				removeFromOffline(aardvarkID);
+			}
 			drawContacts();
-
 		} else if (stateChange.equals(StateChanges.USER_OFFLINE.toString())) {
+			String aardvarkID = (String) object;
+			Log.i("INFO", aardvarkID);
+			if((isContact(aardvarkID))&&(!isInList(aardvarkID, offline))){
+				offline.add(aardvarkID);
+				removeFromOnline(aardvarkID);
+			}
 			drawContacts();
+		}
+
+	}
+
+	private void removeFromOnline(String aardvarkID) {
+
+		for (int i = 0; i < online.size(); i++) {
+			String aardvarkIDOn = online.get(i);
+			if (aardvarkIDOn.equals(aardvarkID)) {
+				online.remove(i);
+			}
+		}
+	}
+	private void removeFromOffline(String aardvarkID) {
+
+		for (int i = 0; i < offline.size(); i++) {
+			String aardvarkIDOn = offline.get(i);
+			if (aardvarkIDOn.equals(aardvarkID)) {
+				offline.remove(i);
+			}
+		}
+	}
+	private boolean isInList(String string, ArrayList<String> list){
+		for (String aardvarkID : list) {
+			if(aardvarkID.equals(string)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isContact(String aardvarkID) {
+		List<Contact> contacts = ContactCtrl.getInstance().getContacts();
+		Log.i("INFO", "iscontact start");
+		for (Contact contact : contacts) {
+			if (contact.getAardvarkID().equals(aardvarkID)) {
+				Log.i("INFO", "iscontact true");
+				return true;
+			}
 
 		}
+		return false;
 
 	}
 
@@ -290,8 +354,5 @@ public class MainViewActivity extends Activity implements
 		intent.putExtra("aardvarkID", startChatContact.getAardvarkID());
 		startActivity(intent);
 
-	}
-	private void openChat() {
-		
 	}
 }
