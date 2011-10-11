@@ -100,4 +100,8 @@ public class ChatCtrl {
     public void closeChats() {
 	chatContainer.getChats().clear();
     }
+    
+    public boolean isEncrypted(String aardvarkID){
+	return getChat(aardvarkID).isEncrypted();
+    }
 }

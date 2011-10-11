@@ -45,7 +45,7 @@ public class SystemCtrl {
 	for (Map.Entry<String, ?> entry : savedContacts.getAll().entrySet()) {
 	    contactCtrl.addContact((String)entry.getValue(), entry.getKey());
 	}
-
+	
 	// Loads local user unique identifiers/server details from file
 	SharedPreferences savedLocalUser = AardvarkApp.getContext()
 		.getSharedPreferences("localuser", 0);
@@ -53,6 +53,9 @@ public class SystemCtrl {
 	String password = savedLocalUser.getString("password", null);
 	LocalUser.createUser(aardvarkID, password);
 
+	//Setup for encrypted chats
+	//EncryptionCtrl.generateKeys();
+	
 	// Set up and create new connection to server.
 	XMPPConnection connection = ServerConnection.getConnection();
     }
@@ -104,8 +107,6 @@ public class SystemCtrl {
 	editor.commit();
 	
 	Log.i("Id PASS", aardvarkID+"::"+genPassword);
-
-	// TODO generate encryption keys, save
 
 	// indicate that the application is now setup, for future use
 	SharedPreferences settings = AardvarkApp.getContext()

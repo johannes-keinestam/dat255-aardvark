@@ -1,5 +1,6 @@
 package edu.chalmers.aardvark.model;
 
+import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,8 @@ import edu.chalmers.aardvark.util.StateChanges;
 public class Chat {
     private User recipient;
     private List<ChatMessage> chatMessages;
+    private boolean encryptionEnabled;
+    private RSAPublicKey recipientPublicKey;
 
     public Chat(User user) {
 	chatMessages = new ArrayList<ChatMessage>();
@@ -29,5 +32,21 @@ public class Chat {
     
     public List<ChatMessage> getMessages(){
 	return chatMessages;
+    }
+    
+    public void setEncryption(boolean enabled){
+	encryptionEnabled = enabled;
+    }    
+    
+    public boolean isEncrypted(){
+	return encryptionEnabled;
+    }
+    
+    public void setRecipientPublicKey(RSAPublicKey recipientPublicKey){
+	this.recipientPublicKey = recipientPublicKey;
+    }
+    
+    public RSAPublicKey getRecipientPublicKey(){
+	return recipientPublicKey;
     }
 }
