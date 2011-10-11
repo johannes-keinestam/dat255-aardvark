@@ -148,7 +148,7 @@ public class MainViewActivity extends Activity implements
 
 						public boolean onLongClick(View v) {
 							lastLongPressedAardvarkID = aardvarkID;
-							showDialog(2);
+							showContactDialog();
 							return true;
 						}
 					});
@@ -157,7 +157,15 @@ public class MainViewActivity extends Activity implements
 			
 		}
 	}
-	
+	private void showContactDialog() {
+		if(UserCtrl.getInstance().isUserBlocked(lastLongPressedAardvarkID)){
+			showDialog(3);
+		}
+		else{
+			showDialog(2);
+		}
+		
+	}
 
 	private void drawOnline() {
 		Log.i("INFO", "drawonline");
@@ -173,14 +181,20 @@ public class MainViewActivity extends Activity implements
 						aardvarkID);
 				TextView tx = (TextView) item.findViewById(R.id.contactName);
 				tx.setText(alias+" ("+contact.getNickname()+")");
-
+				if(UserCtrl.getInstance().isUserBlocked(aardvarkID)){
+					ImageView iv = (ImageView) item.findViewById(R.id.blockView);
+					iv.setVisibility(ImageView.VISIBLE);
+				}
+				
 				tx.setOnLongClickListener(new OnLongClickListener() {
 
 					public boolean onLongClick(View v) {
 						lastLongPressedAardvarkID = aardvarkID;
-						showDialog(2);
+						showContactDialog();
 						return true;
 					}
+
+					
 				});
 				tx.setOnClickListener(new OnClickListener() {
 
@@ -270,15 +284,16 @@ public class MainViewActivity extends Activity implements
 
 			break;
 		case 2:
+		
 			final CharSequence[] items = { "Block", "Remove" };
-
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("Contact");
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int item) {
 					switch (item) {
 					case 0:
-						UserCtrl.getInstance().blockUser(lastLongPressedAardvarkID);
+							UserCtrl.getInstance().blockUser(lastLongPressedAardvarkID);
+						drawContacts();
 						break;
 					case 1:
 						ContactCtrl.getInstance().removeContact(lastLongPressedAardvarkID);
@@ -297,6 +312,35 @@ public class MainViewActivity extends Activity implements
 				}
 			});
 			dialog = builder.create();
+			break;
+		case 3:
+			final CharSequence[] itemsUb = { "Unblock", "Remove" };
+			AlertDialog.Builder builderUb = new AlertDialog.Builder(this);
+			builderUb.setTitle("Contact");
+			builderUb.setItems(itemsUb, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int item) {
+					switch (item) {
+					case 0:
+						UserCtrl.getInstance().unblockUser(lastLongPressedAardvarkID);
+						drawContacts();
+						break;
+					case 1:
+						ContactCtrl.getInstance().removeContact(lastLongPressedAardvarkID);
+						dismissDialog(2);
+						removeFromOnline(lastLongPressedAardvarkID);
+						drawContacts();
+						//TODO ext string
+						Toast.makeText(getApplicationContext(),
+								"Removed contact", Toast.LENGTH_SHORT)
+								.show();
+						break;
+
+					default:
+						break;
+					}
+				}
+			});
+			dialog = builderUb.create();
 			break;
 		default:
 			dialog = null;
