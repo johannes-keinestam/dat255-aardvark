@@ -12,6 +12,7 @@ import edu.chalmers.aardvark.ctrl.SystemCtrl;
 import edu.chalmers.aardvark.ctrl.UserCtrl;
 import edu.chalmers.aardvark.model.Chat;
 import edu.chalmers.aardvark.model.ChatMessage;
+import edu.chalmers.aardvark.model.Contact;
 import edu.chalmers.aardvark.model.User;
 import edu.chalmers.aardvark.util.ComBus;
 import edu.chalmers.aardvark.util.StateChanges;
@@ -46,13 +47,19 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 	
 	aardvarkID = getIntent().getExtras().getString("aardvarkID");
 	alias = ServerHandlerCtrl.getInstance().getAlias(aardvarkID);
+	Contact contact = ContactCtrl.getInstance().getContact(aardvarkID);
 	
 	Log.i("CLASS", this.toString() + " STARTED");
 	
 	ComBus.subscribe(this);
 	
 	TextView aliasLable = (TextView) findViewById(R.id.userNameLable);
-	aliasLable.setText(alias);
+	if(contact!=null){
+		aliasLable.setText(alias+"("+contact.getNickname()+")");
+	}
+	else{
+		aliasLable.setText(alias);
+	}
 	
 	drawMessages();
 	Button sendButton = (Button) findViewById(R.id.sendButton);

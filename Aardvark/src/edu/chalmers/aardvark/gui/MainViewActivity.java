@@ -129,7 +129,13 @@ public class MainViewActivity extends Activity implements
 			View item = inflater.inflate(R.layout.contactpanel, null);
 
 			TextView tx = (TextView) item.findViewById(R.id.contactName);
-			tx.setText(alias+"("+contact.getNickname()+")");
+			if(contact!=null){
+				tx.setText(alias+"("+contact.getNickname()+")");
+			}
+			else{
+				tx.setText(alias);
+			}
+			
 
 			tx.setOnClickListener(new OnClickListener() {
 
