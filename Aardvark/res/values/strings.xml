@@ -25,4 +25,5 @@
 		<string name="notificationTickerText">New Aardvark message!</string>
 		<string name="notificationTitle">Aardvark</string>
 		<string name="notificationDetails">New messages waiting!</string>
+		<string name="unblockChatMenu">Unblock</string>
 </resources>

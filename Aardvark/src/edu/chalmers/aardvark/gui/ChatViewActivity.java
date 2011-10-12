@@ -106,15 +106,29 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
     	sv.smoothScrollTo(0, 214748364);
     	
 	}
+    @Override
+
+    public boolean onPrepareOptionsMenu(Menu menu) {
+    	if(ContactCtrl.getInstance().isContact(aardvarkID)){
+    		MenuItem item = menu.getItem(0);
+    		item.setVisible(false);
+    	}
+    	if(UserCtrl.getInstance().isUserBlocked(aardvarkID)){
+    		MenuItem item = menu.getItem(1);
+    		item.setVisible(false);
+    		item = menu.getItem(2);
+    		item.setVisible(true);
+    	}
+
+    return super.onPrepareOptionsMenu(menu);
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 	MenuInflater inflater = getMenuInflater();
 	inflater.inflate(R.menu.chatmenu, menu);
-	if(ContactCtrl.getInstance().isContact(aardvarkID)){
-		MenuItem item = menu.getItem(0);
-		item.setVisible(false);
-	}
+
 	return true;
     }
 
@@ -149,6 +163,7 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
             //
             break;
 	case R.id.block: UserCtrl.getInstance().blockUser(aardvarkID); break;
+	case R.id.unblock: UserCtrl.getInstance().unblockUser(aardvarkID); break;
 	}
 	return true;
     }
