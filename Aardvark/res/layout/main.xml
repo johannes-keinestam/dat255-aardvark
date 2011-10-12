@@ -3,7 +3,6 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" android:padding="20px" android:background="@drawable/aard">
-    <EditText android:inputType="textPersonName" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_marginTop="142dp" android:layout_alignParentLeft="true" android:id="@+id/aliasField" android:layout_toLeftOf="@+id/availableView"></EditText>
+    <EditText android:inputType="textPersonName" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_marginTop="142dp" android:layout_alignParentLeft="true" android:id="@+id/aliasField" android:layout_alignParentRight="true"></EditText>
     <Button android:text="@string/loginButtonLogin" android:id="@+id/loginButton" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_below="@+id/aliasField" android:layout_centerHorizontal="true"></Button>
-    <ImageView android:layout_height="wrap_content" android:layout_width="wrap_content" android:src="@drawable/no" android:layout_alignBottom="@+id/aliasField" android:layout_alignTop="@+id/aliasField" android:layout_alignParentRight="true" android:id="@+id/availableView"></ImageView>
 </RelativeLayout>
