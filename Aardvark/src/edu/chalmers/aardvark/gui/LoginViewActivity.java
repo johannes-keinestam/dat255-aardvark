@@ -44,9 +44,7 @@ public class LoginViewActivity extends Activity implements EventListener {
 		
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			Log.i("INFO", "alias on"+s.toString());
 //			if(ServerHandlerCtrl.getInstance().isAliasAvailable("6")){
-//				Log.i("INFO", "alias is avabadadasda");
 //			}
 			
 		}
@@ -60,7 +58,6 @@ public class LoginViewActivity extends Activity implements EventListener {
 		
 		@Override
 		public void afterTextChanged(Editable s) {
-			Log.i("INFO", "alias after"+s.toString());
 			
 		}
 	});

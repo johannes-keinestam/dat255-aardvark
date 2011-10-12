@@ -16,7 +16,9 @@ import edu.chalmers.aardvark.model.User;
 import edu.chalmers.aardvark.util.ComBus;
 import edu.chalmers.aardvark.util.StateChanges;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +32,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.view.View.OnClickListener;
 
 public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.util.EventListener{
@@ -76,9 +79,7 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
     	
     	try {
 			List<ChatMessage> messages = ChatCtrl.getInstance().getChatMessages(aardvarkID);
-			Log.i("INFO", "chat");
 			for (ChatMessage chatMessage : messages) {
-				Log.i("INFO", "chatloop");
 				View item;
 				if(chatMessage.getUser().getAardvarkID().equals(aardvarkID)){
 					 item = inflater.inflate(R.layout.bubblerightpanel, null);
@@ -113,8 +114,34 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 	switch (item.getItemId()) {
-        	case R.id.addToContacts: ContactCtrl.getInstance().addContact(alias, aardvarkID); break;
-        	case R.id.block: UserCtrl.getInstance().blockUser(aardvarkID); break;
+	case R.id.addToContacts:
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+            alert.setTitle("Add contact");
+            alert.setMessage("Set a nickname for your contact:");
+
+            // Set an EditText view to get user input 
+            final EditText input = new EditText(this);
+            input.setText(alias);
+            alert.setView(input);
+
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                      String value = input.getText().toString();
+                      ContactCtrl.getInstance().addContact(value, aardvarkID); 
+                      }
+            });
+
+            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int whichButton) {
+                // Cancelled
+              }
+            });
+
+            alert.show();
+            //
+            break;
+	case R.id.block: UserCtrl.getInstance().blockUser(aardvarkID); break;
 	}
 	return true;
     }
@@ -140,8 +167,9 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 	}
 
 	private void contactAdded() {
-		// TODO Auto-generated method stub
-		
+	    Toast.makeText(getApplicationContext(),
+                    "Contact added!", Toast.LENGTH_SHORT)
+                    .show();
 	}
 
 	private void update() {

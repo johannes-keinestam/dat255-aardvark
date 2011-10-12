@@ -50,7 +50,6 @@ public class ServerHandlerCtrl {
 	try {
 	    Log.i("INFO", "Checking status!");
 	    ServerConnection.getConnection().login("statuschecker", "statuschecker");
-	    Log.i("INFO", "Calling getaardvarkid!");
 	    String matchingUser = getAardvarkID(alias);
 	    Log.i("INFO", "Done checking, disconnecting. RESULT: "+matchingUser);
 	    ServerConnection.restart();
@@ -82,7 +81,6 @@ public class ServerHandlerCtrl {
 	}	
 	    
 	} catch (XMPPException e) {
-	    Log.i("INFO", e.getMessage());
 		try {
 		    Log.i("INFO", "Login error! "+e.getMessage());
 		    Log.i("INFO", "Logging into existing account..");
@@ -126,8 +124,6 @@ public class ServerHandlerCtrl {
     			String username = user.getUser();
     			return username.substring(0, username.lastIndexOf("@"));
     		}
-    		Log.i("INFO", "User in group, user: "+user.getUser());
-    		Log.i("INFO", "User in group, namn: "+user.getName());
     	}
 		return null;
     }
@@ -143,8 +139,6 @@ public class ServerHandlerCtrl {
     		if (userAardvarkID.equals(aardvarkID)) {
     			return user.getName();
     		}
-    		Log.i("INFO", "User in group, user: "+user.getUser());
-    		Log.i("INFO", "User in group, namn: "+user.getName());
     	}
 		return null;
 

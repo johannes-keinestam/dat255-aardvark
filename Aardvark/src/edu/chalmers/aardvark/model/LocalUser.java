@@ -9,7 +9,7 @@ public class LocalUser {
     public static void createUser(String aardvarkID, String pass) {
 	localUser = new User(null, aardvarkID);
 	password = pass;
-	Log.i("INFO", "LOCALUSER STARTED!!!");
+	Log.i("CLASS", "Localuser started!");
     }
 
     public static void setAlias(String alias) {

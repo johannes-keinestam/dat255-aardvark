@@ -86,7 +86,6 @@ public class MainViewActivity extends Activity implements
 	private void getOnlineUsers(){
 		if(!done){
 		for (RosterEntry user : ServerHandlerCtrl.getInstance().getOnlineUsers()) {
-			Log.i("INFO", "name::"+user.getName()+"user::"+user.getUser()+"::aardvark::");
 			String temp = user.getUser();
 			String aardvarkID = temp.substring(0, temp.lastIndexOf("@"));
 			ComBus.notifyListeners(StateChanges.USER_ONLINE.toString(), aardvarkID);
@@ -108,7 +107,6 @@ public class MainViewActivity extends Activity implements
 		drawOffline();
 		drawActive();
 
-		Log.i("INFO", "draw");
 	}
 
 	@Override
@@ -153,7 +151,6 @@ public class MainViewActivity extends Activity implements
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 			for (final String aardvarkID : offline) {
-					Log.i("INFO", "id::"+aardvarkID);
 					Contact contact = ContactCtrl.getInstance().getContact(aardvarkID);
 					View item = inflater.inflate(R.layout.contactpanel, null);
 					TextView tx = (TextView) item
@@ -187,19 +184,17 @@ public class MainViewActivity extends Activity implements
 	}
 
 	private void drawOnline() {
-		Log.i("INFO", "drawonline");
 		LinearLayout ll = (LinearLayout) this.findViewById(R.id.online);
 		LayoutInflater inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		for (final String aardvarkID : online) {
 				final Contact contact = ContactCtrl.getInstance().getContact(aardvarkID);
-				Log.i("INFO", "drawonline loop");
 				View item = inflater.inflate(R.layout.contactpanel, null);
 				String alias = ServerHandlerCtrl.getInstance().getAlias(
 						aardvarkID);
 				TextView tx = (TextView) item.findViewById(R.id.contactName);
-				tx.setText(alias+" ("+contact.getNickname()+")");
+				tx.setText(contact.getNickname());
 				if(UserCtrl.getInstance().isUserBlocked(aardvarkID)){
 					ImageView iv = (ImageView) item.findViewById(R.id.blockView);
 					iv.setVisibility(ImageView.VISIBLE);
@@ -292,7 +287,8 @@ public class MainViewActivity extends Activity implements
 							}
 							dismissDialog(1);
 						} else {
-							Log.i("INFO", "No user found");
+						    Toast.makeText(getApplicationContext(),
+							   "User not found!", Toast.LENGTH_SHORT).show();
 						}
 
 					}
@@ -373,18 +369,18 @@ public class MainViewActivity extends Activity implements
 			this.finish();
 		} else if (stateChange.equals(StateChanges.CHAT_OPENED.toString())) {
 			Chat chat = (Chat) object;
-			Log.i("INFO", " --opened");
-			Log.i("INFO", chat.getRecipient().getAardvarkID() + " opened");
+			Log.i("INFO", chat.getRecipient().getAardvarkID() + " chat opened");
 			startChatContact = (User) chat.getRecipient();
 
 			startChat();
 		} else if (stateChange.equals(StateChanges.CONTACT_ADDED.toString())) {
-			drawContacts();
+		    Contact contact = (Contact) object;
+		    online.add(contact.getAardvarkID());
+		    
+		    drawContacts();
 
 		} else if (stateChange.equals(StateChanges.USER_ONLINE.toString())) {
 			String aardvarkID = (String) object;
-			Log.i("INFO", aardvarkID);
-			Log.i("INFO", "iscontact");
 			if((isContact(aardvarkID))&&(!isInList(aardvarkID, online))){
 				online.add(aardvarkID);
 				removeFromOffline(aardvarkID);
@@ -392,7 +388,6 @@ public class MainViewActivity extends Activity implements
 			drawContacts();
 		} else if (stateChange.equals(StateChanges.USER_OFFLINE.toString())) {
 			String aardvarkID = (String) object;
-			Log.i("INFO", aardvarkID);
 			if((isContact(aardvarkID))&&(!isInList(aardvarkID, offline))){
 				offline.add(aardvarkID);
 				removeFromOnline(aardvarkID);
@@ -436,10 +431,8 @@ public class MainViewActivity extends Activity implements
 
 	private boolean isContact(String aardvarkID) {
 		List<Contact> contacts = ContactCtrl.getInstance().getContacts();
-		Log.i("INFO", "iscontact start");
 		for (Contact contact : contacts) {
 			if (contact.getAardvarkID().equals(aardvarkID)) {
-				Log.i("INFO", "iscontact true");
 				return true;
 			}
 
@@ -450,7 +443,6 @@ public class MainViewActivity extends Activity implements
 
 	private void startChat() {
 		Intent intent = new Intent(this, ChatViewActivity.class);
-		Log.i("INFO", startChatContact.getAardvarkID() + " start chat");
 		intent.putExtra("aardvarkID", startChatContact.getAardvarkID());
 		
 		startActivity(intent);

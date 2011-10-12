@@ -16,6 +16,7 @@ import edu.chalmers.aardvark.model.ChatMessage;
 import edu.chalmers.aardvark.model.LocalUser;
 import edu.chalmers.aardvark.model.User;
 import edu.chalmers.aardvark.services.MessageSender;
+import edu.chalmers.aardvark.services.Notifier;
 
 public class ChatCtrl {
     private static ChatCtrl instance;
@@ -34,7 +35,6 @@ public class ChatCtrl {
     }
 
     public Chat getChat(String aardvarkID) {
-    	Log.i("INFO", "chatctrl getchat"+aardvarkID);
 	return chatContainer.findChatByID(aardvarkID);
     }
     
@@ -77,10 +77,8 @@ public class ChatCtrl {
 	}
 	
 	Chat chat = ChatCtrl.getInstance().getChat(aardvarkID);
-	Log.i("INFO", "chatctrl");
 
 	if (chat == null) {
-		Log.i("INFO", "chatctrl in if");
 	    String alias = ServerHandlerCtrl.getInstance().getAlias(packet.getFrom());
 	    ChatCtrl.getInstance().newChat(new User(alias, packet.getFrom()));
 	    chat = ChatCtrl.getInstance().getChat(packet.getFrom());
@@ -96,7 +94,7 @@ public class ChatCtrl {
 		chat.getRecipient(), true, time);
 
 	chat.addMessage(chatMessage);
-	Log.i("INFO", chatMessage.getMessage());
+        AardvarkApp.getContext().startService(new Intent(AardvarkApp.getContext(), Notifier.class));
     }
     
     public void closeChat(Chat chat) {

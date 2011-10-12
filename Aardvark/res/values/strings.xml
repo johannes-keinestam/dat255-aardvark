@@ -22,4 +22,7 @@
 		<string name="logoutMainMenu">Logout</string>
 		<string name="server_search_address">search.hidas-dator</string>
 		<string name="activeLableMain">Active chats</string>
+		<string name="notificationTickerText">New Aardvark message!</string>
+		<string name="notificationTitle">Aardvark</string>
+		<string name="notificationDetails">New messages waiting!</string>
 </resources>

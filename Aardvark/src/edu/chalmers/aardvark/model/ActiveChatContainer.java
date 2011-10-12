@@ -28,11 +28,8 @@ public class ActiveChatContainer {
     }
 
     public Chat findChatByID(String aardvarkID) {
-    	Log.i("INFO", "chatcont");
 	for (Chat c : activeChats) {
-		Log.i("INFO", "chatcont if"+c.getRecipient().getAardvarkID().equals(aardvarkID));
 	    if (c.getRecipient().getAardvarkID().equals(aardvarkID)) {
-	    	Log.i("INFO", "chatcont if");
 		return c;
 	    }
 	}
