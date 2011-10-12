@@ -1,5 +1,7 @@
 package edu.chalmers.aardvark.gui;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import edu.chalmers.aardvark.R;
@@ -85,7 +87,7 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 					 item = inflater.inflate(R.layout.bubbleleftpanel, null);
 				}
 				TextView tx = (TextView) item.findViewById(R.id.message);
-				    tx.setText(chatMessage.getMessage());
+				    tx.setText(chatMessage.getMessage()+"\n \n"+chatMessage.getTimeStamp().format("%F %T"));
 				    ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
 			}
 		} catch (NullPointerException e) {
@@ -93,7 +95,7 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 			
 		}
     	ScrollView sv = (ScrollView) this.findViewById(R.id.scrollViewChat);
-    	sv.smoothScrollTo(0, sv.getMaxScrollAmount());
+    	sv.smoothScrollTo(0, 214748364);
     	
 	}
 
