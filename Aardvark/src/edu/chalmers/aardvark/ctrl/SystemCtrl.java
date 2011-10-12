@@ -85,7 +85,7 @@ public class SystemCtrl {
     private void performSetup() {
 	// generate unique hashed device ID for user identification (Aardvark
 	// ID)
-	final TelephonyManager tm = (TelephonyManager) AardvarkApp.getContext()
+	/*final TelephonyManager tm = (TelephonyManager) AardvarkApp.getContext()
 		.getSystemService(Context.TELEPHONY_SERVICE);
 
 	final String tmDevice, tmSerial, tmPhone, androidId;
@@ -97,8 +97,8 @@ public class SystemCtrl {
 			android.provider.Settings.Secure.ANDROID_ID);
 
 	UUID deviceUuid = new UUID(androidId.hashCode(),
-		((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
-	String aardvarkID = deviceUuid.toString();
+		((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());*/
+	String aardvarkID = UUID.randomUUID().toString();
 
 	// generate pseudo-random password
 	String genPassword = UUID.randomUUID().toString();
