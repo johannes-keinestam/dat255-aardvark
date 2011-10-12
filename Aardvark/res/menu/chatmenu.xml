@@ -3,5 +3,6 @@
   xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/addToContacts" android:title="@string/addToContactsChatMenu"></item>
     <item android:id="@+id/block" android:title="@string/blockChatMenu"></item>
+    <item android:title="@string/unblockChatMenu" android:id="@+id/unblock" android:visible="false"></item>
     
 </menu>
