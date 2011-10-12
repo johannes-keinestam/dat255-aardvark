@@ -123,17 +123,20 @@ public class MainViewActivity extends Activity implements
 		LayoutInflater inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		for (Chat chat : chats) {
-			final User contact = chat.getRecipient();
+			final User user = chat.getRecipient();
+			Contact contact = ContactCtrl.getInstance().getContact(user.getAardvarkID());
+			String alias = ServerHandlerCtrl.getInstance().getAlias(
+					user.getAardvarkID());
 
 			View item = inflater.inflate(R.layout.contactpanel, null);
 
 			TextView tx = (TextView) item.findViewById(R.id.contactName);
-			tx.setText(contact.getAlias());
+			tx.setText(alias+"("+contact.getNickname()+")");
 
 			tx.setOnClickListener(new OnClickListener() {
 
 				public void onClick(View v) {
-					startChatContact = contact;
+					startChatContact = user;
 					startChat();
 				}
 			});
