@@ -1,5 +1,8 @@
 package edu.chalmers.aardvark.ctrl;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
@@ -127,6 +130,9 @@ public class ServerHandlerCtrl {
     		Log.i("INFO", "User in group, namn: "+user.getName());
     	}
 		return null;
+    }
+    public Collection<RosterEntry> getOnlineUsers(){
+    	return ServerConnection.getConnection().getRoster().getGroup("Aardvark").getEntries();
     }
     
     public String getAlias(String aardvarkID) {

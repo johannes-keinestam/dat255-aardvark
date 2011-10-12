@@ -3,6 +3,8 @@ package edu.chalmers.aardvark.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jivesoftware.smack.RosterEntry;
+
 import edu.chalmers.aardvark.R;
 import edu.chalmers.aardvark.ctrl.ChatCtrl;
 import edu.chalmers.aardvark.ctrl.ContactCtrl;
@@ -43,6 +45,7 @@ public class MainViewActivity extends Activity implements
 	private ArrayList<String> online;
 	private ArrayList<String> offline;
 	private String lastLongPressedAardvarkID;
+	private Boolean done = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +72,8 @@ public class MainViewActivity extends Activity implements
 
 			}
 		});
-
+		
+		getOnlineUsers();
 		drawContacts();
 	}
 
@@ -78,6 +82,18 @@ public class MainViewActivity extends Activity implements
 		// TODO Auto-generated method stub
 		super.onResume();
 		drawContacts();
+	}
+	private void getOnlineUsers(){
+		if(!done){
+		for (RosterEntry user : ServerHandlerCtrl.getInstance().getOnlineUsers()) {
+			Log.i("INFO", "name::"+user.getName()+"user::"+user.getUser()+"::aardvark::");
+			String temp = user.getUser();
+			String aardvarkID = temp.substring(0, temp.lastIndexOf("@"));
+			ComBus.notifyListeners(StateChanges.USER_ONLINE.toString(), aardvarkID);
+			
+		}
+		done = true;
+		}
 	}
 
 	private void drawContacts() {
