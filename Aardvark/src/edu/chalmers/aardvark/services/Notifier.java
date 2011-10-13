@@ -30,6 +30,7 @@ public class Notifier extends Service {
         Context context = getApplicationContext();
         
         Intent openIntent = new Intent(this, MainViewActivity.class);
+        openIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         PendingIntent notificationIntent = PendingIntent.getActivity(this, 0, openIntent, 0);
 
         Notification notification = new Notification(R.drawable.sym_def_app_icon, notificationTickerText, System.currentTimeMillis());
