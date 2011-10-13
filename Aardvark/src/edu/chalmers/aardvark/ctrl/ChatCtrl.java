@@ -98,7 +98,7 @@ public class ChatCtrl {
     }
     
     public void closeChat(Chat chat) {
-	// TODO 
+		chatContainer.removeChat(chat);
     }
     
     public void closeChats() {
