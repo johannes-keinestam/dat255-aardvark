@@ -1,14 +1,11 @@
 package edu.chalmers.aardvark.gui;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import edu.chalmers.aardvark.R;
 import edu.chalmers.aardvark.ctrl.ChatCtrl;
 import edu.chalmers.aardvark.ctrl.ContactCtrl;
 import edu.chalmers.aardvark.ctrl.ServerHandlerCtrl;
-import edu.chalmers.aardvark.ctrl.SystemCtrl;
 import edu.chalmers.aardvark.ctrl.UserCtrl;
 import edu.chalmers.aardvark.model.Chat;
 import edu.chalmers.aardvark.model.ChatMessage;
@@ -194,10 +191,6 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
                     .show();
 	}
 
-	private void update() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	private void setBlockedEnabled(boolean enabled) {
 	    	Button sendButton = (Button) findViewById(R.id.sendButton);

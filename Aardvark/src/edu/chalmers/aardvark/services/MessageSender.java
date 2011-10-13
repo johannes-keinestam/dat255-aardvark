@@ -1,9 +1,7 @@
 package edu.chalmers.aardvark.services;
 
 import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.packet.IQ;
 import org.jivesoftware.smack.packet.Message;
-import org.jivesoftware.smack.packet.Packet;
 
 import edu.chalmers.aardvark.model.LocalUser;
 import edu.chalmers.aardvark.util.ServerConnection;

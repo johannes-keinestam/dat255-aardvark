@@ -204,8 +204,6 @@ public class MainViewActivity extends Activity implements
 		for (final String aardvarkID : online) {
 				final Contact contact = ContactCtrl.getInstance().getContact(aardvarkID);
 				View item = inflater.inflate(R.layout.contactpanel, null);
-				String alias = ServerHandlerCtrl.getInstance().getAlias(
-						aardvarkID);
 				TextView tx = (TextView) item.findViewById(R.id.contactName);
 				tx.setText(contact.getNickname());
 				if(UserCtrl.getInstance().isUserBlocked(aardvarkID)){
@@ -415,10 +413,8 @@ public class MainViewActivity extends Activity implements
 			}
 			drawContacts();
 		} else if (stateChange.equals(StateChanges.USER_BLOCKED.toString())) {
-			User blockedUser = (User) object;
 			drawContacts();
 		} else if (stateChange.equals(StateChanges.USER_UNBLOCKED.toString())) {
-			User blockedUser = (User) object;
 			drawContacts();
 		}
 	}

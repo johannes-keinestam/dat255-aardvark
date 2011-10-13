@@ -34,7 +34,6 @@ public class MessageReceiver extends Service implements PacketListener {
     	Log.i("MESSAGE", "Received packet, processing...");
 		if (packet instanceof Message) {
 			Log.i("MESSAGE", "Message received from "+ packet.getFrom());
-			Message m = (Message) packet;
 
 			String fromUser = packet.getFrom();
 			String fromAardvarkID = fromUser.substring(0, fromUser.lastIndexOf("@"));

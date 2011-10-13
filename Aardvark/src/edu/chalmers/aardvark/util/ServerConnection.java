@@ -5,27 +5,20 @@ import java.util.Map;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
-import org.jivesoftware.smack.Roster;
-import org.jivesoftware.smack.SASLAuthentication;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.filter.PacketFilter;
-import org.jivesoftware.smack.filter.ToContainsFilter;
 
 import android.content.Intent;
 import android.content.res.Resources;
 import android.util.Log;
-import android.widget.Toast;
 
 import edu.chalmers.aardvark.AardvarkApp;
-import edu.chalmers.aardvark.model.LocalUser;
 import edu.chalmers.aardvark.services.MessageReceiver;
 import edu.chalmers.aardvark.services.MessageSender;
 import edu.chalmers.aardvark.services.StatusChecker;
 
 public class ServerConnection {
     private static XMPPConnection connection;
-    private static MessageSender sender;
 
     private ServerConnection() {
 	Log.i("CLASS", this.toString() + " STARTED");

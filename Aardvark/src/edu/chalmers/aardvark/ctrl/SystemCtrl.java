@@ -3,18 +3,10 @@ package edu.chalmers.aardvark.ctrl;
 import java.util.Map;
 import java.util.UUID;
 
-import org.jivesoftware.smack.Roster;
-import org.jivesoftware.smack.RosterEntry;
-import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.XMPPException;
-
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import edu.chalmers.aardvark.AardvarkApp;
 import edu.chalmers.aardvark.model.LocalUser;
-import edu.chalmers.aardvark.model.User;
 import edu.chalmers.aardvark.util.ServerConnection;
 
 public class SystemCtrl {
@@ -58,46 +50,24 @@ public class SystemCtrl {
 	// Loads local user unique identifiers/server details from file
 	SharedPreferences savedLocalUser = AardvarkApp.getContext()
 		.getSharedPreferences("localuser", 0);
-	String aardvarkID = savedLocalUser.getString("ID", null);
+	String aardvarkID = savedLocalUser.getString("ID", null)+"johannes";
 	String password = savedLocalUser.getString("password", null);
 	LocalUser.createUser(aardvarkID, password);
 
 	// Set up and create new connection to server.
-	XMPPConnection connection = ServerConnection.getConnection();
+	ServerConnection.getConnection();
     }
 
     public void performShutDownDuty() {
-	// Remove online roster
-	Roster roster = ServerConnection.getConnection().getRoster();
-	for (RosterEntry re : roster.getEntries()) {
-	    try {
-		roster.removeEntry(re);
-	    } catch (XMPPException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	    }
-	}
+    	//Nothing to do at the moment
 
-	// Kill connection to server
-	ServerConnection.restart();
+		// Kill connection to server
+		ServerConnection.restart();
     }
 
     private void performSetup() {
-	// generate unique hashed device ID for user identification (Aardvark
+	// generate unique hashed ID for user identification (Aardvark
 	// ID)
-	/*final TelephonyManager tm = (TelephonyManager) AardvarkApp.getContext()
-		.getSystemService(Context.TELEPHONY_SERVICE);
-
-	final String tmDevice, tmSerial, tmPhone, androidId;
-	tmDevice = "" + tm.getDeviceId();
-	tmSerial = "" + tm.getSimSerialNumber();
-	androidId = ""
-		+ android.provider.Settings.Secure.getString(AardvarkApp
-			.getContext().getContentResolver(),
-			android.provider.Settings.Secure.ANDROID_ID);
-
-	UUID deviceUuid = new UUID(androidId.hashCode(),
-		((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());*/
 	String aardvarkID = UUID.randomUUID().toString();
 
 	// generate pseudo-random password
@@ -123,13 +93,6 @@ public class SystemCtrl {
 
 	settingsEditor.putBoolean("firstRun", false);
 	settingsEditor.commit();
-	
-	//register on server
-	try {
-	    ServerConnection.getConnection().getAccountManager().createAccount(aardvarkID, genPassword);
-	} catch (XMPPException e) {
-	    e.printStackTrace();
-	}
 
     }
 

@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
-import edu.chalmers.aardvark.gui.ChatViewActivity;
 import edu.chalmers.aardvark.gui.MainViewActivity;
 
 public class Notifier extends Service {

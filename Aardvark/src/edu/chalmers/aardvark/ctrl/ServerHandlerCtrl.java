@@ -1,18 +1,14 @@
 package edu.chalmers.aardvark.ctrl;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
-import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
 
 import android.util.Log;
-import android.widget.Toast;
-import edu.chalmers.aardvark.AardvarkApp;
 import edu.chalmers.aardvark.model.LocalUser;
 import edu.chalmers.aardvark.model.User;
 import edu.chalmers.aardvark.util.ComBus;
@@ -20,7 +16,6 @@ import edu.chalmers.aardvark.util.ServerConnection;
 import edu.chalmers.aardvark.util.StateChanges;
 
 public class ServerHandlerCtrl {
-    private XMPPConnection connection = ServerConnection.getConnection();
     private static ServerHandlerCtrl instance;
     private boolean isLoggedIn = false;
 
