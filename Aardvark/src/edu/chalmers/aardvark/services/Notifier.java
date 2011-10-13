@@ -35,6 +35,7 @@ public class Notifier extends Service {
         Notification notification = new Notification(R.drawable.sym_def_app_icon, notificationTickerText, System.currentTimeMillis());
         notification.setLatestEventInfo(context, notificationTitle, notificationDetails, notificationIntent);
         notification.defaults |= Notification.DEFAULT_SOUND;
+        notification.flags = Notification.FLAG_AUTO_CANCEL;
 
         notifier.notify(1, notification);
         Log.i("INFO", "NOTIFIED");
