@@ -157,10 +157,13 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
             });
 
             alert.show();
-            //
             break;
 	case R.id.block: UserCtrl.getInstance().blockUser(aardvarkID); break;
 	case R.id.unblock: UserCtrl.getInstance().unblockUser(aardvarkID); break;
+	case R.id.close: 
+		Chat currentChat = ChatCtrl.getInstance().getChat(aardvarkID);
+		ChatCtrl.getInstance().closeChat(currentChat);
+		break;
 	}
 	return true;
     }
@@ -181,6 +184,8 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 			if (blockedUser.getAardvarkID().equals(aardvarkID)) {
 			    setBlockedEnabled(false);
 			}
+		} else if(stateChange.equals(StateChanges.CHAT_CLOSED.toString())){
+			this.finish();
 		}
 		
 	}

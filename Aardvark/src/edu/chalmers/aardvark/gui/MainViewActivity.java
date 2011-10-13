@@ -392,6 +392,10 @@ public class MainViewActivity extends Activity implements
 			startChatContact = (User) chat.getRecipient();
 
 			startChat();
+		} else if (stateChange.equals(StateChanges.CHAT_CLOSED.toString())) {
+			Chat chat = (Chat) object;
+			Log.i("INFO", chat.getRecipient().getAardvarkID() + " chat closed");
+			drawActive();
 		} else if (stateChange.equals(StateChanges.CONTACT_ADDED.toString())) {
 		    Contact contact = (Contact) object;
 		    online.add(contact.getAardvarkID());
