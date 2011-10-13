@@ -22,6 +22,7 @@ import edu.chalmers.aardvark.util.StateChanges;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -262,6 +263,7 @@ public class MainViewActivity extends Activity implements
 			break;
 		case R.id.logout:
 			ServerHandlerCtrl.getInstance().logOut();
+			showDialog(4);
 			break;
 		}
 		return true;
@@ -369,6 +371,12 @@ public class MainViewActivity extends Activity implements
 			});
 			dialog = builderUb.create();
 			break;
+		case 4:
+			 ProgressDialog progDialog = new ProgressDialog(this);
+			 progDialog.setCancelable(false);
+			progDialog.setMessage("Logging out...");
+			dialog = progDialog;
+			break;
 		default:
 			dialog = null;
 		}
@@ -378,6 +386,7 @@ public class MainViewActivity extends Activity implements
 	@Override
 	public void notifyEvent(String stateChange, Object object) {
 		if (stateChange.equals(StateChanges.LOGGED_OUT.toString())) {
+			dismissDialog(4);
 			this.finish();
 		} else if (stateChange.equals(StateChanges.CHAT_OPENED.toString())) {
 			Chat chat = (Chat) object;
