@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import edu.chalmers.aardvark.AardvarkApp;
 import edu.chalmers.aardvark.model.Contact;
+import edu.chalmers.aardvark.model.User;
 
 public class SettingsCtrl {
     private static SettingsCtrl instance;
@@ -45,4 +46,23 @@ public class SettingsCtrl {
         contactEditor.putString(contact.getAardvarkID(), newNickname);
         contactEditor.commit();	
     }
+    
+    public void saveBlockedUser(User user) {
+    	SharedPreferences blockedUsers = AardvarkApp.getContext()
+    		.getSharedPreferences("blocklist", 0);
+    	SharedPreferences.Editor blocklistEditor = blockedUsers.edit();
+    	
+    	blocklistEditor.putString(user.getAardvarkID(), "");
+    	blocklistEditor.commit();
+    }
+        
+    public void deleteBlockedUser(User user) {
+    	SharedPreferences blockedUsers = AardvarkApp.getContext()
+            	.getSharedPreferences("blocklist", 0);
+        SharedPreferences.Editor blocklistEditor = blockedUsers.edit();
+            
+        blocklistEditor.remove(user.getAardvarkID());
+        blocklistEditor.commit();
+    }
+        
 }

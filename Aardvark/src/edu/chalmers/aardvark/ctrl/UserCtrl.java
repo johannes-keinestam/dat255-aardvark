@@ -9,40 +9,42 @@ public class UserCtrl {
     private static UserCtrl instance;
     
     private UserCtrl() {
-	blocklist = new BlockList();
-	Log.i("CLASS", this.toString() + " STARTED");
+		blocklist = new BlockList();
+		Log.i("CLASS", this.toString() + " STARTED");
     }
 
     public static UserCtrl getInstance() {
-	if (instance == null) {
-	    instance = new UserCtrl();
-	}
-	return instance;
+		if (instance == null) {
+		    instance = new UserCtrl();
+		}
+		return instance;
     }
     
     public void blockUser(User user) {
-	blocklist.addUser(user);
+    	SettingsCtrl.getInstance().saveBlockedUser(user);
+		blocklist.addUser(user);
     }
     
     public void blockUser(String aardvarkID) {
-	User blockedUser = new User(null, aardvarkID);
-	blockUser(blockedUser);
+		User blockedUser = new User(null, aardvarkID);
+		blockUser(blockedUser);
     }
     
     public void unblockUser(User user) {
-	blocklist.removeUser(user);
+    	SettingsCtrl.getInstance().deleteBlockedUser(user);
+		blocklist.removeUser(user);
     }
     
     public void unblockUser(String aardvarkID) {
-	User unblockedUser = blocklist.findUser(aardvarkID);
-	blocklist.removeUser(unblockedUser);
+		User unblockedUser = blocklist.findUser(aardvarkID);
+		unblockUser(unblockedUser);
     }
     
     public boolean isUserBlocked(String aardvarkID) {
-	if (blocklist.findUser(aardvarkID) == null) {
-	    return false;
-	} else {
-	    return true;
-	}
+		if (blocklist.findUser(aardvarkID) == null) {
+		    return false;
+		} else {
+		    return true;
+		}
     }
 }

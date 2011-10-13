@@ -44,7 +44,7 @@ public class SystemCtrl {
 	SharedPreferences blockedUsers = AardvarkApp.getContext()
         	.getSharedPreferences("blocklist", 0);
         for (Map.Entry<String, ?> entry : blockedUsers.getAll().entrySet()) {
-            userCtrl.blockUser((String)entry.getValue());
+            userCtrl.blockUser((String)entry.getKey());
         }
 
 	// Loads local user unique identifiers/server details from file
