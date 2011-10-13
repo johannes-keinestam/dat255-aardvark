@@ -68,39 +68,40 @@ public class ServerHandlerCtrl {
     public void logInWithAlias(final String alias) {
 	new Thread(new Runnable() {
 	    public void run() {
-		try {
-			if (isAliasAvailable(alias)) {
-			    LocalUser.setAlias(alias);
-			    String aardvarkID = LocalUser.getLocalUser().getAardvarkID();
-			    String password = LocalUser.getPassword();
-			    Log.i("INFO", "Logging in, trying to register...");
-			    ServerConnection.register(aardvarkID, password, alias);
-			    Log.i("INFO", "Logging in, registered and try trying to log in...");
-			    ServerConnection.login(aardvarkID, password);
-			    isLoggedIn = true;
-			    ComBus.notifyListeners(StateChanges.LOGGED_IN.toString(), null);
-			} else {
-			    ComBus.notifyListeners(StateChanges.ALIAS_UNAVAILABLE.toString(), null);
-			}	
-			    
-			} catch (XMPPException e) {
-				try {
-				    Log.i("INFO", "Login error! "+e.getMessage());
-				    Log.i("INFO", "Logging into existing account..");
-				    ServerConnection.restart();
-				    ServerConnection.getConnection().login(LocalUser.getLocalUser().getAardvarkID(), LocalUser.getPassword());
-				    Log.i("INFO", "Deleting account...");
-				    ServerConnection.getConnection().getAccountManager().deleteAccount();
-				    ServerConnection.restart();
-				    
-				    logInWithAlias(alias);
-				} catch (XMPPException e1) {
-				    Log.i("INFO", "Login error2! "+e.getMessage());
-				    ComBus.notifyListeners(StateChanges.LOGIN_FAILED.toString(), null);
-				}
-			}
+		if (isAliasAvailable(alias)) {
+        		for (int i = 0; i<3; i++) {
+            			try {
+        			    LocalUser.setAlias(alias);
+        			    String aardvarkID = LocalUser.getLocalUser().getAardvarkID();
+        			    String password = LocalUser.getPassword();
+        			    Log.i("INFO", "Logging in, trying to register...");
+        			    ServerConnection.register(aardvarkID, password, alias);
+        			    Log.i("INFO", "Logging in, registered and try trying to log in...");
+        			    ServerConnection.login(aardvarkID, password);
+        			    isLoggedIn = true;
+        			    ComBus.notifyListeners(StateChanges.LOGGED_IN.toString(), null);
+        			    break;
+        			} catch (XMPPException e) {
+        				    Log.i("INFO", "Login error! "+e.getMessage());
+        				    ServerConnection.restart();
+        				    try {
+        					Log.i("INFO", "Logging into existing account..");
+						ServerConnection.getConnection().login(LocalUser.getLocalUser().getAardvarkID(), LocalUser.getPassword());
+	        				Log.i("INFO", "Deleting account...");
+	        				ServerConnection.getConnection().getAccountManager().deleteAccount();
+					    } catch (XMPPException e1) {
+						Log.i("INFO", "Login error 2! "+e.getMessage());
+						////
+					    }
+        				    ServerConnection.restart();
+        			}
+        		}
+        		
+	    } else {
+		ComBus.notifyListeners(StateChanges.ALIAS_UNAVAILABLE.toString(), null);
 	    }
-	}).start();
+		
+	}}).start();
     }
 	
 	public boolean isLoggedIn() {
