@@ -86,10 +86,10 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 			for (ChatMessage chatMessage : messages) {
 				View item;
 				if(chatMessage.getUser().getAardvarkID().equals(aardvarkID)){
-					 item = inflater.inflate(R.layout.bubblerightpanel, null);
+					item = inflater.inflate(R.layout.bubbleleftpanel, null);
 				}
 				else{
-					 item = inflater.inflate(R.layout.bubbleleftpanel, null);
+					item = inflater.inflate(R.layout.bubblerightpanel, null);
 				}
 				TextView tx = (TextView) item.findViewById(R.id.message);
 				    tx.setText(chatMessage.getMessage()+"\n \n"+chatMessage.getTimeStamp().format("%F %T"));
