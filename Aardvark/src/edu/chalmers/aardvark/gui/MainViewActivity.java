@@ -312,7 +312,7 @@ public class MainViewActivity extends Activity implements
 			break;
 		case 2:
 		
-			final CharSequence[] items = { "Block", "Remove" };
+			final CharSequence[] items = { "Block", "Rename", "Remove" };
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("Contact");
 			builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -323,9 +323,13 @@ public class MainViewActivity extends Activity implements
 						drawContacts();
 						break;
 					case 1:
+			            showRenameDialog();
+						break;
+					case 2:
 						ContactCtrl.getInstance().removeContact(lastLongPressedAardvarkID);
-						dismissDialog(2);
+						dialog.dismiss();
 						removeFromOnline(lastLongPressedAardvarkID);
+						removeFromOffline(lastLongPressedAardvarkID);
 						drawContacts();
 						//TODO ext string
 						Toast.makeText(getApplicationContext(),
@@ -341,7 +345,7 @@ public class MainViewActivity extends Activity implements
 			dialog = builder.create();
 			break;
 		case 3:
-			final CharSequence[] itemsUb = { "Unblock", "Remove" };
+			final CharSequence[] itemsUb = { "Unblock", "Rename", "Remove" };
 			AlertDialog.Builder builderUb = new AlertDialog.Builder(this);
 			builderUb.setTitle("Contact");
 			builderUb.setItems(itemsUb, new DialogInterface.OnClickListener() {
@@ -352,9 +356,13 @@ public class MainViewActivity extends Activity implements
 						drawContacts();
 						break;
 					case 1:
+						
+						break;
+					case 2:
 						ContactCtrl.getInstance().removeContact(lastLongPressedAardvarkID);
-						dismissDialog(2);
+						dialog.dismiss();
 						removeFromOnline(lastLongPressedAardvarkID);
+						removeFromOffline(lastLongPressedAardvarkID);
 						drawContacts();
 						//TODO ext string
 						Toast.makeText(getApplicationContext(),
@@ -395,13 +403,14 @@ public class MainViewActivity extends Activity implements
 		} else if (stateChange.equals(StateChanges.CHAT_CLOSED.toString())) {
 			Chat chat = (Chat) object;
 			Log.i("INFO", chat.getRecipient().getAardvarkID() + " chat closed");
-			drawActive();
+			drawContacts();
 		} else if (stateChange.equals(StateChanges.CONTACT_ADDED.toString())) {
 		    Contact contact = (Contact) object;
 		    online.add(contact.getAardvarkID());
 		    
 		    drawContacts();
-
+		} else if (stateChange.equals(StateChanges.CONTACT_RENAMED.toString())) {
+			drawContacts();
 		} else if (stateChange.equals(StateChanges.USER_ONLINE.toString())) {
 			String aardvarkID = (String) object;
 			if((isContact(aardvarkID))&&(!isInList(aardvarkID, online))){
@@ -467,6 +476,31 @@ public class MainViewActivity extends Activity implements
 		intent.putExtra("aardvarkID", startChatContact.getAardvarkID());
 		
 		startActivity(intent);
+	}
+	
+	private void showRenameDialog() {
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
+        alert.setTitle("Rename contact");
+        alert.setMessage("Set a new nickname for your contact:");
+
+        // Set an EditText view to get user input 
+        final EditText input = new EditText(this);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                  String value = input.getText().toString();
+                  ContactCtrl.getInstance().setNickname(lastLongPressedAardvarkID, value);
+                }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+            // Cancelled
+          }
+        });
+
+        alert.show();
 	}
 }

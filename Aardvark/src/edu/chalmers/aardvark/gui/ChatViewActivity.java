@@ -107,13 +107,13 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 
     public boolean onPrepareOptionsMenu(Menu menu) {
     	if(ContactCtrl.getInstance().isContact(aardvarkID)){
-    		MenuItem item = menu.getItem(0);
+    		MenuItem item = menu.getItem(1);
     		item.setVisible(false);
     	}
     	if(UserCtrl.getInstance().isUserBlocked(aardvarkID)){
-    		MenuItem item = menu.getItem(1);
+    		MenuItem item = menu.getItem(2);
     		item.setVisible(false);
-    		item = menu.getItem(2);
+    		item = menu.getItem(3);
     		item.setVisible(true);
     	}
 
