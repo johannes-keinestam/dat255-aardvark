@@ -3,7 +3,9 @@ package edu.chalmers.aardvark.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.packet.Presence;
 
 import edu.chalmers.aardvark.R;
 import edu.chalmers.aardvark.ctrl.ChatCtrl;
@@ -15,11 +17,11 @@ import edu.chalmers.aardvark.model.Contact;
 import edu.chalmers.aardvark.model.LocalUser;
 import edu.chalmers.aardvark.model.User;
 import edu.chalmers.aardvark.util.ComBus;
+import edu.chalmers.aardvark.util.ServerConnection;
 import edu.chalmers.aardvark.util.StateChanges;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -87,10 +89,13 @@ public class MainViewActivity extends Activity implements
 	private void getOnlineUsers(){
 		if(!done){
 		for (RosterEntry user : ServerHandlerCtrl.getInstance().getOnlineUsers()) {
-			String temp = user.getUser();
-			String aardvarkID = temp.substring(0, temp.lastIndexOf("@"));
-			ComBus.notifyListeners(StateChanges.USER_ONLINE.toString(), aardvarkID);
-			
+			Roster roster = ServerConnection.getConnection().getRoster();
+			Presence presence = roster.getPresence(user.getUser());
+			if (presence.isAvailable()) {
+				String temp = user.getUser();
+				String aardvarkID = temp.substring(0, temp.lastIndexOf("@"));
+				ComBus.notifyListeners(StateChanges.USER_ONLINE.toString(), aardvarkID);
+			}
 		}
 		done = true;
 		}
@@ -257,7 +262,6 @@ public class MainViewActivity extends Activity implements
 			break;
 		case R.id.logout:
 			ServerHandlerCtrl.getInstance().logOut();
-			showDialog(4);
 			break;
 		}
 		return true;
@@ -365,12 +369,6 @@ public class MainViewActivity extends Activity implements
 			});
 			dialog = builderUb.create();
 			break;
-		case 4:
-		    ProgressDialog progDialog = new ProgressDialog(this);
-		    progDialog.setCancelable(false);
-		    progDialog.setMessage("Logging out...");
-		    dialog = progDialog;
-		    break;
 		default:
 			dialog = null;
 		}
@@ -380,7 +378,6 @@ public class MainViewActivity extends Activity implements
 	@Override
 	public void notifyEvent(String stateChange, Object object) {
 		if (stateChange.equals(StateChanges.LOGGED_OUT.toString())) {
-		    	dismissDialog(4);
 			this.finish();
 		} else if (stateChange.equals(StateChanges.CHAT_OPENED.toString())) {
 			Chat chat = (Chat) object;
