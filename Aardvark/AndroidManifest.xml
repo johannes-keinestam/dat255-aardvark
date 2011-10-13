@@ -24,6 +24,6 @@
 		  <service android:name=".services.MessageReceiver"></service>
 		  <service android:name=".services.MessageSender"></service>
 		  <service android:name=".services.StatusChecker"></service>
-
+		  <service android:name=".services.Notifier"></service>
     </application>
 </manifest>
