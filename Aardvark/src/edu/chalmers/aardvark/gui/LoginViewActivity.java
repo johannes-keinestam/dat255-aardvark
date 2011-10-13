@@ -8,6 +8,8 @@ import edu.chalmers.aardvark.util.ComBus;
 import edu.chalmers.aardvark.util.EventListener;
 import edu.chalmers.aardvark.util.StateChanges;
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,7 +39,8 @@ public class LoginViewActivity extends Activity implements EventListener {
 		EditText aliasInput = (EditText) findViewById(R.id.aliasField);
 		String alias = aliasInput.getText().toString();
 		
-	    	ServerHandlerCtrl.getInstance().logInWithAlias(alias);    	
+	    	ServerHandlerCtrl.getInstance().logInWithAlias(alias);
+	    	showDialog(1);
 	    }
 	});
 
@@ -46,10 +49,13 @@ public class LoginViewActivity extends Activity implements EventListener {
 	@Override
 	public void notifyEvent(String stateChange, Object object) {
 		if (stateChange.equals(StateChanges.LOGGED_IN.toString())) {
-			login();
+		    dismissDialog(1);
+		    login();
 		} else if (stateChange.equals(StateChanges.LOGIN_FAILED.toString())) {
+		    dismissDialog(1);
 		    loginFailed();
 		} else if (stateChange.equals(StateChanges.ALIAS_UNAVAILABLE.toString())) {
+		    dismissDialog(1);
 		    aliasUnavailable();
 		}
 		
@@ -58,6 +64,21 @@ public class LoginViewActivity extends Activity implements EventListener {
 	private void login() {
 		Intent intent = new Intent(this, MainViewActivity.class);
 		startActivity(intent);
+	}
+	
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialog;
+		switch (id) {
+        		case 1:
+        		    ProgressDialog progDialog = new ProgressDialog(this);
+        		    progDialog.setCancelable(false);
+        		    progDialog.setMessage("Logging in...");
+        		    dialog = progDialog;
+        		    break;
+        		default:
+        		    dialog = null;
+		}
+		return dialog;
 	}
 	
 	private void loginFailed() {

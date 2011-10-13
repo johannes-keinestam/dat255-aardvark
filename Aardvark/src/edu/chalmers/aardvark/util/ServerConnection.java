@@ -53,8 +53,7 @@ public class ServerConnection {
 		connection.connect();
 		Log.i("INFO", "Connected to server!");
 	    } catch (XMPPException e) {
-		Toast.makeText(AardvarkApp.getContext(), e.getXMPPError()
-			.toString(), Toast.LENGTH_LONG);
+		Log.i("INFO", "Could not connect to server..." + e.getXMPPError());
 	    }
 
 	    // listen for received packages, and set up package sender service

@@ -53,7 +53,7 @@ public class ServerHandlerCtrl {
 	    String matchingUser = getAardvarkID(alias);
 	    Log.i("INFO", "Done checking, disconnecting. RESULT: "+matchingUser);
 	    ServerConnection.restart();
-	    if (matchingUser == null) {
+	    if (matchingUser == null || matchingUser.equals(LocalUser.getLocalUser().getAardvarkID())) {
 		return true;
 	    } else {
 		return false;
@@ -64,37 +64,41 @@ public class ServerHandlerCtrl {
 	return false;
     }
 
-    public void logInWithAlias(String alias) {
-    try {
-	if (isAliasAvailable(alias)) {
-	    LocalUser.setAlias(alias);
-	    String aardvarkID = LocalUser.getLocalUser().getAardvarkID();
-	    String password = LocalUser.getPassword();
-	    Log.i("INFO", "Logging in, trying to register...");
-	    ServerConnection.register(aardvarkID, password, alias);
-	    Log.i("INFO", "Logging in, registered and try trying to log in...");
-	    ServerConnection.login(aardvarkID, password);
-	    isLoggedIn = true;
-	    ComBus.notifyListeners(StateChanges.LOGGED_IN.toString(), null);
-	} else {
-	    ComBus.notifyListeners(StateChanges.ALIAS_UNAVAILABLE.toString(), null);
-	}	
-	    
-	} catch (XMPPException e) {
+    public void logInWithAlias(final String alias) {
+	new Thread(new Runnable() {
+	    public void run() {
 		try {
-		    Log.i("INFO", "Login error! "+e.getMessage());
-		    Log.i("INFO", "Logging into existing account..");
-		    ServerConnection.getConnection().login(LocalUser.getLocalUser().getAardvarkID(), LocalUser.getPassword());
-		    Log.i("INFO", "Deleting account...");
-		    ServerConnection.getConnection().getAccountManager().deleteAccount();
-		    ServerConnection.restart();
-		    
-		    logInWithAlias(alias);
-		} catch (XMPPException e1) {
-		    Log.i("INFO", "Login error2! "+e.getMessage());
-		    ComBus.notifyListeners(StateChanges.LOGIN_FAILED.toString(), null);
-		}
-	}
+			if (isAliasAvailable(alias)) {
+			    LocalUser.setAlias(alias);
+			    String aardvarkID = LocalUser.getLocalUser().getAardvarkID();
+			    String password = LocalUser.getPassword();
+			    Log.i("INFO", "Logging in, trying to register...");
+			    ServerConnection.register(aardvarkID, password, alias);
+			    Log.i("INFO", "Logging in, registered and try trying to log in...");
+			    ServerConnection.login(aardvarkID, password);
+			    isLoggedIn = true;
+			    ComBus.notifyListeners(StateChanges.LOGGED_IN.toString(), null);
+			} else {
+			    ComBus.notifyListeners(StateChanges.ALIAS_UNAVAILABLE.toString(), null);
+			}	
+			    
+			} catch (XMPPException e) {
+				try {
+				    Log.i("INFO", "Login error! "+e.getMessage());
+				    Log.i("INFO", "Logging into existing account..");
+				    ServerConnection.getConnection().login(LocalUser.getLocalUser().getAardvarkID(), LocalUser.getPassword());
+				    Log.i("INFO", "Deleting account...");
+				    ServerConnection.getConnection().getAccountManager().deleteAccount();
+				    ServerConnection.restart();
+				    
+				    logInWithAlias(alias);
+				} catch (XMPPException e1) {
+				    Log.i("INFO", "Login error2! "+e.getMessage());
+				    ComBus.notifyListeners(StateChanges.LOGIN_FAILED.toString(), null);
+				}
+			}
+	    }
+	}).start();
     }
 	
 	public boolean isLoggedIn() {
@@ -102,19 +106,22 @@ public class ServerHandlerCtrl {
 	}
 	
     public void logOut() {
-	Log.i("INFO", "Logging out...");
-	isLoggedIn = false;
-	ChatCtrl.getInstance().closeChats();
-	try {
-	    ServerConnection.getConnection().getAccountManager().deleteAccount();
-	} catch (XMPPException e) {
-	    Log.i("INFO", "Could not delete account! "+e.getMessage());
-	    // 
-	}
+	new Thread(new Runnable() {
+	    public void run() {
+		Log.i("INFO", "Logging out...");
+		isLoggedIn = false;
+		ChatCtrl.getInstance().closeChats();
+		try {
+		    ServerConnection.getConnection().getAccountManager().deleteAccount();
+		} catch (XMPPException e) {
+		    Log.i("INFO", "Could not delete account! "+e.getMessage());
+		}
 
-	ServerConnection.restart();
-	Log.i("INFO", "Logged out!");
-	ComBus.notifyListeners(StateChanges.LOGGED_OUT.toString(), null);
+		ServerConnection.restart();
+		Log.i("INFO", "Logged out!");
+		ComBus.notifyListeners(StateChanges.LOGGED_OUT.toString(), null);
+	    }
+	}).start();
     }
     
     public String getAardvarkID(String alias) {
