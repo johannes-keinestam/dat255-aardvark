@@ -49,6 +49,7 @@ public class ServerHandlerCtrl {
     private boolean isAliasAvailable(String alias) {
 	try {
 	    Log.i("INFO", "Checking status!");
+	    ServerConnection.restart();
 	    ServerConnection.getConnection().login("statuschecker", "statuschecker");
 	    String matchingUser = getAardvarkID(alias);
 	    Log.i("INFO", "Done checking, disconnecting. RESULT: "+matchingUser);
@@ -86,6 +87,7 @@ public class ServerHandlerCtrl {
 				try {
 				    Log.i("INFO", "Login error! "+e.getMessage());
 				    Log.i("INFO", "Logging into existing account..");
+				    ServerConnection.restart();
 				    ServerConnection.getConnection().login(LocalUser.getLocalUser().getAardvarkID(), LocalUser.getPassword());
 				    Log.i("INFO", "Deleting account...");
 				    ServerConnection.getConnection().getAccountManager().deleteAccount();
