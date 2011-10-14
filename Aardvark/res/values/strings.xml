@@ -27,4 +27,25 @@
 		<string name="notificationDetails">New messages waiting!</string>
 		<string name="unblockChatMenu">Unblock</string>
 		<string name="closeChatMenu">Close chat</string>
+		<string name="addContactTitleChatView">Add contact</string>
+		<string name="addContactTextChatView">Set a nickname for your contact:</string>
+		<string name="addContactOKChatView">Ok</string>
+		<string name="addContactCancelChatView">Cancel</string>
+		<string name="contactAddedNotificationChatView">Contact added!</string>
+		<string name="loggingInLoginView">Logging in...</string>
+		<string name="loginFailedLoginView">Log in failed! Check your network connection and try again.</string>
+		<string name="aliasUnavailableLoginView">Alias unavailable! Try another.</string>
+		<string name="userNotFoundMainView">User not found!</string>
+		<string name="blockMainView">Block</string>
+		<string name="unblockMainView">Unblock</string>
+		<string name="renameMainView">Rename</string>
+		<string name="removeMainView">Remove</string>
+		<string name="contactMainView">Contact</string>
+		<string name="removedContactNotificationMainView">Removed contact!</string>
+		<string name="loggingOutMainView">Logging out...</string>
+		<string name="aardvarkIntentExtraName">aardvarkID</string>
+		<string name="renameContactTitleMainView">Rename contact</string>
+		<string name="renameContactTextMainView">Set a new nickname for your contact:</string>
+		<string name="renameContactOKMainView">Ok</string>
+		<string name="renameContactCancelMainView">Cancel</string>
 </resources>

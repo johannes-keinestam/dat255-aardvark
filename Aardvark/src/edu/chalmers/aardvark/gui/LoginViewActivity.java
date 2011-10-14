@@ -72,7 +72,7 @@ public class LoginViewActivity extends Activity implements EventListener {
         		case 1:
         		    ProgressDialog progDialog = new ProgressDialog(this);
         		    progDialog.setCancelable(false);
-        		    progDialog.setMessage("Logging in...");
+        		    progDialog.setMessage(getString(R.string.loggingInLoginView));
         		    dialog = progDialog;
         		    break;
         		default:
@@ -82,10 +82,10 @@ public class LoginViewActivity extends Activity implements EventListener {
 	}
 	
 	private void loginFailed() {
-	    Toast.makeText(AardvarkApp.getContext(), "Log in failed! Check your network connection and try again.", Toast.LENGTH_LONG).show();
+	    Toast.makeText(AardvarkApp.getContext(), getString(R.string.loginFailedLoginView), Toast.LENGTH_LONG).show();
 	}
 	
 	private void aliasUnavailable() {
-	    Toast.makeText(AardvarkApp.getContext(), "Alias unavailable! Try another.", Toast.LENGTH_LONG).show();
+	    Toast.makeText(AardvarkApp.getContext(), getString(R.string.aliasUnavailableLoginView), Toast.LENGTH_LONG).show();
 	}
 }

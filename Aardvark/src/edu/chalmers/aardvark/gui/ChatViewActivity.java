@@ -37,12 +37,13 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
     /** Called when the activity is first created. */
 	private String aardvarkID;
 	private String alias;
+		
     @Override
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chatview);
 		
-		aardvarkID = getIntent().getExtras().getString("aardvarkID");
+		aardvarkID = getIntent().getExtras().getString(getString(R.string.aardvarkIntentExtraName));
 		alias = ServerHandlerCtrl.getInstance().getAlias(aardvarkID);
 		Contact contact = ContactCtrl.getInstance().getContact(aardvarkID);
 		
@@ -144,22 +145,22 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 	case R.id.addToContacts:
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-            alert.setTitle("Add contact");
-            alert.setMessage("Set a nickname for your contact:");
+            alert.setTitle(getString(R.string.addContactTitleChatView));
+            alert.setMessage(getString(R.string.addContactTextChatView));
 
             // Set an EditText view to get user input 
             final EditText input = new EditText(this);
             input.setText(alias);
             alert.setView(input);
 
-            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            alert.setPositiveButton(getString(R.string.addContactOKChatView), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                       String value = input.getText().toString();
                       ContactCtrl.getInstance().addContact(value, aardvarkID); 
                       }
             });
 
-            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            alert.setNegativeButton(getString(R.string.addContactCancelChatView), new DialogInterface.OnClickListener() {
               public void onClick(DialogInterface dialog, int whichButton) {
                 // Cancelled
               }
@@ -201,7 +202,7 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 
 	private void contactAdded() {
 	    Toast.makeText(getApplicationContext(),
-                    "Contact added!", Toast.LENGTH_SHORT)
+	    		getString(R.string.contactAddedNotificationChatView), Toast.LENGTH_SHORT)
                     .show();
 	}
 

@@ -50,7 +50,7 @@ public class SystemCtrl {
 	// Loads local user unique identifiers/server details from file
 	SharedPreferences savedLocalUser = AardvarkApp.getContext()
 		.getSharedPreferences("localuser", 0);
-	String aardvarkID = savedLocalUser.getString("ID", null)+"johannes";
+	String aardvarkID = savedLocalUser.getString("ID", null);
 	String password = savedLocalUser.getString("password", null);
 	LocalUser.createUser(aardvarkID, password);
 

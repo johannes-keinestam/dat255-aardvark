@@ -300,7 +300,7 @@ public class MainViewActivity extends Activity implements
 							dismissDialog(1);
 						} else {
 						    Toast.makeText(getApplicationContext(),
-							   "User not found!", Toast.LENGTH_SHORT).show();
+							   getString(R.string.userNotFoundMainView), Toast.LENGTH_SHORT).show();
 						}
 
 					}
@@ -312,9 +312,9 @@ public class MainViewActivity extends Activity implements
 			break;
 		case 2:
 		
-			final CharSequence[] items = { "Block", "Rename", "Remove" };
+			final CharSequence[] items = { getString(R.string.blockMainView), getString(R.string.renameMainView), getString(R.string.removeMainView) };
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("Contact");
+			builder.setTitle(getString(R.string.contactMainView));
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int item) {
 					switch (item) {
@@ -333,7 +333,7 @@ public class MainViewActivity extends Activity implements
 						drawContacts();
 						//TODO ext string
 						Toast.makeText(getApplicationContext(),
-								"Removed contact", Toast.LENGTH_SHORT)
+								getString(R.string.removedContactNotificationMainView), Toast.LENGTH_SHORT)
 								.show();
 						break;
 
@@ -345,9 +345,9 @@ public class MainViewActivity extends Activity implements
 			dialog = builder.create();
 			break;
 		case 3:
-			final CharSequence[] itemsUb = { "Unblock", "Rename", "Remove" };
+			final CharSequence[] itemsUb = { getString(R.string.unblockMainView), getString(R.string.renameMainView), getString(R.string.removeMainView) };
 			AlertDialog.Builder builderUb = new AlertDialog.Builder(this);
-			builderUb.setTitle("Contact");
+			builderUb.setTitle(getString(R.string.contactMainView));
 			builderUb.setItems(itemsUb, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int item) {
 					switch (item) {
@@ -366,7 +366,7 @@ public class MainViewActivity extends Activity implements
 						drawContacts();
 						//TODO ext string
 						Toast.makeText(getApplicationContext(),
-								"Removed contact", Toast.LENGTH_SHORT)
+								getString(R.string.removedContactNotificationMainView), Toast.LENGTH_SHORT)
 								.show();
 						break;
 
@@ -380,7 +380,7 @@ public class MainViewActivity extends Activity implements
 		case 4:
 			 ProgressDialog progDialog = new ProgressDialog(this);
 			 progDialog.setCancelable(false);
-			progDialog.setMessage("Logging out...");
+			progDialog.setMessage(getString(R.string.loggingOutMainView));
 			dialog = progDialog;
 			break;
 		default:
@@ -473,7 +473,7 @@ public class MainViewActivity extends Activity implements
 
 	private void startChat() {
 		Intent intent = new Intent(this, ChatViewActivity.class);
-		intent.putExtra("aardvarkID", startChatContact.getAardvarkID());
+		intent.putExtra(getString(R.string.aardvarkIntentExtraName), startChatContact.getAardvarkID());
 		
 		startActivity(intent);
 	}
@@ -481,21 +481,21 @@ public class MainViewActivity extends Activity implements
 	private void showRenameDialog() {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-        alert.setTitle("Rename contact");
-        alert.setMessage("Set a new nickname for your contact:");
+        alert.setTitle(getString(R.string.renameContactTitleMainView));
+        alert.setMessage(getString(R.string.renameContactTextMainView));
 
         // Set an EditText view to get user input 
         final EditText input = new EditText(this);
         alert.setView(input);
 
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton(getString(R.string.renameContactOKMainView), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                   String value = input.getText().toString();
                   ContactCtrl.getInstance().setNickname(lastLongPressedAardvarkID, value);
                 }
         });
 
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton(getString(R.string.renameContactCancelMainView), new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
             // Cancelled
           }
