@@ -48,4 +48,7 @@
 		<string name="renameContactTextMainView">Set a new nickname for your contact:</string>
 		<string name="renameContactOKMainView">Ok</string>
 		<string name="renameContactCancelMainView">Cancel</string>
+		<string name="acceptChatTextMainView">Unknown user %1$s sent you a message!\n Do you want to open the chat?</string>
+		<string name="acceptChatYesMainView">Yes</string>
+		<string name="acceptChatBlockMainView">Block</string>
 </resources>

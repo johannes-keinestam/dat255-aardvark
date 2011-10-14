@@ -49,7 +49,8 @@ public class MainViewActivity extends Activity implements
 	private ArrayList<String> online;
 	private ArrayList<String> offline;
 	private String lastLongPressedAardvarkID;
-	private Boolean done = false;
+	private boolean done = false;
+	private boolean requestedChat = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -225,6 +226,7 @@ public class MainViewActivity extends Activity implements
 
 					public void onClick(View v) {
 						if (ChatCtrl.getInstance().getChat(aardvarkID) == null) {
+							requestedChat = true;
 							ChatCtrl.getInstance().newChat(contact);
 							startChatContact = contact;
 						} else {
@@ -292,6 +294,7 @@ public class MainViewActivity extends Activity implements
 								.getAardvarkID(alias);
 						if (aardvarkID != null) {
 							User user = new User(alias, aardvarkID);
+							requestedChat = true;
 							startChatContact = user;
 							if (ChatCtrl.getInstance().getChat(aardvarkID) == null) {
 								ChatCtrl.getInstance().newChat(user);
@@ -383,6 +386,24 @@ public class MainViewActivity extends Activity implements
 			progDialog.setMessage(getString(R.string.loggingOutMainView));
 			dialog = progDialog;
 			break;
+		case 5:
+			AlertDialog.Builder alert = new AlertDialog.Builder(this)
+	        	.setMessage(String.format(getString(R.string.acceptChatTextMainView), ServerHandlerCtrl.getInstance().getAlias(startChatContact.getAardvarkID())))
+	        	.setPositiveButton(getString(R.string.acceptChatYesMainView), new DialogInterface.OnClickListener() {
+	                public void onClick(DialogInterface dialog, int whichButton) {
+	                	startChat();
+	                }
+	        	})
+	        	.setNegativeButton(getString(R.string.acceptChatBlockMainView), new DialogInterface.OnClickListener() {
+	        		public void onClick(DialogInterface dialog, int whichButton) {
+	        			Chat unwantedChat = ChatCtrl.getInstance().getChat(startChatContact.getAardvarkID());
+	        			ChatCtrl.getInstance().closeChat(unwantedChat);
+	        			UserCtrl.getInstance().blockUser(startChatContact);
+	        		}
+	        	});
+
+	        dialog = alert.create();
+			break;
 		default:
 			dialog = null;
 		}
@@ -398,8 +419,12 @@ public class MainViewActivity extends Activity implements
 			Chat chat = (Chat) object;
 			Log.i("INFO", chat.getRecipient().getAardvarkID() + " chat opened");
 			startChatContact = (User) chat.getRecipient();
-
-			startChat();
+			if (!isContact(startChatContact.getAardvarkID()) && !requestedChat) {
+				showDialog(5);
+			} else {
+				requestedChat = false;
+				startChat();
+			}
 		} else if (stateChange.equals(StateChanges.CHAT_CLOSED.toString())) {
 			Chat chat = (Chat) object;
 			Log.i("INFO", chat.getRecipient().getAardvarkID() + " chat closed");
