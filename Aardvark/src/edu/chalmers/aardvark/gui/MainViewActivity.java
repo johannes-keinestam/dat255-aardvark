@@ -119,7 +119,7 @@ public class MainViewActivity extends Activity implements
 
 	@Override
 	public void onBackPressed() {
-
+		// Do nothing. Don't allow going back to login view without logging out.
 		return;
 	}
 
@@ -134,17 +134,22 @@ public class MainViewActivity extends Activity implements
 			String alias = ServerHandlerCtrl.getInstance().getAlias(
 					user.getAardvarkID());
 
-			View item = inflater.inflate(R.layout.contactpanel, null);
+			View item = inflater.inflate(R.layout.chatpanel, null);
 
-			TextView tx = (TextView) item.findViewById(R.id.contactName);
+			TextView tx = (TextView) item.findViewById(R.id.chatName);
+			
 			if(contact!=null){
 				tx.setText(alias+"("+contact.getNickname()+")");
 			}
 			else{
 				tx.setText(alias);
 			}
+			if (chat.unreadMessages() > 0) {
+				TextView tv = (TextView) item.findViewById(R.id.messageView);
+				tv.setText("("+chat.unreadMessages()+")");
+				tv.setVisibility(TextView.VISIBLE);
+			}
 			
-
 			tx.setOnClickListener(new OnClickListener() {
 
 				public void onClick(View v) {
@@ -367,7 +372,6 @@ public class MainViewActivity extends Activity implements
 						removeFromOnline(lastLongPressedAardvarkID);
 						removeFromOffline(lastLongPressedAardvarkID);
 						drawContacts();
-						//TODO ext string
 						Toast.makeText(getApplicationContext(),
 								getString(R.string.removedContactNotificationMainView), Toast.LENGTH_SHORT)
 								.show();
@@ -454,6 +458,8 @@ public class MainViewActivity extends Activity implements
 			drawContacts();
 		} else if (stateChange.equals(StateChanges.USER_UNBLOCKED.toString())) {
 			drawContacts();
+		} else if (stateChange.equals(StateChanges.NEW_MESSAGE_IN_CHAT.toString())) {
+			drawContacts();
 		}
 	}
 
@@ -497,6 +503,7 @@ public class MainViewActivity extends Activity implements
 	}
 
 	private void startChat() {
+		ChatCtrl.getInstance().getChat(startChatContact.getAardvarkID()).clearUnreadMessages();
 		Intent intent = new Intent(this, ChatViewActivity.class);
 		intent.putExtra(getString(R.string.aardvarkIntentExtraName), startChatContact.getAardvarkID());
 		

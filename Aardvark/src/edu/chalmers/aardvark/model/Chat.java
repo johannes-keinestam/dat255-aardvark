@@ -11,6 +11,7 @@ import edu.chalmers.aardvark.util.StateChanges;
 public class Chat {
     private User recipient;
     private List<ChatMessage> chatMessages;
+    private int unreadMessages = 0;
 
     public Chat(User user) {
 	chatMessages = new ArrayList<ChatMessage>();
@@ -20,6 +21,7 @@ public class Chat {
 
     public void addMessage(ChatMessage msg) {
 	chatMessages.add(msg);
+	unreadMessages++;
 	ComBus.notifyListeners(StateChanges.NEW_MESSAGE_IN_CHAT.toString(), this);
     }
 
@@ -29,5 +31,13 @@ public class Chat {
     
     public List<ChatMessage> getMessages(){
 	return chatMessages;
+    }
+    
+	public void clearUnreadMessages() {
+	    	unreadMessages = 0;
+	}
+    
+    public int unreadMessages() {
+    	return unreadMessages;
     }
 }

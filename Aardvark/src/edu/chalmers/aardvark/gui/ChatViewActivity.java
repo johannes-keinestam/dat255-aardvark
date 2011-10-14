@@ -37,6 +37,7 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
     /** Called when the activity is first created. */
 	private String aardvarkID;
 	private String alias;
+	private boolean visible = false;
 		
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,19 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 		}
 	
     }
+    
+    @Override
+    protected void onResume() {
+    	super.onResume();
+    	visible = true;
+    }
+    
+    @Override
+    protected void onPause() {
+    	super.onPause();
+    	visible = false;
+    }
+    
     private void drawMessages(){
     	LayoutInflater inflater = (LayoutInflater) this
     			.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -104,9 +118,9 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 			// TODO Auto-generated catch block
 			
 		}
+		
     	ScrollView sv = (ScrollView) this.findViewById(R.id.scrollViewChat);
     	sv.smoothScrollTo(0, 214748364);
-    	
 	}
     
     @Override
@@ -181,6 +195,10 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 	@Override
 	public void notifyEvent(String stateChange, Object object) {
 		if(stateChange.equals(StateChanges.NEW_MESSAGE_IN_CHAT.toString())){
+			Chat chat = (Chat) object;
+			if (visible && chat.getRecipient().getAardvarkID().equals(aardvarkID)) {
+				chat.clearUnreadMessages();
+			}
 			drawMessages();
 		} else if(stateChange.equals(StateChanges.CONTACT_ADDED.toString())){
 			contactAdded();
