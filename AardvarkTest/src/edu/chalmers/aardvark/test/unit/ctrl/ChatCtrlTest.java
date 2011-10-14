@@ -1,41 +1,28 @@
 package edu.chalmers.aardvark.test.unit.ctrl;
 
 
-import static org.junit.Assert.*;
-
-import org.jivesoftware.smack.XMPPConnection;
+import junit.framework.TestCase;
 import org.jivesoftware.smack.packet.Message;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import android.util.Log;
-
 import edu.chalmers.aardvark.ctrl.ChatCtrl;
 import edu.chalmers.aardvark.model.Chat;
-import edu.chalmers.aardvark.model.LocalUser;
 import edu.chalmers.aardvark.model.User;
 import edu.chalmers.aardvark.test.unit.model.DummyUserFactory;
-import edu.chalmers.aardvark.util.ServerConnection;
 
-public class ChatCtrlTest {
+public class ChatCtrlTest extends TestCase{
 
 	ChatCtrl chatCtrl;
 	User user;
 	
-	@Before
 	public void setUp() throws Exception {
 		chatCtrl = ChatCtrl.getInstance();
 
 		user = DummyUserFactory.getRandomDummyUser();
 	}
 
-	@Test
 	public void testGetChatInstance(){
 		assertTrue(ChatCtrl.getInstance() == chatCtrl);
 	}
 	
-	@Test
 	public void testNewGetCloseChat(){
 		Chat chat = new Chat(user);
 		chatCtrl.newChat(user);
@@ -46,14 +33,12 @@ public class ChatCtrlTest {
 		assertTrue(chatCtrl.getChat(user.getAardvarkID()) == null);
 	}
 	
-	@Test
 	public void testNewChatGetChats(){
 		int numberOfChats = chatCtrl.getChats().size();
 		chatCtrl.newChat(user);
 		assertTrue(chatCtrl.getChats().size() > numberOfChats);
 	}
 	
-	@Test
 	public void  testReceiveSendGetChatMessages(){
 		chatCtrl.newChat(user);
 		int numberOfMessages = chatCtrl.getChatMessages(user.getAardvarkID()).size();
@@ -73,7 +58,6 @@ public class ChatCtrlTest {
 		
 	}
 	
-	@Test
 	public void testCloseChats(){
 		Chat chat = new Chat(user);
 		chatCtrl.newChat(user);
@@ -84,7 +68,6 @@ public class ChatCtrlTest {
 		assertTrue(chatCtrl.getChat(user.getAardvarkID()) == null);
 	}
 	
-	@After
 	public void tearDown() throws Exception {
 	}	
 }
