@@ -39,40 +39,44 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 	private String alias;
     @Override
     public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.chatview);
-	
-	aardvarkID = getIntent().getExtras().getString("aardvarkID");
-	alias = ServerHandlerCtrl.getInstance().getAlias(aardvarkID);
-	Contact contact = ContactCtrl.getInstance().getContact(aardvarkID);
-	
-	Log.i("CLASS", this.toString() + " STARTED");
-	
-	ComBus.subscribe(this);
-	
-	TextView aliasLable = (TextView) findViewById(R.id.userNameLable);
-	if(contact!=null){
-		aliasLable.setText(alias+"("+contact.getNickname()+")");
-	}
-	else{
-		aliasLable.setText(alias);
-	}
-	
-	drawMessages();
-	Button sendButton = (Button) findViewById(R.id.sendButton);
-	sendButton.setOnClickListener(new OnClickListener() {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.chatview);
 		
-		@Override
-		public void onClick(View v) {
-			EditText messageField = (EditText) findViewById(R.id.intputText);
-			String message = messageField.getText().toString();
-			if(message.length()>0){
-				Chat chat = ChatCtrl.getInstance().getChat(aardvarkID);
-				ChatCtrl.getInstance().sendMessage(chat, message);
-				messageField.setText("");
-			}
+		aardvarkID = getIntent().getExtras().getString("aardvarkID");
+		alias = ServerHandlerCtrl.getInstance().getAlias(aardvarkID);
+		Contact contact = ContactCtrl.getInstance().getContact(aardvarkID);
+		
+		Log.i("CLASS", this.toString() + " STARTED");
+		
+		ComBus.subscribe(this);
+		
+		TextView aliasLabel = (TextView) findViewById(R.id.userNameLable);
+		if (contact!=null) {
+			aliasLabel.setText(alias+" ("+contact.getNickname()+")");
 		}
-	});
+		else {
+			aliasLabel.setText(alias);
+		}
+		
+		drawMessages();
+		Button sendButton = (Button) findViewById(R.id.sendButton);
+		sendButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				EditText messageField = (EditText) findViewById(R.id.intputText);
+				String message = messageField.getText().toString();
+				if(message.length()>0){
+					Chat chat = ChatCtrl.getInstance().getChat(aardvarkID);
+					ChatCtrl.getInstance().sendMessage(chat, message);
+					messageField.setText("");
+				}
+			}
+		});
+		
+		if (UserCtrl.getInstance().isUserBlocked(aardvarkID)) {
+			sendButton.setEnabled(false);
+		}
 	
     }
     private void drawMessages(){
@@ -103,18 +107,23 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
     	sv.smoothScrollTo(0, 214748364);
     	
 	}
+    
     @Override
-
     public boolean onPrepareOptionsMenu(Menu menu) {
     	if(ContactCtrl.getInstance().isContact(aardvarkID)){
     		MenuItem item = menu.getItem(1);
     		item.setVisible(false);
     	}
-    	if(UserCtrl.getInstance().isUserBlocked(aardvarkID)){
+    	if (UserCtrl.getInstance().isUserBlocked(aardvarkID)) {
     		MenuItem item = menu.getItem(2);
     		item.setVisible(false);
     		item = menu.getItem(3);
     		item.setVisible(true);
+    	} else {
+    		MenuItem item = menu.getItem(2);
+    		item.setVisible(true);
+    		item = menu.getItem(3);
+    		item.setVisible(false);
     	}
 
     return super.onPrepareOptionsMenu(menu);
@@ -177,11 +186,11 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 		} else if (stateChange.equals(StateChanges.USER_BLOCKED.toString())) {
 			User blockedUser = (User) object;
 			if (blockedUser.getAardvarkID().equals(aardvarkID)) {
-			    setBlockedEnabled(false);
+			    setBlockedEnabled(true);
 			}
 		} else if (stateChange.equals(StateChanges.USER_UNBLOCKED.toString())) {
-			User blockedUser = (User) object;
-			if (blockedUser.getAardvarkID().equals(aardvarkID)) {
+			User unblockedUser = (User) object;
+			if (unblockedUser.getAardvarkID().equals(aardvarkID)) {
 			    setBlockedEnabled(false);
 			}
 		} else if(stateChange.equals(StateChanges.CHAT_CLOSED.toString())){
@@ -199,6 +208,6 @@ public class ChatViewActivity extends Activity implements edu.chalmers.aardvark.
 	
 	private void setBlockedEnabled(boolean enabled) {
 	    	Button sendButton = (Button) findViewById(R.id.sendButton);
-		sendButton.setEnabled(enabled);
+		sendButton.setEnabled(!enabled);
 	}
 }
