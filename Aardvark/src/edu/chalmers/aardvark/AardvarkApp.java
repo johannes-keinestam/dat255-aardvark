@@ -6,18 +6,18 @@ import android.content.Context;
 import android.util.Log;
 
 public class AardvarkApp extends Application {
-    private static Context context;
+	private static Context context;
 
-    @Override
-    public void onCreate() {
-	super.onCreate();
-	context = getApplicationContext();
-	Log.i("CLASS", this.toString() + " STARTED");
-	
-	SystemCtrl.getCtrl().performStartUpDuty();
-    }
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		context = getApplicationContext();
+		Log.i("CLASS", this.toString() + " STARTED");
 
-    public static Context getContext() {
-	return context;
-    }
+		SystemCtrl.getCtrl().performStartUpDuty();
+	}
+
+	public static Context getContext() {
+		return context;
+	}
 }

@@ -98,19 +98,16 @@ public class ServerHandlerCtrl {
 			ServerConnection.restart();
 
 			// Logs in as dedicated status checker user to access roster
-			ServerConnection.getConnection().login("statuschecker",
-					"statuschecker");
+			ServerConnection.getConnection().login("statuschecker", "statuschecker");
 			String matchingUser = getAardvarkID(alias);
-			Log.i("INFO", "Done checking, disconnecting. RESULT: "
-					+ matchingUser);
+			Log.i("INFO", "Done checking, disconnecting. RESULT: " + matchingUser);
 
 			ServerConnection.restart();
 
 			// If no matching user found, or matching user is yourself, alias is
 			// available.
 			if (matchingUser == null
-					|| matchingUser.equals(LocalUser.getLocalUser()
-							.getAardvarkID())) {
+					|| matchingUser.equals(LocalUser.getLocalUser().getAardvarkID())) {
 				return true;
 			} else {
 				return false;
@@ -142,22 +139,18 @@ public class ServerHandlerCtrl {
 					for (int i = 0; i < 3; i++) {
 						try {
 							LocalUser.setAlias(alias);
-							String aardvarkID = LocalUser.getLocalUser()
-									.getAardvarkID();
+							String aardvarkID = LocalUser.getLocalUser().getAardvarkID();
 							String password = LocalUser.getPassword();
 							Log.i("INFO", "Logging in, trying to register...");
 
 							// Registering user to log in with.
-							ServerConnection.register(aardvarkID, password,
-									alias);
-							Log.i("INFO",
-									"Logging in, registered and try trying to log in...");
+							ServerConnection.register(aardvarkID, password, alias);
+							Log.i("INFO", "Logging in, registered and try trying to log in...");
 
 							// Log in with user.
 							ServerConnection.login(aardvarkID, password);
 							isLoggedIn = true;
-							ComBus.notifyListeners(
-									StateChanges.LOGGED_IN.toString(), null);
+							ComBus.notifyListeners(StateChanges.LOGGED_IN.toString(), null);
 
 							// Successfully logged in! No need to try again.
 							break;
@@ -172,16 +165,14 @@ public class ServerHandlerCtrl {
 								// deleting it.
 								Log.i("INFO", "Logging into existing account..");
 								ServerConnection.getConnection().login(
-										LocalUser.getLocalUser()
-												.getAardvarkID(),
+										LocalUser.getLocalUser().getAardvarkID(),
 										LocalUser.getPassword());
 								Log.i("INFO", "Deleting account...");
-								ServerConnection.getConnection()
-										.getAccountManager().deleteAccount();
+								ServerConnection.getConnection().getAccountManager()
+										.deleteAccount();
 							} catch (XMPPException e1) {
 								// Server error. Could not delete account.
-								Log.i("INFO",
-										"Login error 2! " + e.getMessage());
+								Log.i("INFO", "Login error 2! " + e.getMessage());
 
 							}
 							// Non-successful login attempt, reconnect to server
@@ -193,8 +184,7 @@ public class ServerHandlerCtrl {
 
 				} else {
 					// Alias unavailable, notifying user.
-					ComBus.notifyListeners(
-							StateChanges.ALIAS_UNAVAILABLE.toString(), null);
+					ComBus.notifyListeners(StateChanges.ALIAS_UNAVAILABLE.toString(), null);
 				}
 			}
 		}).start();
@@ -228,8 +218,7 @@ public class ServerHandlerCtrl {
 				try {
 					// Trying to delete account, since a new must be registered
 					// at next login.
-					ServerConnection.getConnection().getAccountManager()
-							.deleteAccount();
+					ServerConnection.getConnection().getAccountManager().deleteAccount();
 				} catch (XMPPException e) {
 					Log.i("INFO", "Could not delete account! " + e.getMessage());
 				}
@@ -251,8 +240,7 @@ public class ServerHandlerCtrl {
 	public String getAardvarkID(String alias) {
 		// Searching roster group Aardvark (which all Aardvark users are added
 		// to)
-		RosterGroup onlineUsers = ServerConnection.getConnection().getRoster()
-				.getGroup("Aardvark");
+		RosterGroup onlineUsers = ServerConnection.getConnection().getRoster().getGroup("Aardvark");
 		for (RosterEntry user : onlineUsers.getEntries()) {
 			if (user.getName().equals(alias)) {
 				String username = user.getUser();
@@ -268,8 +256,7 @@ public class ServerHandlerCtrl {
 	 * @return collection of users as RosterEntry objects.
 	 */
 	public Collection<RosterEntry> getRegisteredUsers() {
-		return ServerConnection.getConnection().getRoster()
-				.getGroup("Aardvark").getEntries();
+		return ServerConnection.getConnection().getRoster().getGroup("Aardvark").getEntries();
 	}
 
 	/**
@@ -282,12 +269,10 @@ public class ServerHandlerCtrl {
 	public String getAlias(String aardvarkID) {
 		// Searching roster group Aardvark (which all Aardvark users are added
 		// to)
-		RosterGroup onlineUsers = ServerConnection.getConnection().getRoster()
-				.getGroup("Aardvark");
+		RosterGroup onlineUsers = ServerConnection.getConnection().getRoster().getGroup("Aardvark");
 		for (RosterEntry user : onlineUsers.getEntries()) {
 			String username = user.getUser();
-			String userAardvarkID = username.substring(0,
-					username.lastIndexOf("@"));
+			String userAardvarkID = username.substring(0, username.lastIndexOf("@"));
 			if (userAardvarkID.equals(aardvarkID)) {
 				return user.getName();
 			}

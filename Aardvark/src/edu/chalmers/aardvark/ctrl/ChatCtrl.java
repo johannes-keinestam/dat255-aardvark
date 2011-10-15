@@ -127,8 +127,7 @@ public class ChatCtrl {
 		Time time = new Time(Time.getCurrentTimezone());
 		time.setToNow();
 		ChatMessage chatMessage;
-		chatMessage = new ChatMessage(message, LocalUser.getLocalUser(), false,
-				time);
+		chatMessage = new ChatMessage(message, LocalUser.getLocalUser(), false, time);
 
 		// Adding message to chat
 		chat.addMessage(chatMessage);
@@ -155,8 +154,7 @@ public class ChatCtrl {
 		// If chat with sender does not exist already, create it.
 		Chat chat = ChatCtrl.getInstance().getChat(aardvarkID);
 		if (chat == null) {
-			String alias = ServerHandlerCtrl.getInstance().getAlias(
-					packet.getFrom());
+			String alias = ServerHandlerCtrl.getInstance().getAlias(packet.getFrom());
 			ChatCtrl.getInstance().newChat(new User(alias, packet.getFrom()));
 			chat = ChatCtrl.getInstance().getChat(packet.getFrom());
 		}
@@ -166,13 +164,11 @@ public class ChatCtrl {
 		Time time = new Time(Time.getCurrentTimezone());
 		time.setToNow();
 		Message message = (Message) packet;
-		chatMessage = new ChatMessage(message.getBody(), chat.getRecipient(),
-				true, time);
+		chatMessage = new ChatMessage(message.getBody(), chat.getRecipient(), true, time);
 		chat.addMessage(chatMessage);
 
 		// Notifies user of pending message with Notifier service
-		AardvarkApp.getContext().startService(
-				new Intent(AardvarkApp.getContext(), Notifier.class));
+		AardvarkApp.getContext().startService(new Intent(AardvarkApp.getContext(), Notifier.class));
 	}
 
 	/**

@@ -10,33 +10,34 @@ import edu.chalmers.aardvark.util.StateChanges;
 
 public class ActiveChatContainer {
 
-    private List<Chat> activeChats;
+	private List<Chat> activeChats;
 
-    public ActiveChatContainer() {
-	activeChats = new ArrayList<Chat>();
-	Log.i("CLASS", this.toString() + " STARTED");
-    }
-
-    public void addChat(Chat chat) {
-	activeChats.add(chat);
-	ComBus.notifyListeners(StateChanges.CHAT_OPENED.toString(), chat);
-    }
-
-    public void removeChat(Chat chat) {
-	activeChats.remove(chat);
-	ComBus.notifyListeners(StateChanges.CHAT_CLOSED.toString(), chat);
-    }
-
-    public Chat findChatByID(String aardvarkID) {
-	for (Chat c : activeChats) {
-	    if (c.getRecipient().getAardvarkID().equals(aardvarkID)) {
-		return c;
-	    }
+	public ActiveChatContainer() {
+		activeChats = new ArrayList<Chat>();
+		Log.i("CLASS", this.toString() + " STARTED");
 	}
-	return null;
-    }
-    public List<Chat> getChats(){
-    	return activeChats;
-    }
+
+	public void addChat(Chat chat) {
+		activeChats.add(chat);
+		ComBus.notifyListeners(StateChanges.CHAT_OPENED.toString(), chat);
+	}
+
+	public void removeChat(Chat chat) {
+		activeChats.remove(chat);
+		ComBus.notifyListeners(StateChanges.CHAT_CLOSED.toString(), chat);
+	}
+
+	public Chat findChatByID(String aardvarkID) {
+		for (Chat c : activeChats) {
+			if (c.getRecipient().getAardvarkID().equals(aardvarkID)) {
+				return c;
+			}
+		}
+		return null;
+	}
+
+	public List<Chat> getChats() {
+		return activeChats;
+	}
 
 }

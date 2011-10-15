@@ -18,76 +18,77 @@ import edu.chalmers.aardvark.services.MessageSender;
 import edu.chalmers.aardvark.services.StatusChecker;
 
 public class ServerConnection {
-    private static XMPPConnection connection;
+	private static XMPPConnection connection;
 
-    private ServerConnection() {
-	Log.i("CLASS", this.toString() + " STARTED");
-    }
-
-    public static XMPPConnection getConnection() {
-	if (connection == null) {
-	    // Gets server info from application resources
-	    Resources res = AardvarkApp.getContext().getResources();
-	    String server_addr = res
-		    .getString(edu.chalmers.aardvark.R.string.server_address);
-	    int server_port = res
-		    .getInteger(edu.chalmers.aardvark.R.integer.server_port);
-	    
-	    // connect to server
-	    ConnectionConfiguration config = new ConnectionConfiguration(
-		    server_addr, server_port);
-	    config.setSASLAuthenticationEnabled(false);	
-	    config.setSelfSignedCertificateEnabled(false);
-	    config.setSecurityMode(SecurityMode.disabled);
-
-	    connection = new XMPPConnection(config);
-	    
-	    try {
-		connection.connect();
-		Log.i("INFO", "Connected to server!");
-	    } catch (XMPPException e) {
-		Log.i("INFO", "Could not connect to server..." + e.getXMPPError());
-	    }
-
-	    // listen for received packages, and set up package sender service
-	    // class
-	    AardvarkApp.getContext().startService(new Intent(AardvarkApp.getContext(), MessageSender.class));
-	    AardvarkApp.getContext().startService(new Intent(AardvarkApp.getContext(), MessageReceiver.class));
+	private ServerConnection() {
+		Log.i("CLASS", this.toString() + " STARTED");
 	}
-	return connection;
-    }
 
-    public static void login(String aardvarkID, String password) throws XMPPException {
-	if (!connection.isConnected()) {
-	    connection.connect();
+	public static XMPPConnection getConnection() {
+		if (connection == null) {
+			// Gets server info from application resources
+			Resources res = AardvarkApp.getContext().getResources();
+			String server_addr = res.getString(edu.chalmers.aardvark.R.string.server_address);
+			int server_port = res.getInteger(edu.chalmers.aardvark.R.integer.server_port);
+
+			// connect to server
+			ConnectionConfiguration config = new ConnectionConfiguration(server_addr, server_port);
+			config.setSASLAuthenticationEnabled(false);
+			config.setSelfSignedCertificateEnabled(false);
+			config.setSecurityMode(SecurityMode.disabled);
+
+			connection = new XMPPConnection(config);
+
+			try {
+				connection.connect();
+				Log.i("INFO", "Connected to server!");
+			} catch (XMPPException e) {
+				Log.i("INFO", "Could not connect to server..." + e.getXMPPError());
+			}
+
+			// listen for received packages, and set up package sender service
+			// class
+			AardvarkApp.getContext().startService(
+					new Intent(AardvarkApp.getContext(), MessageSender.class));
+			AardvarkApp.getContext().startService(
+					new Intent(AardvarkApp.getContext(), MessageReceiver.class));
+		}
+		return connection;
 	}
-	    	Log.i("INFO", "Logging in user " + aardvarkID);
-	    	connection.login(aardvarkID, password);
-	    	Log.i("INFO", "Logged in!");
 
-	    // accept all incoming requests for my presence information
-	    // and start listening for presence changes in new service
-	    AardvarkApp.getContext().startService(new Intent(AardvarkApp.getContext(), StatusChecker.class));
-	    Log.i("INFO", "Added statuschecker.");
-    }
+	public static void login(String aardvarkID, String password) throws XMPPException {
+		if (!connection.isConnected()) {
+			connection.connect();
+		}
+		Log.i("INFO", "Logging in user " + aardvarkID);
+		connection.login(aardvarkID, password);
+		Log.i("INFO", "Logged in!");
 
-    public static void restart() {
-	connection.disconnect();
-	connection = null;
-	getConnection();
-    }
-    
-    public static void register(String aardvarkID, String password, String alias) throws XMPPException {
-    	if (!connection.isConnected()) {
-    	    getConnection();
-    	}
-	Log.i("INFO", "Registring account " + aardvarkID+"::"+password+" for alias: "+alias);
-    	
-	Map<String, String> aliasAttribute = new HashMap<String, String>();
-	aliasAttribute.put("name", alias);
-	
-    	connection.getAccountManager().createAccount(aardvarkID, password, aliasAttribute);
-    	Log.i("INFO", "Registred!");
-    }
+		// accept all incoming requests for my presence information
+		// and start listening for presence changes in new service
+		AardvarkApp.getContext().startService(
+				new Intent(AardvarkApp.getContext(), StatusChecker.class));
+		Log.i("INFO", "Added statuschecker.");
+	}
+
+	public static void restart() {
+		connection.disconnect();
+		connection = null;
+		getConnection();
+	}
+
+	public static void register(String aardvarkID, String password, String alias)
+			throws XMPPException {
+		if (!connection.isConnected()) {
+			getConnection();
+		}
+		Log.i("INFO", "Registring account " + aardvarkID + "::" + password + " for alias: " + alias);
+
+		Map<String, String> aliasAttribute = new HashMap<String, String>();
+		aliasAttribute.put("name", alias);
+
+		connection.getAccountManager().createAccount(aardvarkID, password, aliasAttribute);
+		Log.i("INFO", "Registred!");
+	}
 
 }

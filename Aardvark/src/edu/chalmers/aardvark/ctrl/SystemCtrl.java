@@ -68,22 +68,22 @@ public class SystemCtrl {
 		UserCtrl userCtrl = UserCtrl.getInstance();
 
 		// Loads contacts from file
-		SharedPreferences savedContacts = AardvarkApp.getContext()
-				.getSharedPreferences("contacts", 0);
+		SharedPreferences savedContacts = AardvarkApp.getContext().getSharedPreferences("contacts",
+				0);
 		for (Map.Entry<String, ?> entry : savedContacts.getAll().entrySet()) {
 			contactCtrl.addContact((String) entry.getValue(), entry.getKey());
 		}
 
 		// Loads list of blocked users from file
-		SharedPreferences blockedUsers = AardvarkApp.getContext()
-				.getSharedPreferences("blocklist", 0);
+		SharedPreferences blockedUsers = AardvarkApp.getContext().getSharedPreferences("blocklist",
+				0);
 		for (Map.Entry<String, ?> entry : blockedUsers.getAll().entrySet()) {
 			userCtrl.blockUser((String) entry.getKey());
 		}
 
 		// Loads local user unique identifiers/server details from file
-		SharedPreferences savedLocalUser = AardvarkApp.getContext()
-				.getSharedPreferences("localuser", 0);
+		SharedPreferences savedLocalUser = AardvarkApp.getContext().getSharedPreferences(
+				"localuser", 0);
 		String aardvarkID = savedLocalUser.getString("ID", null);
 		String password = savedLocalUser.getString("password", null);
 		LocalUser.createUser(aardvarkID, password);
@@ -116,8 +116,8 @@ public class SystemCtrl {
 		String genPassword = UUID.randomUUID().toString();
 
 		// save AardvarkID and password as persistent data
-		SharedPreferences savedLocalUser = AardvarkApp.getContext()
-				.getSharedPreferences("localuser", 0);
+		SharedPreferences savedLocalUser = AardvarkApp.getContext().getSharedPreferences(
+				"localuser", 0);
 		SharedPreferences.Editor editor = savedLocalUser.edit();
 
 		editor.putString("ID", aardvarkID);
@@ -129,8 +129,7 @@ public class SystemCtrl {
 		// In future, generate encryption keys, save
 
 		// indicate that the application is now setup for future use
-		SharedPreferences settings = AardvarkApp.getContext()
-				.getSharedPreferences("settings", 0);
+		SharedPreferences settings = AardvarkApp.getContext().getSharedPreferences("settings", 0);
 		SharedPreferences.Editor settingsEditor = settings.edit();
 
 		settingsEditor.putBoolean("firstRun", false);
@@ -145,8 +144,7 @@ public class SystemCtrl {
 	 */
 	private boolean isFirstRun() {
 		// Check firstRun flag
-		SharedPreferences settings = AardvarkApp.getContext()
-				.getSharedPreferences("settings", 0);
+		SharedPreferences settings = AardvarkApp.getContext().getSharedPreferences("settings", 0);
 
 		return settings.getBoolean("firstRun", true);
 	}

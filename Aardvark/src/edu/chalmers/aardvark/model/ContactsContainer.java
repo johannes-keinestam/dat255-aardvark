@@ -9,43 +9,43 @@ import edu.chalmers.aardvark.util.ComBus;
 import edu.chalmers.aardvark.util.StateChanges;
 
 public class ContactsContainer {
-    private List<Contact> contactList;
+	private List<Contact> contactList;
 
-    public ContactsContainer() {
-	contactList = new ArrayList<Contact>();
-	Log.i("CLASS", this.toString() + " STARTED");
-    }
-
-    public void addContact(Contact contact) {
-	contactList.add(contact);
-	ComBus.notifyListeners(StateChanges.CONTACT_ADDED.toString(), contact);
-    }
-
-    public void removeContact(Contact contact) {
-	contactList.remove(contact);
-	ComBus.notifyListeners(StateChanges.CONTACT_REMOVED.toString(), contact);
-    }
-
-    public Contact findContact(String nickname) {
-	for (Contact c : contactList) {
-	    if (c.getNickname().equals(nickname)) {
-		return c;
-	    }
+	public ContactsContainer() {
+		contactList = new ArrayList<Contact>();
+		Log.i("CLASS", this.toString() + " STARTED");
 	}
-	return null;
-    }
 
-    public Contact findContactByID(String aardvarkID) {
-	for (Contact c : contactList) {
-	    if (c.getAardvarkID().equals(aardvarkID)) {
-		return c;
-	    }
+	public void addContact(Contact contact) {
+		contactList.add(contact);
+		ComBus.notifyListeners(StateChanges.CONTACT_ADDED.toString(), contact);
 	}
-	return null;
-    }
-    
-    public List<Contact> getList() {
-	return contactList;
-    }
+
+	public void removeContact(Contact contact) {
+		contactList.remove(contact);
+		ComBus.notifyListeners(StateChanges.CONTACT_REMOVED.toString(), contact);
+	}
+
+	public Contact findContact(String nickname) {
+		for (Contact c : contactList) {
+			if (c.getNickname().equals(nickname)) {
+				return c;
+			}
+		}
+		return null;
+	}
+
+	public Contact findContactByID(String aardvarkID) {
+		for (Contact c : contactList) {
+			if (c.getAardvarkID().equals(aardvarkID)) {
+				return c;
+			}
+		}
+		return null;
+	}
+
+	public List<Contact> getList() {
+		return contactList;
+	}
 
 }

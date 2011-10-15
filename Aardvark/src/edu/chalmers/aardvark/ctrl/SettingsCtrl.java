@@ -56,8 +56,8 @@ public class SettingsCtrl {
 	 *            contact whose data to save.
 	 */
 	public void saveContact(Contact contact) {
-		SharedPreferences savedContacts = AardvarkApp.getContext()
-				.getSharedPreferences("contacts", 0);
+		SharedPreferences savedContacts = AardvarkApp.getContext().getSharedPreferences("contacts",
+				0);
 		SharedPreferences.Editor contactEditor = savedContacts.edit();
 
 		contactEditor.putString(contact.getAardvarkID(), contact.getNickname());
@@ -71,8 +71,8 @@ public class SettingsCtrl {
 	 *            contact whose data to delete.
 	 */
 	public void deleteContact(Contact contact) {
-		SharedPreferences savedContacts = AardvarkApp.getContext()
-				.getSharedPreferences("contacts", 0);
+		SharedPreferences savedContacts = AardvarkApp.getContext().getSharedPreferences("contacts",
+				0);
 		SharedPreferences.Editor contactEditor = savedContacts.edit();
 
 		contactEditor.remove(contact.getAardvarkID());
@@ -88,8 +88,8 @@ public class SettingsCtrl {
 	 *            the new nickname to save.
 	 */
 	public void renameContact(Contact contact, String newNickname) {
-		SharedPreferences savedContacts = AardvarkApp.getContext()
-				.getSharedPreferences("contacts", 0);
+		SharedPreferences savedContacts = AardvarkApp.getContext().getSharedPreferences("contacts",
+				0);
 		SharedPreferences.Editor contactEditor = savedContacts.edit();
 
 		contactEditor.putString(contact.getAardvarkID(), newNickname);
@@ -103,8 +103,8 @@ public class SettingsCtrl {
 	 *            user whose data to save on block list.
 	 */
 	public void saveBlockedUser(User user) {
-		SharedPreferences blockedUsers = AardvarkApp.getContext()
-				.getSharedPreferences("blocklist", 0);
+		SharedPreferences blockedUsers = AardvarkApp.getContext().getSharedPreferences("blocklist",
+				0);
 		SharedPreferences.Editor blocklistEditor = blockedUsers.edit();
 
 		blocklistEditor.putString(user.getAardvarkID(), "");
@@ -118,8 +118,8 @@ public class SettingsCtrl {
 	 *            user whose data to delete from block list.
 	 */
 	public void deleteBlockedUser(User user) {
-		SharedPreferences blockedUsers = AardvarkApp.getContext()
-				.getSharedPreferences("blocklist", 0);
+		SharedPreferences blockedUsers = AardvarkApp.getContext().getSharedPreferences("blocklist",
+				0);
 		SharedPreferences.Editor blocklistEditor = blockedUsers.edit();
 
 		blocklistEditor.remove(user.getAardvarkID());
