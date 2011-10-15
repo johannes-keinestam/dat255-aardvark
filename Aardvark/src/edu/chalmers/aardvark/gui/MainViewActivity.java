@@ -90,7 +90,7 @@ public class MainViewActivity extends Activity implements
 	}
 	private void getOnlineUsers(){
 		if(!done){
-		for (RosterEntry user : ServerHandlerCtrl.getInstance().getOnlineUsers()) {
+		for (RosterEntry user : ServerHandlerCtrl.getInstance().getRegisteredUsers()) {
 			Roster roster = ServerConnection.getConnection().getRoster();
 			Presence presence = roster.getPresence(user.getUser());
 			if (presence.isAvailable()) {
