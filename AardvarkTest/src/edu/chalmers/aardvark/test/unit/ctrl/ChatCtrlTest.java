@@ -4,7 +4,6 @@ package edu.chalmers.aardvark.test.unit.ctrl;
 import junit.framework.TestCase;
 import org.jivesoftware.smack.packet.Message;
 import edu.chalmers.aardvark.ctrl.ChatCtrl;
-import edu.chalmers.aardvark.model.Chat;
 import edu.chalmers.aardvark.model.User;
 import edu.chalmers.aardvark.test.unit.model.DummyUserFactory;
 
@@ -24,12 +23,12 @@ public class ChatCtrlTest extends TestCase{
 	}
 	
 	public void testNewGetCloseChat(){
-		Chat chat = new Chat(user);
+		int numberOfChats = chatCtrl.getChats().size();
 		chatCtrl.newChat(user);
 		
-		assertTrue(chatCtrl.getChat(user.getAardvarkID()) == chat);
+		assertTrue(chatCtrl.getChats().size() > numberOfChats);
 		
-		chatCtrl.closeChat(chat);
+		chatCtrl.closeChat(chatCtrl.getChat(user.getAardvarkID()));
 		assertTrue(chatCtrl.getChat(user.getAardvarkID()) == null);
 	}
 	
@@ -59,10 +58,10 @@ public class ChatCtrlTest extends TestCase{
 	}
 	
 	public void testCloseChats(){
-		Chat chat = new Chat(user);
+		int numberOfChats = chatCtrl.getChats().size();
 		chatCtrl.newChat(user);
 		
-		assertTrue(chatCtrl.getChat(user.getAardvarkID()) == chat);
+		assertTrue(chatCtrl.getChats().size() > numberOfChats);
 		
 		chatCtrl.closeChats();
 		assertTrue(chatCtrl.getChat(user.getAardvarkID()) == null);
