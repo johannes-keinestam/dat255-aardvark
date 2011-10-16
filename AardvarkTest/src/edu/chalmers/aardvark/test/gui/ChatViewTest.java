@@ -35,7 +35,7 @@ public class ChatViewTest extends ActivityInstrumentationTestCase2<LoginViewActi
 		resetContact();
 		addContact();
 		solo.clickOnButton("Login");
-		solo.waitForDialogToClose(7000);
+		solo.waitForActivity("MainViewActivity");
 		receiveMessage();
 		solo.clickOnText("null");
 	}
@@ -81,10 +81,11 @@ public class ChatViewTest extends ActivityInstrumentationTestCase2<LoginViewActi
 	}
 	public void testAddContact(){
 		ContactCtrl.getInstance().removeContact(aardvarkID);
-		solo.pressMenuItem(0);
-		assertTrue(ContactCtrl.getInstance().isContact(aardvarkID));
-		solo.pressMenuItem(0);
-		solo.assertCurrentActivity("MainView", MainViewActivity.class);
+		solo.pressMenuItem(1);
+		solo.enterText(0, "testAddContact");
+		solo.clickOnButton("Ok");
+		assertTrue(solo.searchText("Contact added"));
+		
 	}
 	private void addContact(){
 		ContactCtrl.getInstance().addContact(ContactName, aardvarkID);
