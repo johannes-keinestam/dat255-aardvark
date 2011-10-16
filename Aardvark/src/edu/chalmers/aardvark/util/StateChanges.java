@@ -1,5 +1,17 @@
 package edu.chalmers.aardvark.util;
 
+/**
+ * Enum representing codes for state changes in the application. Used when
+ * sending an event with the ComBus by choosing a state change code and
+ * converting it to a string.
+ * 
+ * Typical usage when sending event:
+ * 		ComBus.notifyListeners(StateChanges.CONTACT_ADDED.toString(), contact);
+ * 
+ * Typical usage when receiving event: 
+ * 		if (stateChange.equals(StateChanges.CONTACT_ADDED.toString()) 
+ * 			// do stuff
+ */
 public enum StateChanges {
 	CONTACT_ADDED, CONTACT_REMOVED, CONTACT_RENAMED, USER_ONLINE, USER_OFFLINE, USER_BLOCKED, USER_UNBLOCKED,
 
