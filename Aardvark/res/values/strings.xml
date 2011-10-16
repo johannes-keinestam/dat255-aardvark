@@ -51,4 +51,6 @@
 		<string name="acceptChatTextMainView">Unknown user %1$s sent you a message!\n Do you want to open the chat?</string>
 		<string name="acceptChatYesMainView">Yes</string>
 		<string name="acceptChatBlockMainView">Block</string>
+		<string name="openChatGuideMessage">Start a chat with the button above!</string>
+		<string name="emptyContactList">Empty</string>
 </resources>

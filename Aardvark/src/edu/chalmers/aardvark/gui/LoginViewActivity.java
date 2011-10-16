@@ -70,15 +70,22 @@ public class LoginViewActivity extends Activity implements EventListener {
 	public void notifyEvent(String stateChange, Object object) {
 		if (stateChange.equals(StateChanges.LOGGED_IN.toString())) {
 			// User logged in, hides progress dialog and opens MainView.
-			dismissDialog(1);
+			try {
+				dismissDialog(1);
+			} catch (IllegalArgumentException e) { }
 			login();
 		} else if (stateChange.equals(StateChanges.LOGIN_FAILED.toString())) {
 			// Login failed, hides progress dialog and shows notification.
-			dismissDialog(1);
+			try {
+				dismissDialog(1);
+			} catch (IllegalArgumentException e) { }
 			loginFailed();
 		} else if (stateChange.equals(StateChanges.ALIAS_UNAVAILABLE.toString())) {
 			// Alias was unavailable, hides progress dialog and shows
 			// notification.
+			try {
+				dismissDialog(1);
+			} catch (IllegalArgumentException e) { }
 			dismissDialog(1);
 			aliasUnavailable();
 		}

@@ -43,6 +43,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -207,6 +208,15 @@ public class MainViewActivity extends Activity implements EventListener {
 
 			ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
 		}
+		
+		// Adds guide text if no chats opened
+		if (chats.size() == 0) {
+			TextView guideMessage = new TextView(this);
+			guideMessage.setText(R.string.openChatGuideMessage);
+			guideMessage.setTextColor(Color.GRAY);
+			guideMessage.setPadding(2, 8, 2, 8);
+			ll.addView(guideMessage, ViewGroup.LayoutParams.WRAP_CONTENT);
+		}
 	}
 
 	/**
@@ -242,6 +252,15 @@ public class MainViewActivity extends Activity implements EventListener {
 			});
 
 			ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
+		}
+		
+		// Adds guide text if no chats opened
+		if (offline.size() == 0) {
+			TextView guideMessage = new TextView(this);
+			guideMessage.setText(R.string.emptyContactList);
+			guideMessage.setTextColor(Color.GRAY);
+			guideMessage.setPadding(2, 8, 2, 8);
+			ll.addView(guideMessage, ViewGroup.LayoutParams.WRAP_CONTENT);
 		}
 	}
 
@@ -306,6 +325,14 @@ public class MainViewActivity extends Activity implements EventListener {
 			});
 
 			ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
+		}
+		
+		if (online.size() == 0) {
+			TextView guideMessage = new TextView(this);
+			guideMessage.setText(R.string.emptyContactList);
+			guideMessage.setTextColor(Color.GRAY);
+			guideMessage.setPadding(2, 8, 2, 8);
+			ll.addView(guideMessage, ViewGroup.LayoutParams.WRAP_CONTENT);
 		}
 	}
 
@@ -512,7 +539,10 @@ public class MainViewActivity extends Activity implements EventListener {
 	public void notifyEvent(String stateChange, Object object) {
 		if (stateChange.equals(StateChanges.LOGGED_OUT.toString())) {
 			// Local user logged out. Exits current view and shows Login View.
-			dismissDialog(4);
+			try {
+				// try to close logout dialog
+				dismissDialog(4);
+			} catch (IllegalArgumentException e) { }
 			this.finish();
 		} else if (stateChange.equals(StateChanges.CHAT_OPENED.toString())) {
 			// New chat created.
