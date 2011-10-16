@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="lib/robotium-solo-2.5.jar"/>
 	<classpathentry kind="lib" path="lib/junit.jar"/>
 	<classpathentry kind="lib" path="lib/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
+	<classpathentry kind="lib" path="lib/polidea_test_runner_1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
