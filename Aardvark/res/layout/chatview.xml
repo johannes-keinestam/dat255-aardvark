@@ -3,12 +3,12 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
   android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
-    <TextView android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="fill_parent" android:id="@+id/userNameLable" android:text="Kalle"></TextView>
+  android:layout_height="fill_parent" android:background="#FFFFFF">
+    <TextView android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="fill_parent" android:id="@+id/userNameLable" android:text="Kalle" android:textColor="#000000" android:background="@drawable/back" android:paddingTop="10dp" android:paddingLeft="5dp"></TextView>
     <ScrollView android:layout_alignParentLeft="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_above="@+id/intputText" android:layout_below="@+id/userNameLable" android:id="@+id/scrollViewChat">
         <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:orientation="vertical" android:id="@+id/messageLayout"></LinearLayout>
     </ScrollView>
     <Button android:layout_height="wrap_content" android:id="@+id/sendButton" android:layout_width="wrap_content" android:layout_alignTop="@+id/intputText" android:layout_alignParentRight="true" android:layout_alignBottom="@+id/intputText" android:text="@string/sendButtonChat"></Button>
-    <EditText android:inputType="textMultiLine" android:id="@+id/intputText" android:layout_height="wrap_content" android:layout_width="wrap_content" android:lines="2" android:layout_alignParentBottom="true" android:layout_toLeftOf="@+id/sendButton" android:layout_alignParentLeft="true"></EditText>
+    <EditText android:inputType="textMultiLine" android:id="@+id/intputText" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentBottom="true" android:layout_toLeftOf="@+id/sendButton" android:layout_alignParentLeft="true" android:lines="1"></EditText>
     
 </RelativeLayout>
