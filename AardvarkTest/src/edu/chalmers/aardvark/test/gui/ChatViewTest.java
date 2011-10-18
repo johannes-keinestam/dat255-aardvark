@@ -1,8 +1,9 @@
 package edu.chalmers.aardvark.test.gui;
 
-import org.jivesoftware.smack.Roster;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jivesoftware.smack.packet.Message;
-import org.jivesoftware.smack.packet.Presence;
 
 import android.test.ActivityInstrumentationTestCase2;
 
@@ -10,20 +11,14 @@ import com.jayway.android.robotium.solo.Solo;
 
 import edu.chalmers.aardvark.ctrl.ChatCtrl;
 import edu.chalmers.aardvark.ctrl.ContactCtrl;
-import edu.chalmers.aardvark.ctrl.ServerHandlerCtrl;
-import edu.chalmers.aardvark.ctrl.UserCtrl;
-import edu.chalmers.aardvark.gui.ChatViewActivity;
 import edu.chalmers.aardvark.gui.LoginViewActivity;
-import edu.chalmers.aardvark.gui.MainViewActivity;
-import edu.chalmers.aardvark.model.User;
 import edu.chalmers.aardvark.util.ComBus;
-import edu.chalmers.aardvark.util.ServerConnection;
 import edu.chalmers.aardvark.util.StateChanges;
 
 public class ChatViewTest extends ActivityInstrumentationTestCase2<LoginViewActivity> {
 	private Solo solo;
-	private String aardvarkID = "12345";
-	private String ContactName = "TestContact";
+	private String aardvarkID = "chatViewTest"+Math.random();
+	HashMap<String, Boolean> report = new HashMap<String, Boolean>();
 
 	public ChatViewTest() {
 		super("edu.chalmers.aardvark", LoginViewActivity.class);
@@ -32,12 +27,11 @@ public class ChatViewTest extends ActivityInstrumentationTestCase2<LoginViewActi
 	public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
 		solo.enterText(0, "testRobotium");
-		resetContact();
-		addContact();
 		solo.clickOnButton("Login");
 		solo.waitForActivity("MainViewActivity");
+		ChatCtrl.getInstance().closeChats();
 		receiveMessage();
-		solo.clickOnText("null");
+		
 	}
 	
 	public void tearDown() throws Exception {
@@ -48,67 +42,98 @@ public class ChatViewTest extends ActivityInstrumentationTestCase2<LoginViewActi
 		}
 		getActivity().finish();
 		super.tearDown();
-	} 
-	public void testReceiveMessage() {
-		solo.assertCurrentActivity("chatView", ChatViewActivity.class);
-		assertTrue(solo.searchText("testReceiveMessage"));
 	}
-	public void testSendMessage() {
-		solo.assertCurrentActivity("chatView", ChatViewActivity.class);
-		solo.enterText(0, "TestSendMessage");
-		solo.clickOnButton("Send");
-		assertTrue(solo.searchText("TestSendMessage"));
+	public void testChat(){
+		acceptChatTest();
+		receiveMessageTest();
+		sendMessageTest();
+		addContactTest();
+		blockTest();
+		unblockTest();
+		closeChatTest();
+		logout();
+
+		printResult();
+		
 	}
-	public void testBlock() {
-		solo.pressMenuItem(1);
-		solo.enterText(0, "TestBlockMessage");
-		solo.clickOnButton("Send");
-		assertFalse(solo.searchText("TestBlcokMessage"));
+
+	private void logout() {
+		for (int i = 0; i < 4; i++) {
+			solo.goBack();
+		}
+		ComBus.notifyListeners(StateChanges.USER_OFFLINE.toString(), aardvarkID);
+		try {
+			ContactCtrl.getInstance().removeContact(aardvarkID);
+		} catch (NullPointerException e) {
+			
+		}
+		solo.pressMenuItem(2);
+		solo.waitForActivity("LoginViewActivity");
 	}
-	public void testUnblock() {
-		UserCtrl.getInstance().blockUser(aardvarkID);
-		solo.pressMenuItem(1);
-		solo.enterText(0, "TestBlockMessage");
-		solo.clickOnButton("Send");
-		assertTrue(solo.searchText("TestBlockMessage"));
-	}
-	public void testCloseChat(){
+
+	private void closeChatTest() {
 		solo.pressMenuItem(0);
-		solo.assertCurrentActivity("MainView", MainViewActivity.class);
+		report.put("closeChatTest", solo.getCurrentActivity().getLocalClassName().equals("gui.MainViewActivity"));
+	
 	}
-	public void testAlias(){
-		assertTrue(solo.searchText(ContactName));
+
+	private void unblockTest() {
+		solo.pressMenuItem(1);
+		solo.enterText(0, "TestunblockMessage");
+		solo.clickOnButton("Send");
+		report.put("unblockTest", solo.searchText("TestunblockMessage"));
 	}
-	public void testAddContact(){
-		ContactCtrl.getInstance().removeContact(aardvarkID);
+
+	private void blockTest() {
+		solo.pressMenuItem(1);
+		solo.enterText(0, "TestBlockMessage");
+		solo.clickOnButton("Send");
+		report.put("blockTest", solo.searchText("TestBlcokMessage")==false);	
+		
+	}
+
+	private void addContactTest() {
 		solo.pressMenuItem(1);
 		solo.enterText(0, "testAddContact");
 		solo.clickOnButton("Ok");
-		assertTrue(solo.searchText("Contact added"));
+		report.put("addContactTest", solo.searchText("Contact added"));	
+	}
+
+	private void sendMessageTest() {
+		solo.enterText(0, "testSendMessage");
+		solo.clickOnButton("Send");
+		report.put("sendMessageTest", solo.searchText("testSendMessage"));	
 		
 	}
-	private void addContact(){
-		ContactCtrl.getInstance().addContact(ContactName, aardvarkID);
+
+	private void receiveMessageTest() {
+		report.put("receiveMessageTest", solo.searchText("testReceiveMessage"));		
 	}
-	private void resetContact(){
-		try {
-			UserCtrl.getInstance().unblockUser(aardvarkID);
-		} catch (NullPointerException e1) {
-			// TODO Auto-generated catch block
-		}
-		try{
-			ContactCtrl.getInstance().removeContact(aardvarkID);
-			
-		}
-		catch (NullPointerException e) {
-			// TODO: handle exception
-		}
+
+	private void acceptChatTest() {
+		solo.clickOnButton("Yes");
+		report.put("acceptChatTest", solo.getCurrentActivity().getLocalClassName().equals("gui.ChatViewActivity"));
 		
 	}
+
+
 	private void receiveMessage(){
 		Message message = new Message();
 		message.setBody("testReceiveMessage");
 		message.setFrom(aardvarkID);
 		ChatCtrl.getInstance().receiveMessage(message);
+	}
+		
+	private void printResult(){
+		String failed = "";
+		for (Map.Entry<String, Boolean> entry : report.entrySet()) {
+        	if(!entry.getValue()){
+        		failed =failed+" "+entry.getKey()+" ";
+        		System.out.println(failed);
+        	}
+        }
+		if(failed.length()>0){
+    		fail(failed);
+    	}
 	}
 }
