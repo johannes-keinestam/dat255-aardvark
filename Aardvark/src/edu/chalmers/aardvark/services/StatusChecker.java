@@ -43,17 +43,23 @@ import edu.chalmers.aardvark.util.StateChanges;
 public class StatusChecker extends Service implements RosterListener {
 
 	@Override
-	public void onCreate() {
-		// Called when the service is created.
-		Log.i("CLASS", this.toString() + " STARTED");
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		// Called when the service is started.
+		Log.i("CLASS", this.toString() + " STARTED");//
 
 		XMPPConnection connection = ServerConnection.getConnection();
-		Roster roster = connection.getRoster();
+		
+		// Only add status checker if logged in to prevent crashes.
+		if (connection.isAuthenticated()) {
+			Roster roster = connection.getRoster();
 
-		// Accept all incoming requests for subscribing to local user's status.
-		roster.setSubscriptionMode(Roster.SubscriptionMode.accept_all);
-		// Registers as roster listener.
-		roster.addRosterListener(this);
+			// Accept all incoming requests for subscribing to local user's status.
+			roster.setSubscriptionMode(Roster.SubscriptionMode.accept_all);
+			// Registers as roster listener.
+			roster.addRosterListener(this);
+		}
+		
+		return START_STICKY;
 	}
 
 	@Override

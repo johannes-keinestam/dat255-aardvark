@@ -34,6 +34,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -269,9 +270,21 @@ public class ChatViewActivity extends Activity implements EventListener {
 				setBlockedEnabled(false);
 			}
 		} else if (stateChange.equals(StateChanges.CHAT_CLOSED.toString())) {
-			// Chat was closed, closes this view.
+			// Chat was closed, opens MainView.
+			Intent intent = new Intent(this, MainViewActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
 			this.finish();
 		}
+	}
+	
+	@Override
+	public void onBackPressed() {
+		 //Opens existing MainView.
+		Intent intent = new Intent(this, MainViewActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+		this.finish();
 	}
 
 	/**

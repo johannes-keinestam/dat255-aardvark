@@ -41,10 +41,10 @@ import edu.chalmers.aardvark.services.StatusChecker;
  * 
  * Singleton so that only one connection can exist at once, to prevent mistakes.
  */
-public class ServerConnection {
-	/** The connection to the server */
+public class ServerConnection extends Connection {
+	
 	private static XMPPConnection connection;
-
+	
 	/**
 	 * Private constructor.
 	 */

@@ -184,11 +184,15 @@ public class MainViewActivity extends Activity implements EventListener {
 			View item = inflater.inflate(R.layout.chatpanel, null);
 			TextView tx = (TextView) item.findViewById(R.id.chatName);
 
+			String printedName = alias;
+			if (alias == null || alias.trim().length() == 0) {
+				printedName = getString(R.string.unknownUserMainView);
+			}
 			// Add nickname if user is contact.
 			if (contact != null) {
-				tx.setText(alias + "(" + contact.getNickname() + ")");
+				tx.setText(printedName + "(" + contact.getNickname() + ")");
 			} else {
-				tx.setText(alias);
+				tx.setText(printedName);
 			}
 
 			// If chat has unread messages, display number to the right.
@@ -543,6 +547,10 @@ public class MainViewActivity extends Activity implements EventListener {
 				// try to close logout dialog
 				dismissDialog(4);
 			} catch (IllegalArgumentException e) { }
+			//Show login view
+			Intent intent = new Intent(this, LoginViewActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
 			this.finish();
 		} else if (stateChange.equals(StateChanges.CHAT_OPENED.toString())) {
 			// New chat created.
@@ -554,7 +562,10 @@ public class MainViewActivity extends Activity implements EventListener {
 			// if user is not a contact or chat was not explicitly requested.
 			// Otherwise just opens chat,
 			if (!isContact(startChatContact.getAardvarkID()) && !requestedChat) {
-				showDialog(5);
+				// Try to show dialog. If activity is finished, may produce crash.
+				try {
+					showDialog(5);
+				} catch (Exception e) { }
 			} else {
 				requestedChat = false;
 				startChat();
@@ -674,6 +685,10 @@ public class MainViewActivity extends Activity implements EventListener {
 	 * Note: user to be set in the startChatContact field.
 	 */
 	private void startChat() {
+		try {
+			dismissDialog(5);
+		} catch (IllegalArgumentException iae) { }
+		
 		// Always set all messages to read when opening chat window.
 		ChatCtrl.getInstance().getChat(startChatContact.getAardvarkID()).clearUnreadMessages();
 
