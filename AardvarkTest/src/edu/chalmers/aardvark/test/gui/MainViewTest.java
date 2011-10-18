@@ -204,12 +204,7 @@ public class MainViewTest extends ActivityInstrumentationTestCase2<LoginViewActi
 		}
 		
 	}
-	private void receiveMessage(){
-		Message message = new Message();
-		message.setBody("testReceiveMessage");
-		message.setFrom(aardvarkID);
-		ChatCtrl.getInstance().receiveMessage(message);
-	}
+
 	private void reset(){
 		for (int i = 0; i < 4; i++) {
 			solo.goBack();

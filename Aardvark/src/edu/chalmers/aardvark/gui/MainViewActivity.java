@@ -234,7 +234,13 @@ public class MainViewActivity extends Activity implements EventListener {
 			// Display nickname on list item.
 			View item = inflater.inflate(R.layout.contactpanel, null);
 			TextView tx = (TextView) item.findViewById(R.id.contactName);
-			tx.setText(contact.getNickname());
+			//Prevents system crash in a very unusual situation.
+			try{
+				tx.setText(contact.getNickname());
+				}
+			catch (NullPointerException e) {
+			}
+			
 
 			// If contact is blocked, add block graphic on the right.
 			if (UserCtrl.getInstance().isUserBlocked(aardvarkID)) {
@@ -291,7 +297,12 @@ public class MainViewActivity extends Activity implements EventListener {
 			// Displays nickname on list item.
 			View item = inflater.inflate(R.layout.contactpanel, null);
 			TextView tx = (TextView) item.findViewById(R.id.contactName);
-			tx.setText(contact.getNickname());
+			//Prevents system crash in a very unusual situation.
+			try{
+				tx.setText(contact.getNickname());
+				}
+			catch (NullPointerException e) {
+			}
 
 			// If user is blocked, show block graphic on the right.
 			if (UserCtrl.getInstance().isUserBlocked(aardvarkID)) {
