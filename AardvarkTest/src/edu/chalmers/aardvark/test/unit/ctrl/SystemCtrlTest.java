@@ -8,11 +8,11 @@ public class SystemCtrlTest extends TestCase {
 	private SystemCtrl systemCtrl;
 
 	public void setUp() throws Exception {
-		systemCtrl = SystemCtrl.getCtrl();
+		systemCtrl = SystemCtrl.getInstance();
 	}
 	
 	public void testGetsystemInstance(){
-		assertTrue(SystemCtrl.getCtrl() == systemCtrl);
+		assertTrue(SystemCtrl.getInstance() == systemCtrl);
 	}
 	
 	public void tearDown() throws Exception {
