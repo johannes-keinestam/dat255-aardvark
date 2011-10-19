@@ -25,31 +25,31 @@ public class UserCtrlTest extends TestCase{
 	public void testBlockUser() {
 		blockUser(user);
 		
-		assertTrue(isUserBlocked(user.getAardvarkID));
+		assertTrue(isUserBlocked(user.getAardvarkID()));
 		
 		unblockUser(user);
 	}
 	
 	public void testBlocAardvarkID() {
-		blockUser(user.getAardvarkID);
+		blockUser(user.getAardvarkID());
 		
-		assertTrue(isUserBlocked(user.getAardvarkID));
+		assertTrue(isUserBlocked(user.getAardvarkID()));
 		
-		unblockUser(user.getAardvarkID);
+		unblockUser(user.getAardvarkID());
 	}
 	
 	public void testUnblockUser() {
 		blockUser(user);
 		unblockUser(user);
 		
-		assertFalse(isUserBlocked(user.getAardvarkID));
+		assertFalse(isUserBlocked(user.getAardvarkID()));
 	}
 	
 	public void testUnblockAardvarkID() {
-		blockUser(user.getAardvarkID);
-		unblockUser(user.getAardvarkID);
+		blockUser(user.getAardvarkID());
+		unblockUser(user.getAardvarkID());
 		
-		assertFalse(isUserBlocked(user.getAardvarkID));
+		assertFalse(isUserBlocked(user.getAardvarkID()));
 	}
 
 	public void tearDown() throws Exception {
