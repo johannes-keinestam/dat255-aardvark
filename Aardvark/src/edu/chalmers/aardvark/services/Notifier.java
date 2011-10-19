@@ -16,7 +16,6 @@
 
 package edu.chalmers.aardvark.services;
 
-import android.R;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -26,6 +25,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 import edu.chalmers.aardvark.gui.MainViewActivity;
+import edu.chalmers.aardvark.R;
 
 /**
  * Service class for sending notifications to the user. These notifications are
@@ -64,7 +64,7 @@ public class Notifier extends Service {
 		PendingIntent notificationIntent = PendingIntent.getActivity(this, 0, openIntent, 0);
 
 		// Associate text and icon to the notification.
-		Notification notification = new Notification(R.drawable.sym_def_app_icon,
+		Notification notification = new Notification(R.drawable.aardvark_status_icon,
 				notificationTickerText, System.currentTimeMillis());
 		notification.setLatestEventInfo(context, notificationTitle, notificationDetails,
 				notificationIntent);
