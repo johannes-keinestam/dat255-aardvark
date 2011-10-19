@@ -111,6 +111,7 @@ public final class R {
         public static final int blockMainView=0x7f04001e;
         public static final int closeChatMenu=0x7f040014;
         public static final int contactAddedNotificationChatView=0x7f040019;
+        public static final int contactChatMainView=0x7f040031;
         public static final int contactMainView=0x7f040022;
         public static final int emptyContactList=0x7f04002e;
         public static final int enterAliasLoginView=0x7f040030;
