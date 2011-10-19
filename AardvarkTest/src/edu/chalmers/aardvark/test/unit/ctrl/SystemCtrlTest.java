@@ -12,12 +12,7 @@ public class SystemCtrlTest extends TestCase {
 	}
 	
 	public void testGetsystemInstance(){
-		assertTrue(SystemCtrl.getInstance() == systemCtrl);
-	}
-
-	public void testPerformSetup(){
-			systemCtrl.performSetup();
-			assertFalse(systemCtrl.isFirstRun());
+		assertTrue(SystemCtrl.getCtrl() == systemCtrl);
 	}
 	
 	public void tearDown() throws Exception {
