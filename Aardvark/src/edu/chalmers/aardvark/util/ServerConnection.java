@@ -133,7 +133,9 @@ public class ServerConnection {
 	 * problem.
 	 */
 	public static void restart() {
-		connection.disconnect();
+		if(!connection.isConnected()){
+			connection.disconnect();
+		}
 		connection = null;
 		getConnection();
 	}

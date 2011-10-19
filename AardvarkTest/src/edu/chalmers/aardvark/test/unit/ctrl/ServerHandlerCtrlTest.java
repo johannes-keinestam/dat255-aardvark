@@ -64,6 +64,17 @@ public class ServerHandlerCtrlTest extends TestCase implements EventListener{
 
 	protected void tearDown(){
 		connection = null;
+		
+		int counter = 0;
+		while(loggedIn){
+			try {
+                Thread.sleep(1500);
+	        } catch (InterruptedException e) {}
+	        counter++;
+	        if (counter >= 10) {
+	                break;
+	        }
+		}
 	}
 	
 	public void testServerHandlerInstance(){
@@ -72,13 +83,20 @@ public class ServerHandlerCtrlTest extends TestCase implements EventListener{
 	
 	
 	public void testLogInWithAliasIsOnline(){
+		serverCtrl.logInWithAlias(alias);
+		
 		try {
 			connection.login(secondUser.getAardvarkID(), password);
-		} catch (Exception e1) {
+		}  catch (Exception e1) {
+			try {
+				Log.i("EXCEPTION", e1.getMessage());
+				connection.getAccountManager().createAccount(secondUser.getAardvarkID(), password);
+				connection.login(secondUser.getAardvarkID(), password);
+			} catch (Exception e2) {
 				Log.i("TEST", "Couldn't connect to server... try later");
+				return;
+			}
 		}
-		
-		serverCtrl.logInWithAlias(alias);
 		
 		int counter = 0;
 		while(!loggedIn){
