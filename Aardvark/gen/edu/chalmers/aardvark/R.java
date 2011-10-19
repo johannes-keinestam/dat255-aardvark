@@ -113,6 +113,7 @@ public final class R {
         public static final int contactAddedNotificationChatView=0x7f040019;
         public static final int contactMainView=0x7f040022;
         public static final int emptyContactList=0x7f04002e;
+        public static final int enterAliasLoginView=0x7f040030;
         public static final int hello=0x7f040000;
         public static final int loggingInLoginView=0x7f04001a;
         public static final int loggingOutMainView=0x7f040024;

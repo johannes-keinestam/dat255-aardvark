@@ -60,8 +60,15 @@ public class LoginViewActivity extends Activity implements EventListener {
 				EditText aliasInput = (EditText) findViewById(R.id.aliasField);
 				String alias = aliasInput.getText().toString();
 
-				ServerHandlerCtrl.getInstance().logInWithAlias(alias);
-				showDialog(1);
+				// Only log in if alias was entered
+				if (alias.trim().length() > 0) {
+					ServerHandlerCtrl.getInstance().logInWithAlias(alias);
+					showDialog(1);
+				} else {
+					Toast.makeText(getApplicationContext(), R.string.enterAliasLoginView,
+							Toast.LENGTH_SHORT).show();
+				}
+
 			}
 		});
 	}
@@ -72,20 +79,23 @@ public class LoginViewActivity extends Activity implements EventListener {
 			// User logged in, hides progress dialog and opens MainView.
 			try {
 				dismissDialog(1);
-			} catch (IllegalArgumentException e) { }
+			} catch (IllegalArgumentException e) {
+			}
 			login();
 		} else if (stateChange.equals(StateChanges.LOGIN_FAILED.toString())) {
 			// Login failed, hides progress dialog and shows notification.
 			try {
 				dismissDialog(1);
-			} catch (IllegalArgumentException e) { }
+			} catch (IllegalArgumentException e) {
+			}
 			loginFailed();
 		} else if (stateChange.equals(StateChanges.ALIAS_UNAVAILABLE.toString())) {
 			// Alias was unavailable, hides progress dialog and shows
 			// notification.
 			try {
 				dismissDialog(1);
-			} catch (IllegalArgumentException e) { }
+			} catch (IllegalArgumentException e) {
+			}
 			dismissDialog(1);
 			aliasUnavailable();
 		}
