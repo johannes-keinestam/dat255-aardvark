@@ -3,6 +3,7 @@ package edu.chalmers.aardvark.test.unit.ctrl;
 import junit.framework.TestCase;
 import edu.chalmers.aardvark.ctrl.UserCtrl;
 import edu.chalmers.aardvark.model.User;
+import edu.chalmers.aardvark.test.unit.model.DummyUserFactory;
 
 public class UserCtrlTest extends TestCase{
 
