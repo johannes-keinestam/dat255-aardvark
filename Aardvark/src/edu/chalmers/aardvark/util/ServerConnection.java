@@ -49,7 +49,7 @@ public class ServerConnection {
 	 * Private constructor.
 	 */
 	private ServerConnection() {
-		Log.i("CLASS", this.getClass().getName() + " STARTED");
+		Log.i("CLASS", this.toString() + " STARTED");
 	}
 
 	/**
