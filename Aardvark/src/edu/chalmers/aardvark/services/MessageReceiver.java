@@ -43,7 +43,7 @@ public class MessageReceiver extends Service implements PacketListener {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		if(ServerConnection.getConnection().isAuthenticated()){
+		if(ServerConnection.getConnection() != null && ServerConnection.getConnection().isConnected()){
 			// Method called when an intent was received through startService
 			PacketFilter filter = new ToContainsFilter(LocalUser.getLocalUser().getAardvarkID());
 	
