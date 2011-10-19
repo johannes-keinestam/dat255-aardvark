@@ -8,7 +8,7 @@ public class SystemCtrlTest extends TestCase {
 	private SystemCtrl systemCtrl;
 
 	public void setUp() throws Exception {
-		systemCtrl = SystemCtrl.getInstance();
+		systemCtrl = SystemCtrl.getCtrl();
 	}
 	
 	public void testGetsystemInstance(){
