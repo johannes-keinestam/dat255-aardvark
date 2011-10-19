@@ -16,8 +16,8 @@ public class SystemCtrlTest extends TestCase {
 	}
 
 	public void testPerformSetup(){
-			performSetup();
-			assertFalse(isFirstRun());
+			systemCtrl.performSetup();
+			assertFalse(systemCtrl.isFirstRun());
 	}
 	
 	public void tearDown() throws Exception {
