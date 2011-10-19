@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Aardvark" default="help">
+
+<!-- The local.properties file is created and updated by the 'android'
+     tool.
+     It contains the path to the SDK. It should *NOT* be checked into
+     Version Control Systems. -->
+    <property file="local.properties" />
+
+    <!-- The build.properties file can be created by you and is never touched
+         by the 'android' tool. This is the place to change some of the
+         default property values used by the Ant rules.
+         Here are some properties you may want to change/update:
+
+         source.dir
+             The name of the source directory. Default is 'src'.
+         out.dir
+             The name of the output directory. Default is 'bin'.
+
+         Properties related to the SDK location or the project target should
+         be updated using the 'android' tool with the 'update' action.
+
+         This file is an integral part of the build system for your
+         application and should be checked into Version Control Systems.
+
+         -->
+    <property file="build.properties" />
+
+    <!-- The default.properties file is created and updated by the 'android'
+         tool, as well as ADT.
+         This file is an integral part of the build system for your
+         application and should be checked into Version Control Systems. -->
+    <property file="default.properties" />
+
+	<property environment="env"/>
+
+    <!-- Required pre-setup import -->
+    <import file="${sdk.dir}/tools/ant/pre_setup.xml" />
+	
+	<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask"/>
+
+	<target name="findbugs" depends="compile">
+		<mkdir dir="reports" />
+		<findbugs home="${findbugs.home}" output="xml" outputFile="reports/findbugs.xml" excludeFilter="findbugs-exclude.xml">
+			<auxClasspath path="${android.jar}" />
+			<class location="${out.dir}" />
+		</findbugs>
+	</target>
+	
+<!-- extension targets. Uncomment the ones where you want to do custom work
+     in between standard targets -->
+<!--
+    <target name="-pre-build">
+    </target>
+    <target name="-pre-compile">
+    </target>
+
+    [This is typically used for code obfuscation.
+     Compiled code location: ${out.classes.absolute.dir}
+     If this is not done in place, override ${out.dex.input.absolute.dir}]
+    <target name="-post-compile">
+		
+    </target> -->
+
+
+    <!-- Execute the Android Setup task that will setup some properties
+         specific to the target, and import the build rules files.
+
+         The rules file is imported from
+            <SDK>/tools/ant/
+         Depending on the project type it can be either:
+         - main_rules.xml
+         - lib_rules.xml
+         - test_rules.xml
+
+         To customize existing targets, there are two options:
+         - Customize only one target:
+             - copy/paste the target into this file, *before* the
+               <setup> task.
+             - customize it to your needs.
+         - Customize the whole script.
+             - copy/paste the content of the rules files (minus the top node)
+               into this file, *after* the <setup> task
+             - disable the import of the rules by changing the setup task
+               below to <setup import="false" />.
+             - customize to your needs.
+    -->
+	
+	<target name="gc-release" depends="debug"
+			description="Uploads the released apk to Google Code">
+		<taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="${antlibs}/ant-googlecode.jar" name="gcupload"/>
+			<gcupload
+					username="fredrik.hidstrand" 
+					password="Cr7tJ3Eg8ZN3" 
+					projectname="dat255-aardvark" 
+					filename="${out.release.file}" 
+					targetfilename="${out.release.file}"
+					summary="Aardvark release ${BUILD_NUMBER}"
+					labels="Featured" />
+	</target>
+
+	<!-- Directory for the third party java libraries -->
+    <property name="jar.libs.dir" value="lib" />
+    <property name="jar.libs.absolute.dir" location="${jar.libs.dir}" />
+	
+	<!-- Directory for the native libraries -->
+    <property name="native.libs.dir" value="lib" />
+    <property name="native.libs.absolute.dir" location="${native.libs.dir}" />
+	
+	<property name="out.release.file.name"
+                  value="${ant.project.name}-release-${BUILD_NUMBER}.apk" />
+	
+	<setup />
+
+</project>

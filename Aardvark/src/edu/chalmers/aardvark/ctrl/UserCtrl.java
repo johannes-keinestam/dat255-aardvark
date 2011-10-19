@@ -109,10 +109,6 @@ public class UserCtrl {
 	 * @return true if user is found on block list, false if not.
 	 */
 	public boolean isUserBlocked(String aardvarkID) {
-		if (blocklist.findUser(aardvarkID) == null) {
-			return false;
-		} else {
-			return true;
-		}
+		return (blocklist.findUser(aardvarkID) != null);
 	}
 }

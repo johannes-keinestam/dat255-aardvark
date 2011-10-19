@@ -1,16 +1,25 @@
 package edu.chalmers.aardvark.test.unit.ctrl;
 
+import junit.framework.TestCase;
+import edu.chalmers.aardvark.ctrl.SystemCtrl;
 
-import org.junit.After;
-import org.junit.Before;
+public class SystemCtrlTest extends TestCase {
 
-public class SystemCtrlTest {
+	private SystemCtrl systemCtrl;
 
-	@Before
 	public void setUp() throws Exception {
+		systemCtrl = SystemCtrl.getInstance();
+	}
+	
+	public void testGetsystemInstance(){
+		assertTrue(SystemCtrl.getInstance() == systemCtrl);
 	}
 
-	@After
+	public void testPerformSetup(){
+			performSetup();
+			assertFalse(isFirstRun());
+	}
+	
 	public void tearDown() throws Exception {
 	}
 

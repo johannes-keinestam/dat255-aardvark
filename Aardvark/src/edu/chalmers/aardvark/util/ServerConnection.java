@@ -49,7 +49,7 @@ public class ServerConnection {
 	 * Private constructor.
 	 */
 	private ServerConnection() {
-		Log.i("CLASS", this.getClass().getName() + " STARTED");
+		Log.i("CLASS", this.toString() + " STARTED");
 	}
 
 	/**
@@ -133,7 +133,9 @@ public class ServerConnection {
 	 * problem.
 	 */
 	public static void restart() {
-		connection.disconnect();
+		if(!connection.isConnected()){
+			connection.disconnect();
+		}
 		connection = null;
 		getConnection();
 	}

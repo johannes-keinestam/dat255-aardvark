@@ -1,12 +1,18 @@
 package edu.chalmers.aardvark.test.unit.ctrl;
 
+import junit.framework.TestCase;
+import edu.chalmers.aardvark.ctrl.SettingsCtrl;
 
-import org.junit.Before;
+public class SettingsCtrlTest extends TestCase {
 
-public class SettingsCtrlTest {
+	private SettingsCtrl settingsCtrl;
 
-	@Before
 	public void setUp() throws Exception {
+		settingsCtrl = SettingsCtrl.getInstance();
+	}
+	
+	public void testGetSettingsInstance(){
+		assertTrue(SettingsCtrl.getInstance() == settingsCtrl);
 	}
 
 }
