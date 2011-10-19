@@ -212,7 +212,7 @@ public class MainViewActivity extends Activity implements EventListener {
 
 			ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
 		}
-		
+
 		// Adds guide text if no chats opened
 		if (chats.size() == 0) {
 			TextView guideMessage = new TextView(this);
@@ -238,13 +238,11 @@ public class MainViewActivity extends Activity implements EventListener {
 			// Display nickname on list item.
 			View item = inflater.inflate(R.layout.contactpanel, null);
 			TextView tx = (TextView) item.findViewById(R.id.contactName);
-			//Prevents system crash in a very unusual situation.
-			try{
+			// Prevents system crash in a very unusual situation.
+			try {
 				tx.setText(contact.getNickname());
-				}
-			catch (NullPointerException e) {
+			} catch (NullPointerException e) {
 			}
-			
 
 			// If contact is blocked, add block graphic on the right.
 			if (UserCtrl.getInstance().isUserBlocked(aardvarkID)) {
@@ -263,7 +261,7 @@ public class MainViewActivity extends Activity implements EventListener {
 
 			ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
 		}
-		
+
 		// Adds guide text if no chats opened
 		if (offline.size() == 0) {
 			TextView guideMessage = new TextView(this);
@@ -301,11 +299,10 @@ public class MainViewActivity extends Activity implements EventListener {
 			// Displays nickname on list item.
 			View item = inflater.inflate(R.layout.contactpanel, null);
 			TextView tx = (TextView) item.findViewById(R.id.contactName);
-			//Prevents system crash in a very unusual situation.
-			try{
+			// Prevents system crash in a very unusual situation.
+			try {
 				tx.setText(contact.getNickname());
-				}
-			catch (NullPointerException e) {
+			} catch (NullPointerException e) {
 			}
 
 			// If user is blocked, show block graphic on the right.
@@ -341,7 +338,7 @@ public class MainViewActivity extends Activity implements EventListener {
 
 			ll.addView(item, ViewGroup.LayoutParams.WRAP_CONTENT);
 		}
-		
+
 		if (online.size() == 0) {
 			TextView guideMessage = new TextView(this);
 			guideMessage.setText(R.string.emptyContactList);
@@ -402,10 +399,11 @@ public class MainViewActivity extends Activity implements EventListener {
 						dismissDialog(1);
 					} else {
 						String aardvarkID = ServerHandlerCtrl.getInstance().getAardvarkID(alias);
-						// Opens chat (new or existing) if alias exists.
-						// Otherwise, notify user
-						// that alias doesn't exist.
-						if (aardvarkID != null) {
+						// Opens chat (new or existing) if alias exists, and
+						// user is online.
+						// Otherwise, notify user that alias doesn't exist.
+						if (aardvarkID != null
+								&& ServerHandlerCtrl.getInstance().isOnline(aardvarkID)) {
 							User user = new User(alias, aardvarkID);
 							requestedChat = true;
 							startChatContact = user;
@@ -557,8 +555,9 @@ public class MainViewActivity extends Activity implements EventListener {
 			try {
 				// try to close logout dialog
 				dismissDialog(4);
-			} catch (IllegalArgumentException e) { }
-			//Show login view
+			} catch (IllegalArgumentException e) {
+			}
+			// Show login view
 			Intent intent = new Intent(this, LoginViewActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
@@ -573,10 +572,12 @@ public class MainViewActivity extends Activity implements EventListener {
 			// if user is not a contact or chat was not explicitly requested.
 			// Otherwise just opens chat,
 			if (!isContact(startChatContact.getAardvarkID()) && !requestedChat) {
-				// Try to show dialog. If activity is finished, may produce crash.
+				// Try to show dialog. If activity is finished, may produce
+				// crash.
 				try {
 					showDialog(5);
-				} catch (Exception e) { }
+				} catch (Exception e) {
+				}
 			} else {
 				requestedChat = false;
 				startChat();
@@ -698,8 +699,9 @@ public class MainViewActivity extends Activity implements EventListener {
 	private void startChat() {
 		try {
 			dismissDialog(5);
-		} catch (IllegalArgumentException iae) { }
-		
+		} catch (IllegalArgumentException iae) {
+		}
+
 		// Always set all messages to read when opening chat window.
 		ChatCtrl.getInstance().getChat(startChatContact.getAardvarkID()).clearUnreadMessages();
 

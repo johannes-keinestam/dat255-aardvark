@@ -62,15 +62,16 @@ public class ServerHandlerCtrl {
 	/**
 	 * Checks whether a user is online or not.
 	 * 
-	 * @param user
-	 *            the user to check for (the alias is not important).
+	 * @param aardvarkID
+	 *            the user AardvarkID to check for.
 	 * @return true if user is online, false if not.
 	 */
-	public boolean isOnline(User user) {
+	public boolean isOnline(String aardvarkID) {
 		// Gets roster (list of statuses) from server, and gets presence
 		// (status) of specified user.
 		Roster roster = ServerConnection.getConnection().getRoster();
-		Presence presence = roster.getPresence(user.getAardvarkID());
+		String username = aardvarkID+"@"+ServerConnection.getConnection().getServiceName();
+		Presence presence = roster.getPresence(username);
 
 		if (presence.isAvailable()) {
 			return true;
