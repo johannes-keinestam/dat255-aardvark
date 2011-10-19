@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import edu.chalmers.aardvark.ctrl.UserCtrl;
 import edu.chalmers.aardvark.model.User;
 
-public class UserCtrlTest {
+public class UserCtrlTest extends TestCase{
 
 	private UserCtrl userCtrl;
 	User userA;

@@ -3,7 +3,7 @@ package edu.chalmers.aardvark.test.unit.ctrl;
 import junit.framework.TestCase;
 import edu.chalmers.aardvark.ctrl.SystemCtrl;
 
-public class SystemCtrlTest {
+public class SystemCtrlTest extends TestCase {
 
 	private SystemCtrl systemCtrl;
 

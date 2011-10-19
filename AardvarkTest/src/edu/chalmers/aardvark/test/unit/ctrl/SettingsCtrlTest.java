@@ -3,7 +3,7 @@ package edu.chalmers.aardvark.test.unit.ctrl;
 import junit.framework.TestCase;
 import edu.chalmers.aardvark.ctrl.SettingsCtrl;
 
-public class SettingsCtrlTest {
+public class SettingsCtrlTest extends TestCase {
 
 	private SettingsCtrl settingsCtrl;
 
