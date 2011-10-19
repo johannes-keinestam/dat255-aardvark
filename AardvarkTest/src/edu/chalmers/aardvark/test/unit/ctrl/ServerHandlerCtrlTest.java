@@ -70,7 +70,7 @@ public class ServerHandlerCtrlTest extends TestCase implements EventListener{
 		assertTrue(ServerHandlerCtrl.getInstance() == serverCtrl);
 	}
 	
-	/*
+	
 	public void testLogInWithAliasIsOnline(){
 		try {
 			connection.login(secondUser.getAardvarkID(), password);
@@ -91,11 +91,11 @@ public class ServerHandlerCtrlTest extends TestCase implements EventListener{
 	        }
 		}
 		
-		assertTrue(serverCtrl.isOnline(secondUser));
+		assertTrue(serverCtrl.isOnline(secondUser.getAardvarkID()));
 
 		serverCtrl.logOut();
 	}
-	*/
+	
 	
 	public void testLogOutIsLoggedIn(){
 		serverCtrl.logInWithAlias(alias);
