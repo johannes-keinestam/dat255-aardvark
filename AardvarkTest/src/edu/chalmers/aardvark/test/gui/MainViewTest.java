@@ -99,7 +99,8 @@ public class MainViewTest extends ActivityInstrumentationTestCase2<LoginViewActi
 	public void menuLogout() {
 		solo.pressMenuItem(2);
 		solo.waitForDialogToClose(5000);
-		solo.getCurrentActivity().getLocalClassName().equals("gui.LoginViewActivity");
+		solo.waitForActivity("LoginViewActivity");
+		report.put("menuLogout", solo.getCurrentActivity().getLocalClassName().equals("gui.LoginViewActivity"));
 	}
 	public void newChatFromPlus(){
 	solo.waitForActivity("MainViewActivity");
