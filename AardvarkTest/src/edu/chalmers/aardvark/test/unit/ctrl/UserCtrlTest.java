@@ -1,21 +1,18 @@
 package edu.chalmers.aardvark.test.unit.ctrl;
 
 import junit.framework.TestCase;
-import edu.chalmers.aardvark.ctrl.String;
 import edu.chalmers.aardvark.ctrl.UserCtrl;
 import edu.chalmers.aardvark.model.User;
 
 public class UserCtrlTest extends TestCase{
 
 	private UserCtrl userCtrl;
-	User user;
-	User userB;
+	private User user;
 	
 	public void setUp() throws Exception {
 		userCtrl = UserCtrl.getInstance();
 		
 		user = DummyUserFactory.getRandomDummyUser();
-		userB = DummyUserFactory.getRandomDummyUser();
 	}
 	
 	public void testGetuserInstance(){
