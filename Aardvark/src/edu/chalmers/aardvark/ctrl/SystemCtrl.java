@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Fredrik Hidstrand, Johannes Keinestam, Magnus Sjöqvist, Fredrik Thander
+ * Copyright 2011 Fredrik Hidstrand, Johannes Keinestam, Magnus Sjï¿½qvist, Fredrik Thander
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ public class SystemCtrl {
 	 * 
 	 * @return singleton instance.
 	 */
-	public static SystemCtrl getCtrl() {
+	public static SystemCtrl getInstance() {
 		if (instance == null) {
 			instance = new SystemCtrl();
 		}

@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Fredrik Hidstrand, Johannes Keinestam, Magnus Sjöqvist, Fredrik Thander
+ * Copyright 2011 Fredrik Hidstrand, Johannes Keinestam, Magnus Sjï¿½qvist, Fredrik Thander
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ public class AardvarkApp extends Application {
 		context = getApplicationContext();
 
 		// Perform start up procedures
-		SystemCtrl.getCtrl().performStartUpDuty();
+		SystemCtrl.getInstance().performStartUpDuty();
 	}
 
 	/**
