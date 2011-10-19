@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Fredrik Hidstrand, Johannes Keinestam, Magnus Sjöqvist, Fredrik Thander
+ * Copyright 2011 Fredrik Hidstrand, Johannes Keinestam, Magnus Sjï¿½qvist, Fredrik Thander
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,13 +43,15 @@ public class MessageReceiver extends Service implements PacketListener {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		// Method called when an intent was received through startService
-		PacketFilter filter = new ToContainsFilter(LocalUser.getLocalUser().getAardvarkID());
+		if(ServerConnection.getConnection().isAuthenticated()){
+			// Method called when an intent was received through startService
+			PacketFilter filter = new ToContainsFilter(LocalUser.getLocalUser().getAardvarkID());
+	
+			// Register as packet listener.
+			ServerConnection.getConnection().addPacketListener(this, filter);
+			Log.i("CLASS", this.toString() + " STARTED");
 
-		// Register as packet listener.
-		ServerConnection.getConnection().addPacketListener(this, filter);
-		Log.i("CLASS", this.toString() + " STARTED");
-
+		}
 		// If killed, restart when new intent received.
 		return START_STICKY;
 	}
