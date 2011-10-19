@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Fredrik Hidstrand, Johannes Keinestam, Magnus Sjöqvist, Fredrik Thander
+ * Copyright 2011 Fredrik Hidstrand, Johannes Keinestam, Magnus SjÃ¶qvist, Fredrik Thander
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ import edu.chalmers.aardvark.services.StatusChecker;
  * 
  * Singleton so that only one connection can exist at once, to prevent mistakes.
  */
-public class ServerConnection extends Connection {
+public class ServerConnection {
 	
 	private static XMPPConnection connection;
 	
