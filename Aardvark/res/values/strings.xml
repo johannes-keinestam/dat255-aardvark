@@ -53,6 +53,7 @@
 		<string name="acceptChatBlockMainView">Block</string>
 		<string name="openChatGuideMessage">Start a chat with the button above!</string>
 		<string name="emptyContactList">Empty</string>
-		<string name="unknownUserMainView">Unknown</string>
+		<string name="unknownUserMainView">unknown user</string>
 		<string name="enterAliasLoginView">Please enter an alias!</string>
+		<string name="contactChatMainView">contact</string>
 </resources>

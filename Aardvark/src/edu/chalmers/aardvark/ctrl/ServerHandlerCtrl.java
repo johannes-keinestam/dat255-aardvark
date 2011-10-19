@@ -26,7 +26,6 @@ import org.jivesoftware.smack.packet.Presence;
 
 import android.util.Log;
 import edu.chalmers.aardvark.model.LocalUser;
-import edu.chalmers.aardvark.model.User;
 import edu.chalmers.aardvark.util.ComBus;
 import edu.chalmers.aardvark.util.ServerConnection;
 import edu.chalmers.aardvark.util.StateChanges;
@@ -70,10 +69,15 @@ public class ServerHandlerCtrl {
 		// Gets roster (list of statuses) from server, and gets presence
 		// (status) of specified user.
 		Roster roster = ServerConnection.getConnection().getRoster();
+		roster.reload();
+		
 		String username = aardvarkID+"@"+ServerConnection.getConnection().getServiceName();
 		Presence presence = roster.getPresence(username);
+		Presence presence2 = roster.getPresence(aardvarkID);
+		Log.i("INFO", "AARDVARK "+aardvarkID);
+		Log.i("INFO", "Presence: "+presence+", available: "+presence.isAvailable() + " ... "+presence2);
 
-		if (presence.isAvailable()) {
+		if (presence != null && presence.isAvailable()) {
 			return true;
 		} else {
 			return false;

@@ -21,6 +21,7 @@ import java.util.Collection;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
 
 import android.app.Service;
@@ -95,9 +96,17 @@ public class StatusChecker extends Service implements RosterListener {
 		if (ServerHandlerCtrl.getInstance().isLoggedIn()) {
 			for (String address : addresses) {
 				Log.i("STATUS", "USER ADDED, SETTING ONLINE: " + address);
-
 				// Remove suffix added by server on AardvarkID
 				String aardvarkID = address.substring(0, address.lastIndexOf("@"));
+
+				// Subscribe to user
+				Roster roster = ServerConnection.getConnection().getRoster();
+				String alias = ServerHandlerCtrl.getInstance().getAlias(aardvarkID);
+				String[] groups = {"Aardvark"};
+				try {
+					roster.createEntry(address,alias,groups);
+				} catch (XMPPException e) {	}
+				
 				ComBus.notifyListeners(StateChanges.USER_ONLINE.toString(), aardvarkID);
 			}
 		}
@@ -112,7 +121,7 @@ public class StatusChecker extends Service implements RosterListener {
 		if (ServerHandlerCtrl.getInstance().isLoggedIn()) {
 			for (String address : addresses) {
 				Log.i("STATUS", "USER DELETED, SETTING OFFLINE: " + address);
-
+				
 				// Remove suffix added by server on AardvarkID
 				String aardvarkID = address.substring(0, address.lastIndexOf("@"));
 				ComBus.notifyListeners(StateChanges.USER_OFFLINE.toString(), aardvarkID);

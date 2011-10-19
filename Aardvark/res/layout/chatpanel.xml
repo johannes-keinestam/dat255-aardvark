@@ -4,8 +4,9 @@
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent" android:weightSum="1" android:background="@drawable/border">
-    <TextView android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_width="fill_parent" android:clickable="true" android:id="@+id/chatName" android:text="Kalle" android:padding="18px" android:background="#e5e5e5" android:layout_toLeftOf="@+id/imageView1"  android:textColor="#000000"></TextView>
-    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentRight="true" android:padding="18px" android:visibility="invisible" android:id="@+id/messageView" android:textColor="#D80000"></TextView>
+    <ImageView android:id="@+id/chatstatus" android:src="@drawable/offline" android:layout_alignParentLeft="true" android:layout_height="wrap_content" android:layout_width="wrap_content" android:background="#e5e5e5" android:paddingLeft="3px" android:paddingTop="23dp" android:paddingBottom="23dp"/>
+    <TextView  android:layout_alignParentTop="true" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_width="fill_parent" android:clickable="true" android:id="@+id/chatName" android:text="Kalle" android:paddingTop="18px" android:paddingBottom="18px" android:paddingRight="18px" android:paddingLeft="10px" android:background="#e5e5e5" android:layout_toRightOf="@id/chatstatus"  android:textColor="#000000"></TextView>
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentRight="true" android:padding="18px" android:visibility="invisible" android:id="@+id/messageView" android:textColor="#D80000" android:text="Kalle"></TextView>
     
 </RelativeLayout>
 

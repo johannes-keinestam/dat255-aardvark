@@ -179,19 +179,21 @@ public class MainViewActivity extends Activity implements EventListener {
 		for (Chat chat : chats) {
 			final User user = chat.getRecipient();
 			Contact contact = ContactCtrl.getInstance().getContact(user.getAardvarkID());
-			String alias = ServerHandlerCtrl.getInstance().getAlias(user.getAardvarkID());
 
 			View item = inflater.inflate(R.layout.chatpanel, null);
 			TextView tx = (TextView) item.findViewById(R.id.chatName);
-
-			String printedName = alias;
-			if (alias == null || alias.trim().length() == 0) {
-				printedName = getString(R.string.unknownUserMainView);
-			}
-			// Add nickname if user is contact.
+			
+			// Set displayed name to nickname if user is contact.
 			if (contact != null) {
-				tx.setText(printedName + "(" + contact.getNickname() + ")");
+				tx.setText(contact.getNickname() + " (" + getString(R.string.contactChatMainView) + ")");
 			} else {
+				String alias = ServerHandlerCtrl.getInstance().getAlias(user.getAardvarkID());
+
+				String printedName = alias;
+				if (alias == null || alias.trim().length() == 0) {
+					printedName = getString(R.string.unknownUserMainView);
+				}
+				
 				tx.setText(printedName);
 			}
 
@@ -200,6 +202,11 @@ public class MainViewActivity extends Activity implements EventListener {
 				TextView tv = (TextView) item.findViewById(R.id.messageView);
 				tv.setText("(" + chat.unreadMessages() + ")");
 				tv.setVisibility(TextView.VISIBLE);
+			}
+			
+			if (ServerHandlerCtrl.getInstance().isOnline(user.getAardvarkID())) {
+				ImageView onlineStatus = (ImageView) item.findViewById(R.id.chatstatus);
+				onlineStatus.setImageResource(R.drawable.online);
 			}
 
 			// Open chat if an active chat is clicked.
