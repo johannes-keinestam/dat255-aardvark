@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Fredrik Hidstrand, Johannes Keinestam, Magnus Sjöqvist, Fredrik Thander
+ * Copyright 2011 Fredrik Hidstrand, Johannes Keinestam, Magnus SjÃ¶qvist, Fredrik Thander
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ public class ServerConnection {
 	 * Private constructor.
 	 */
 	private ServerConnection() {
-		Log.i("CLASS", this.toString() + " STARTED");
+		Log.i("CLASS", this.getClass().getName() + " STARTED");
 	}
 
 	/**
