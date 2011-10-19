@@ -14,11 +14,6 @@ public class SystemCtrlTest extends TestCase {
 	public void testGetsystemInstance(){
 		assertTrue(SystemCtrl.getInstance() == systemCtrl);
 	}
-
-	public void testPerformSetup(){
-			performSetup();
-			assertFalse(isFirstRun());
-	}
 	
 	public void tearDown() throws Exception {
 	}

@@ -1,21 +1,19 @@
 package edu.chalmers.aardvark.test.unit.ctrl;
 
 import junit.framework.TestCase;
-import edu.chalmers.aardvark.ctrl.String;
 import edu.chalmers.aardvark.ctrl.UserCtrl;
 import edu.chalmers.aardvark.model.User;
+import edu.chalmers.aardvark.test.unit.model.DummyUserFactory;
 
 public class UserCtrlTest extends TestCase{
 
 	private UserCtrl userCtrl;
-	User user;
-	User userB;
+	private User user;
 	
 	public void setUp() throws Exception {
 		userCtrl = UserCtrl.getInstance();
 		
 		user = DummyUserFactory.getRandomDummyUser();
-		userB = DummyUserFactory.getRandomDummyUser();
 	}
 	
 	public void testGetuserInstance(){
@@ -23,33 +21,33 @@ public class UserCtrlTest extends TestCase{
 	}
 	
 	public void testBlockUser() {
-		blockUser(user);
+		userCtrl.blockUser(user);
 		
-		assertTrue(isUserBlocked(user.getAardvarkID()));
+		assertTrue(userCtrl.isUserBlocked(user.getAardvarkID()));
 		
-		unblockUser(user);
+		userCtrl.unblockUser(user);
 	}
 	
 	public void testBlocAardvarkID() {
-		blockUser(user.getAardvarkID());
+		userCtrl.blockUser(user.getAardvarkID());
 		
-		assertTrue(isUserBlocked(user.getAardvarkID()));
+		assertTrue(userCtrl.isUserBlocked(user.getAardvarkID()));
 		
-		unblockUser(user.getAardvarkID());
+		userCtrl.unblockUser(user.getAardvarkID());
 	}
 	
 	public void testUnblockUser() {
-		blockUser(user);
-		unblockUser(user);
+		userCtrl.blockUser(user);
+		userCtrl.unblockUser(user);
 		
-		assertFalse(isUserBlocked(user.getAardvarkID()));
+		assertFalse(userCtrl.isUserBlocked(user.getAardvarkID()));
 	}
 	
 	public void testUnblockAardvarkID() {
-		blockUser(user.getAardvarkID());
-		unblockUser(user.getAardvarkID());
+		userCtrl.blockUser(user.getAardvarkID());
+		userCtrl.unblockUser(user.getAardvarkID());
 		
-		assertFalse(isUserBlocked(user.getAardvarkID()));
+		assertFalse(userCtrl.isUserBlocked(user.getAardvarkID()));
 	}
 
 	public void tearDown() throws Exception {
