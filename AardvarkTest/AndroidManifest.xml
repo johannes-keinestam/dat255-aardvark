@@ -4,10 +4,10 @@
       android:versionCode="1"
       android:versionName="1.0">
     <uses-sdk android:minSdkVersion="7" />
-    <instrumentation android:targetPackage="edu.chalmers.aardvark" 
-                       android:name="pl.polidea.instrumentation.PolideaInstrumentationTestRunner"/>
-    <instrumentation android:name="android.test.InstrumentationTestRunner"
+    <instrumentation android:name="pl.polidea.instrumentation.PolideaInstrumentationTestRunner" 
                       android:targetPackage="edu.chalmers.aardvark"/>
+    <!-- <instrumentation android:name="android.test.InstrumentationTestRunner"
+                      android:targetPackage="edu.chalmers.aardvark"/> -->
     <application android:icon="@drawable/icon" android:label="@string/app_name">
       <uses-permission android:name="android.permission.READ_PHONE_STATE" />
       <uses-permission android:name="android.permission.INTERNET" />
